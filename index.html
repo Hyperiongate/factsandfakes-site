@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facts & Fakes - University-Grade AI Detection & Analysis Platform</title>
+    <style>
+        /* Simplified Elementor-Compatible Styles */
+        :root {
+            --primary-blue: #0066cc;
+            --primary-dark: #004499;
+            --ai-detection: #e74c3c;
+            --plagiarism: #f59e0b;
+            --deepfake: #8b5cf6;
+            --misinformation: #ef4444;
+            --success: #10b981;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --background: #f8fafc;
+        }
+
+        /* Reset only for this component */
+        .facts-fakes-homepage * {
+            box-sizing: border-box;
+        }
+
+        .facts-fakes-homepage {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        /* Header Styles */
+        .ff-header {
+            background: white;
+            border-bottom: 2px solid #e2e8f0;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .ff-header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .ff-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ff-logo-icon {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(45deg, var(--primary-blue), var(--primary-dark));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .ff-brand-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin: 0;
+        }
+
+        .ff-brand-tagline {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .ff-nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .ff-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: var(--text-primary);
+            border-radius: 8px;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .ff-nav-item:hover {
+            background: #f1f5f9;
+            border-color: var(--primary-blue);
+        }
+
+        .ff-nav-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .ff-nav-icon.ai { background: var(--ai-detection); }
+        .ff-nav-icon.deepfake { background: var(--deepfake); }
+        .ff-nav-icon.conspiracy { background: var(--primary-blue); }
+        .ff-nav-icon.news { background: var(--misinformation); }
+        .ff-nav-icon.plagiarism { background: var(--plagiarism); }
+
+        .ff-status {
+            background: var(--success);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .ff-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Hero Section */
+        .ff-hero {
+            background: linear-gradient(135deg, #0066cc, #004499);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ff-hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .ff-hero h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: white;
+            opacity: 0.95;
+        }
+
+        .ff-hero p {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: white;
+            opacity: 0.9;
+        }
+
+        .ff-hero-cta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .ff-btn-primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .ff-btn-primary:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .ff-btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 18px 40px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .ff-btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .ff-trust {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            opacity: 0.9;
+        }
+
+        .ff-trust-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        /* Quick Analysis Section */
+        .ff-quick {
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 16px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .ff-quick h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .ff-quick p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .ff-upload {
+            border: 3px dashed var(--primary-blue);
+            border-radius: 16px;
+            padding: 40px 20px;
+            background: rgba(255,255,255,0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .ff-upload:hover {
+            background: rgba(255,255,255,0.95);
+            transform: translateY(-2px);
+        }
+
+        .ff-upload h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .ff-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .ff-action-btn {
+            background: linear-gradient(135deg, var(--ai-detection), #c0392b);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .ff-action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .ff-action-btn.deepfake {
+            background: linear-gradient(135deg, var(--deepfake), #7c3aed);
+        }
+
+        .ff-action-btn.news {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+        }
+
+        /* Tools Section */
+        .ff-tools {
+            padding: 80px 20px;
+            background: white;
+            border-radius: 16px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .ff-tools h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .ff-tools-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+
+        .ff-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .ff-tool-card {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 40px 30px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .ff-tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .ff-tool-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 25px;
+            color: white;
+        }
+
+        .ff-tool-icon.ai { background: linear-gradient(135deg, var(--ai-detection), #c0392b); }
+        .ff-tool-icon.deepfake { background: linear-gradient(135deg, var(--deepfake), #7c3aed); }
+        .ff-tool-icon.conspiracy { background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark)); }
+        .ff-tool-icon.news { background: linear-gradient(135deg, var(--misinformation), #dc2626); }
+        .ff-tool-icon.plagiarism { background: linear-gradient(135deg, var(--plagiarism), #d97706); }
+
+        .ff-tool-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .ff-tool-desc {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .ff-tool-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+            text-align: left;
+        }
+
+        .ff-tool-features li {
+            padding: 8px 0;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .ff-tool-features li:before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .ff-tool-cta {
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .ff-tool-cta.ai { background: linear-gradient(135deg, var(--ai-detection), #c0392b); }
+        .ff-tool-cta.deepfake { background: linear-gradient(135deg, var(--deepfake), #7c3aed); }
+        .ff-tool-cta.conspiracy { background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark)); }
+        .ff-tool-cta.news { background: linear-gradient(135deg, var(--misinformation), #dc2626); }
+        .ff-tool-cta.plagiarism { background: linear-gradient(135deg, var(--plagiarism), #d97706); }
+
+        .ff-tool-cta:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        /* Features Section */
+        .ff-features {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 16px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .ff-features h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .ff-features-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+
+        .ff-features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .ff-feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .ff-feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .ff-feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .ff-feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .ff-feature-desc {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .ff-stats {
+            padding: 80px 20px;
+            background: var(--primary-blue);
+            color: white;
+            text-align: center;
+            border-radius: 16px;
+            margin: 40px 0;
+        }
+
+        .ff-stats h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            color: white;
+        }
+
+        .ff-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .ff-stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #10b981;
+        }
+
+        .ff-stat-label {
+            font-size: 1.1rem;
+            color: white;
+            opacity: 0.9;
+        }
+
+        /* Final CTA */
+        .ff-final-cta {
+            padding: 80px 20px;
+            background: white;
+            text-align: center;
+            border-radius: 16px;
+            margin: 40px 0;
+        }
+
+        .ff-final-cta h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .ff-final-cta p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .ff-cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .ff-header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .ff-nav {
+                gap: 10px;
+            }
+            
+            .ff-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .ff-tools h2,
+            .ff-features h2 {
+                font-size: 2.2rem;
+            }
+            
+            .ff-hero-cta,
+            .ff-cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .ff-trust {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="facts-fakes-homepage">
+        <!-- Header -->
+        <div class="ff-header">
+            <div class="ff-header-container">
+                <div class="ff-logo">
+                    <div class="ff-logo-icon">🔍</div>
+                    <div>
+                        <div class="ff-brand-name">Facts & Fakes</div>
+                        <div class="ff-brand-tagline">University-Grade Analysis</div>
+                    </div>
+                </div>
+
+                <nav class="ff-nav">
+                    <a href="/ai-detection" class="ff-nav-item">
+                        <div class="ff-nav-icon ai">AI</div>
+                        <span>AI Detection</span>
+                    </a>
+                    <a href="/deepfake-detection" class="ff-nav-item">
+                        <div class="ff-nav-icon deepfake">🎭</div>
+                        <span>Deepfake</span>
+                    </a>
+                    <a href="/conspiracy-check" class="ff-nav-item">
+                        <div class="ff-nav-icon conspiracy">🔍</div>
+                        <span>Conspiracy Check</span>
+                    </a>
+                    <a href="/news-analysis" class="ff-nav-item">
+                        <div class="ff-nav-icon news">🛡️</div>
+                        <span>News Analysis</span>
+                    </a>
+                    <a href="/plagiarism-detection" class="ff-nav-item">
+                        <div class="ff-nav-icon plagiarism">🎓</div>
+                        <span>Plagiarism</span>
+                    </a>
+                </nav>
+
+                <div class="ff-status">v3.0 Active</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="ff-main">
+            <!-- Hero Section -->
+            <section class="ff-hero">
+                <h1>Facts & Fakes</h1>
+                <h2>University-Grade AI Detection & Analysis Platform</h2>
+                <p>Professional-grade tools for academic integrity, misinformation detection, and AI content analysis. Features revolutionary multi-source verification system and 500+ source credibility database. Trusted by universities, researchers, and institutions worldwide for accurate, reliable results.</p>
+                
+                <div class="ff-hero-cta">
+                    <a href="#quick-analysis" class="ff-btn-primary">🚀 Start Analysis</a>
+                    <a href="#features" class="ff-btn-secondary">📋 View Features</a>
+                </div>
+
+                <div class="ff-trust">
+                    <div class="ff-trust-item">
+                        <span>✅</span>
+                        <span>University-Grade Accuracy</span>
+                    </div>
+                    <div class="ff-trust-item">
+                        <span>⚡</span>
+                        <span>Real-Time Analysis</span>
+                    </div>
+                    <div class="ff-trust-item">
+                        <span>🔒</span>
+                        <span>Enterprise Security</span>
+                    </div>
+                    <div class="ff-trust-item">
+                        <span>🎓</span>
+                        <span>Academic Database Integration</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Analysis Section -->
+            <section id="quick-analysis" class="ff-quick">
+                <h2>🚀 Quick Analysis Hub</h2>
+                <p>Upload content and choose from our professional analysis tools. Features multi-source verification, real-time news analysis, and comprehensive academic integrity checking.</p>
+
+                <div class="ff-upload">
+                    <div style="font-size: 3rem; margin-bottom: 15px; color: #0066cc;">📁</div>
+                    <h3>Drop files or paste content for instant analysis</h3>
+                    <p style="color: #64748b; margin-bottom: 15px;">Text, Documents (PDF, Word), Images, URLs</p>
+                    
+                    <div class="ff-actions">
+                        <button class="ff-action-btn">🤖 AI + Plagiarism</button>
+                        <button class="ff-action-btn deepfake">🎭 All Image Tools</button>
+                        <button class="ff-action-btn news">🛡️ Multi-Source News Verification</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tools Section -->
+            <section id="tools" class="ff-tools">
+                <h2>Professional Analysis Tools</h2>
+                <p class="ff-tools-subtitle">Five specialized tools powered by advanced AI algorithms and academic database integration. Each tool is designed for maximum accuracy and institutional-grade reporting.</p>
+
+                <div class="ff-tools-grid">
+                    <div class="ff-tool-card">
+                        <div class="ff-tool-icon ai">🤖</div>
+                        <h3 class="ff-tool-title">AI Content Detection</h3>
+                        <p class="ff-tool-desc">Advanced detection of AI-generated text using multiple algorithms and pattern recognition. Identifies content from GPT, Claude, and other AI models with university-grade accuracy.</p>
+                        <ul class="ff-tool-features">
+                            <li>Multi-algorithm detection system</li>
+                            <li>Document and text analysis</li>
+                            <li>Confidence scoring and explanations</li>
+                            <li>Academic integrity reporting</li>
+                        </ul>
+                        <a href="/ai-detection" class="ff-tool-cta ai">Analyze Content →</a>
+                    </div>
+
+                    <div class="ff-tool-card">
+                        <div class="ff-tool-icon deepfake">🎭</div>
+                        <h3 class="ff-tool-title">Deepfake Detection</h3>
+                        <p class="ff-tool-desc">Sophisticated image analysis to detect AI-generated images, deepfakes, and digital manipulation. Uses advanced computer vision and forensic techniques.</p>
+                        <ul class="ff-tool-features">
+                            <li>Face manipulation detection</li>
+                            <li>AI generation analysis</li>
+                            <li>Digital artifact inspection</li>
+                            <li>Technical metadata verification</li>
+                        </ul>
+                        <a href="/deepfake-detection" class="ff-tool-cta deepfake">Check Images →</a>
+                    </div>
+
+                    <div class="ff-tool-card">
+                        <div class="ff-tool-icon conspiracy">🔍</div>
+                        <h3 class="ff-tool-title">Conspiracy Check</h3>
+                        <p class="ff-tool-desc">Comprehensive claim verification against verified sources and databases. Provides detailed source analysis and credibility assessment for academic research.</p>
+                        <ul class="ff-tool-features">
+                            <li>Multi-source verification</li>
+                            <li>Credibility scoring system</li>
+                            <li>Source quality assessment</li>
+                            <li>Cross-reference checking</li>
+                        </ul>
+                        <a href="/conspiracy-check" class="ff-tool-cta conspiracy">Verify Facts →</a>
+                    </div>
+
+                    <div class="ff-tool-card">
+                        <div class="ff-tool-icon news">🛡️</div>
+                        <h3 class="ff-tool-title">News Analysis & Multi-Source Verification</h3>
+                        <p class="ff-tool-desc">Enterprise-grade misinformation detection with real-time cross-verification across 500+ news sources. Uses NewsAPI integration and verified journalist database for comprehensive analysis.</p>
+                        <ul class="ff-tool-features">
+                            <li>Multi-source cross-verification via NewsAPI</li>
+                            <li>Political spectrum coverage analysis</li>
+                            <li>500+ source credibility database</li>
+                            <li>Contradiction detection between sources</li>
+                            <li>Verified journalist credibility scoring</li>
+                            <li>Coverage gap and bias pattern analysis</li>
+                        </ul>
+                        <a href="/news-analysis" class="ff-tool-cta news">Verify News →</a>
+                    </div>
+
+                    <div class="ff-tool-card">
+                        <div class="ff-tool-icon plagiarism">🎓</div>
+                        <h3 class="ff-tool-title">Plagiarism Detection</h3>
+                        <p class="ff-tool-desc">University-grade plagiarism detection with academic database integration. Features CrossRef integration, semantic analysis, and comprehensive citation checking.</p>
+                        <ul class="ff-tool-features">
+                            <li>Academic database search</li>
+                            <li>Semantic similarity detection</li>
+                            <li>Citation format verification</li>
+                            <li>Paraphrase detection</li>
+                        </ul>
+                        <a href="/plagiarism-detection" class="ff-tool-cta plagiarism">Check Plagiarism →</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section id="features" class="ff-features">
+                <h2>Why Choose Facts & Fakes?</h2>
+                <p class="ff-features-subtitle">Built for universities, researchers, and institutions that demand the highest standards of accuracy and reliability in academic integrity analysis.</p>
+
+                <div class="ff-features-grid">
+                    <div class="ff-feature-card">
+                        <div class="ff-feature-icon">🎯</div>
+                        <h3 class="ff-feature-title">University-Grade Accuracy</h3>
+                        <p class="ff-feature-desc">Multiple detection algorithms combined with academic database integration ensure the highest levels of accuracy for institutional use.</p>
+                    </div>
+
+                    <div class="ff-feature-card">
+                        <div class="ff-feature-icon">📚</div>
+                        <h3 class="ff-feature-title">Academic Database Access</h3>
+                        <p class="ff-feature-desc">Direct integration with CrossRef, Google Scholar, and academic databases for comprehensive source verification and plagiarism detection.</p>
+                    </div>
+
+                    <div class="ff-feature-card">
+                        <div class="ff-feature-icon">🚀</div>
+                        <h3 class="ff-feature-title">Real-Time Analysis</h3>
+                        <p class="ff-feature-desc">Advanced processing capabilities deliver comprehensive analysis results in seconds, not minutes, for efficient academic workflows.</p>
+                    </div>
+
+                    <div class="ff-feature-card">
+                        <div class="ff-feature-icon">🔒</div>
+                        <h3 class="ff-feature-title">Enterprise Security</h3>
+                        <p class="ff-feature-desc">Bank-level security protocols ensure complete confidentiality of student work and institutional data with no content storage.</p>
+                    </div>
+
+                    <div class="ff-feature-card">
+                        <div class="ff-feature-icon">📊</div>
+                        <h3 class="ff-feature-title">Institutional Reporting</h3>
+                        <p class="ff-feature-desc">Detailed reports with confidence scores, source citations, and recommended actions designed for academic integrity offices.</p>
+                    </div>
+
+                    <div class="ff-feature-card">
+                        <div class="ff-feature-icon">🌐</div>
+                        <h3 class="ff-feature-title">Multi-Format Support</h3>
+                        <p class="ff-feature-desc">Analyze text, documents (PDF, Word), images, and web content with specialized tools for each content type and format.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats Section -->
+            <section class="ff-stats">
+                <h2>Trusted by Academic Institutions</h2>
+                <div class="ff-stats-grid">
+                    <div>
+                        <div class="ff-stat-number">99.2%</div>
+                        <div class="ff-stat-label">Detection Accuracy</div>
+                    </div>
+                    <div>
+                        <div class="ff-stat-number">50K+</div>
+                        <div class="ff-stat-label">Documents Analyzed</div>
+                    </div>
+                    <div>
+                        <div class="ff-stat-number">2.3s</div>
+                        <div class="ff-stat-label">Average Analysis Time</div>
+                    </div>
+                    <div>
+                        <div class="ff-stat-number">500+</div>
+                        <div class="ff-stat-label">News Sources Verified</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Final CTA Section -->
+            <section class="ff-final-cta">
+                <h2>Ready to Ensure Academic Integrity?</h2>
+                <p>Join universities and institutions worldwide using Facts & Fakes for reliable, accurate AI detection and academic integrity analysis. Start your analysis today.</p>
+                <div class="ff-cta-buttons">
+                    <a href="/ai-detection" class="ff-btn-primary">🚀 Start Free Analysis</a>
+                    <a href="#tools" class="ff-btn-secondary">📋 View All Tools</a>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
