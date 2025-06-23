@@ -506,18 +506,19 @@
         }
 
         .unlock-btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: #059669;
             color: white;
             border: none;
             padding: 12px 25px;
             border-radius: 25px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 10px;
         }
 
         .unlock-btn:hover {
+            background: #047857;
             transform: scale(1.05);
         }
 
@@ -1112,9 +1113,12 @@
                     }
                 }, 1000);
 
-                // Make API call with timeout
+                // Make API call with longer timeout
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 second timeout
+                const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 minute timeout
+
+                console.log('Starting API call to backend...');
+                updateProgress(Math.min(currentProgress, 85), '🔗 Connecting to analysis server...', 'Sending request to AI backend');
 
                 const response = await fetch('https://ai-detector-backend-g4mj.onrender.com/api/analyze-news', {
                     method: 'POST',
@@ -1122,7 +1126,7 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ 
-                        text: text,
+                        text: text.substring(0, 5000), // Limit text length to prevent timeouts
                         sourceUrl: sourceUrl,
                         tier: currentTier 
                     }),
@@ -1130,13 +1134,16 @@
                 });
 
                 clearTimeout(timeoutId);
+                console.log('API response received:', response.status);
 
                 if (!response.ok) {
                     const errorText = await response.text();
-                    throw new Error(`Analysis failed (${response.status}): ${errorText}`);
+                    console.error('API error response:', errorText);
+                    throw new Error(`Analysis server error (${response.status}): ${errorText}`);
                 }
 
                 const data = await response.json();
+                console.log('Analysis data received:', data);
                 
                 if (data.error) {
                     throw new Error(data.error);
@@ -1161,21 +1168,99 @@
                 if (progressInterval) clearInterval(progressInterval);
                 if (timerInterval) clearInterval(timerInterval);
                 
-                hideProgress();
+                console.error('Analysis error details:', error);
                 
-                let errorMessage = 'Analysis failed. Please try again.';
+                let errorMessage = 'Analysis failed. ';
+                let showFallback = false;
+                
                 if (error.name === 'AbortError') {
-                    errorMessage = 'Analysis timed out. Please try with shorter content or check your connection.';
+                    errorMessage = 'Analysis timed out after 2 minutes. ';
+                    showFallback = true;
+                } else if (error.message.includes('fetch')) {
+                    errorMessage = 'Unable to connect to analysis server. ';
+                    showFallback = true;
                 } else if (error.message) {
                     errorMessage = error.message;
                 }
                 
-                showError(errorMessage);
-                console.error('Analysis error:', error);
+                hideProgress();
+                
+                if (showFallback && text.length > 50) {
+                    // Show simplified offline analysis
+                    errorMessage += '\n\nShowing simplified offline analysis:';
+                    showError(errorMessage);
+                    
+                    // Create basic fallback analysis
+                    setTimeout(() => {
+                        const fallbackData = createFallbackAnalysis(text);
+                        hideError();
+                        displayResults(fallbackData, 'fallback');
+                    }, 2000);
+                } else {
+                    errorMessage += '\n\nPlease try again with shorter content or check your internet connection.';
+                    showError(errorMessage);
+                }
                 
                 // Reset analysis state
                 analysisStartTime = null;
             }
+        }
+
+        function createFallbackAnalysis(text) {
+            // Simple offline analysis as fallback
+            const wordCount = text.split(' ').length;
+            const sentences = text.split(/[.!?]+/).length;
+            const avgWordsPerSentence = wordCount / sentences;
+            
+            // Basic scoring based on simple heuristics
+            let credibilityScore = 60; // Start neutral
+            
+            if (avgWordsPerSentence > 15 && avgWordsPerSentence < 25) credibilityScore += 10; // Good sentence length
+            if (text.includes('according to') || text.includes('sources say')) credibilityScore += 5; // Attribution
+            if (text.match(/[A-Z][a-z]+ [A-Z][a-z]+/g)) credibilityScore += 5; // Proper nouns (names)
+            if (text.match(/\b\d{4}\b/g)) credibilityScore += 5; // Years/dates
+            
+            // Reduce score for sensational language
+            const sensationalWords = ['BREAKING', 'SHOCKING', 'INCREDIBLE', 'UNBELIEVABLE', 'MUST READ'];
+            sensationalWords.forEach(word => {
+                if (text.toUpperCase().includes(word)) credibilityScore -= 10;
+            });
+            
+            credibilityScore = Math.max(20, Math.min(85, credibilityScore)); // Clamp between 20-85
+            
+            return {
+                scoring: {
+                    overall_credibility: credibilityScore,
+                    credibility_grade: credibilityScore >= 70 ? 'B' : credibilityScore >= 50 ? 'C' : 'D'
+                },
+                executive_summary: {
+                    main_assessment: 'OFFLINE ANALYSIS',
+                    summary_text: `Basic offline analysis complete. Credibility score: ${credibilityScore}/100. Word count: ${wordCount}, Average sentence length: ${avgWordsPerSentence.toFixed(1)} words.`,
+                    key_findings: [
+                        `Text Length: ${wordCount} words`,
+                        `Sentences: ${sentences}`,
+                        `Offline Score: ${credibilityScore}/100`,
+                        'Limited analysis - reconnect for full features'
+                    ]
+                },
+                ai_analysis: {
+                    status: 'offline',
+                    credibility_score: credibilityScore,
+                    confidence_level: 30,
+                    detailed_explanation: 'This is a simplified offline analysis. Connect to the internet for comprehensive AI-powered analysis.',
+                    factual_claims: ['Analysis limited in offline mode'],
+                    red_flags: text.length < 100 ? ['Text too short for comprehensive analysis'] : []
+                },
+                source_verification: {
+                    status: 'unavailable',
+                    sources_found: 0,
+                    verification_status: 'offline'
+                },
+                fact_check_results: {
+                    status: 'unavailable',
+                    fact_checks_found: 0
+                }
+            };
         }
 
         function isValidUrl(string) {
@@ -1192,11 +1277,94 @@
             container.style.display = 'block';
             container.classList.add('fade-in');
 
-            if (tier === 'free') {
+            if (tier === 'fallback') {
+                displayFallbackResults(data);
+            } else if (tier === 'free') {
                 displayFreeResults(data);
             } else {
                 displayPremiumResults(data);
             }
+        }
+
+        function displayFallbackResults(data) {
+            const container = document.getElementById('resultsContainer');
+            const score = data.scoring?.overall_credibility || 50;
+            const summary = data.executive_summary?.summary_text || 'Offline analysis completed.';
+
+            container.innerHTML = `
+                <div class="executive-summary">
+                    <div class="credibility-header">
+                        <div class="credibility-score">
+                            <div class="score-circle" style="background: #f59e0b;">
+                                ${Math.round(score)}
+                            </div>
+                            <div>
+                                <div class="assessment-text" style="color: #f59e0b;">
+                                    OFFLINE ANALYSIS
+                                </div>
+                                <div style="font-size: 1rem; opacity: 0.8;">Basic Credibility Check</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px;">
+                        ${summary}
+                    </div>
+                    
+                    <div style="background: rgba(245, 158, 11, 0.1); padding: 15px; border-radius: 10px; text-align: center;">
+                        <strong>⚡ Limited Analysis Mode</strong><br>
+                        <small>This is a simplified offline analysis. Reconnect to the internet for full AI-powered analysis with political bias detection, source verification, and more.</small><br>
+                        <button class="unlock-btn" onclick="location.reload();" style="margin-top: 10px; background: #f59e0b;">
+                            🔄 Retry Full Analysis
+                        </button>
+                    </div>
+                </div>
+
+                <div class="analysis-grid">
+                    <div class="analysis-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon">📊</div>
+                                Offline Analysis
+                            </div>
+                        </div>
+                        <div class="metric-item">
+                            <span>Basic Score:</span>
+                            <span>${score}/100</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: ${score}%; background: #f59e0b;"></div>
+                        </div>
+                        <p style="margin-top: 15px; opacity: 0.8;">
+                            ${data.ai_analysis?.detailed_explanation || 'Basic offline analysis completed.'}
+                        </p>
+                    </div>
+
+                    <div class="analysis-card" style="opacity: 0.5;">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon">🚫</div>
+                                AI Analysis - Offline
+                            </div>
+                        </div>
+                        <div style="text-align: center; padding: 20px;">
+                            <p>Advanced AI analysis requires internet connection</p>
+                        </div>
+                    </div>
+
+                    <div class="analysis-card" style="opacity: 0.5;">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon">🚫</div>
+                                Source Verification - Offline
+                            </div>
+                        </div>
+                        <div style="text-align: center; padding: 20px;">
+                            <p>Source verification requires internet connection</p>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
         function displayFreeResults(data) {
