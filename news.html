@@ -894,95 +894,59 @@
         // Usage tracking system
         class UsageTracker {
             constructor() {
-                this.resetDaily();
+                // DISABLED FOR TESTING - Always allow usage
+                this.usage = {
+                    date: new Date().toDateString(),
+                    freeUsed: 0,
+                    trialUsed: false,
+                    lastReset: Date.now()
+                };
                 this.updateDisplay();
-                this.startResetTimer();
-            }
-
-            resetDaily() {
-                const today = new Date().toDateString();
-                const stored = JSON.parse(localStorage.getItem('factsAndFakesUsage') || '{}');
-                
-                if (stored.date !== today) {
-                    this.usage = {
-                        date: today,
-                        freeUsed: 0,
-                        trialUsed: false,
-                        lastReset: Date.now()
-                    };
-                    localStorage.setItem('factsAndFakesUsage', JSON.stringify(this.usage));
-                } else {
-                    this.usage = stored;
-                }
             }
 
             canUseFree() {
-                return this.usage.freeUsed < 3;
+                return true; // Always allow for testing
             }
 
             canUseTrial() {
-                return !this.usage.trialUsed;
+                return true; // Always allow for testing
             }
 
             useFree() {
-                if (this.canUseFree()) {
-                    this.usage.freeUsed++;
-                    this.saveUsage();
-                    this.updateDisplay();
-                    return true;
-                }
-                return false;
+                // Don't actually consume usage during testing
+                this.updateDisplay();
+                return true;
             }
 
             useTrial() {
-                if (this.canUseTrial()) {
-                    this.usage.trialUsed = true;
-                    this.saveUsage();
-                    this.updateDisplay();
-                    return true;
-                }
-                return false;
+                // Don't actually consume usage during testing
+                this.updateDisplay();
+                return true;
             }
 
             saveUsage() {
-                localStorage.setItem('factsAndFakesUsage', JSON.stringify(this.usage));
+                // Don't save during testing
             }
 
             updateDisplay() {
-                const freeLeft = 3 - this.usage.freeUsed;
-                const trialLeft = this.usage.trialUsed ? 0 : 1;
+                // Show testing mode
+                document.getElementById('usageCount').textContent = `Testing Mode`;
+                document.getElementById('freeBadge').textContent = `∞`;
+                document.getElementById('trialBadge').textContent = `∞`;
 
-                document.getElementById('usageCount').textContent = `Free: ${freeLeft}/3 today`;
-                document.getElementById('freeBadge').textContent = `${freeLeft} left`;
-                document.getElementById('trialBadge').textContent = `${trialLeft} left`;
+                // Enable all buttons
+                document.getElementById('freeBtn').disabled = false;
+                document.getElementById('trialBtn').disabled = false;
 
-                // Update button states
-                document.getElementById('freeBtn').disabled = !this.canUseFree();
-                document.getElementById('trialBtn').disabled = !this.canUseTrial();
-
-                // Show upgrade banner if no uses left
-                if (!this.canUseFree() && !this.canUseTrial()) {
-                    document.getElementById('upgradeBanner').style.display = 'block';
-                }
-
-                this.updateResetTimer();
+                document.getElementById('usageReset').textContent = 'Unlimited for testing';
             }
 
             updateResetTimer() {
-                const now = new Date();
-                const tomorrow = new Date(now);
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                tomorrow.setHours(0, 0, 0, 0);
-                
-                const timeLeft = tomorrow - now;
-                const hours = Math.floor(timeLeft / (1000 * 60 * 60));
-                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                
-                document.getElementById('usageReset').textContent = `Resets in ${hours}h ${minutes}m`;
+                // No timer needed during testing
             }
 
             startResetTimer() {
-                setInterval(() => this.updateResetTimer(), 60000); // Update every minute
+                // No timer needed during testing
             }
         }
 
