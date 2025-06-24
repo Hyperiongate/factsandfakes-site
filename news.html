@@ -1771,22 +1771,7 @@ function getConsistentScore(content) {
             const scoreData = getConsistentScore(content);
 const { baseScore, normalizedHash, aiProbability, confidence } = scoreData;
             
-            // CONSISTENT scoring regardless of tier - only features differ
-            let baseScore = 45 + (normalizedHash * 40);
-            
-            // Adjust score based on content type detection (same logic for both tiers)
-            const contentLower = (content || '').toLowerCase();
-            if (contentLower.includes('breaking') || contentLower.includes('exclusive') || contentLower.includes('leaked')) {
-                baseScore -= 15; // Sensational language reduces credibility
-            }
-            if (contentLower.includes('associated press') || contentLower.includes('reuters') || contentLower.includes('federal reserve')) {
-                baseScore += 20; // Reputable sources increase credibility
-            }
-            if (contentLower.includes('attack') || contentLower.includes('destroy') || contentLower.includes('radical')) {
-                baseScore -= 25; // Inflammatory language reduces credibility
-            }
-            
-            baseScore = Math.max(10, Math.min(95, baseScore)); // Keep within realistic bounds
+            // Keep within realistic bounds
             
             // SAME AI probability and confidence for both tiers
             const aiProbability = normalizedHash * 0.25;
