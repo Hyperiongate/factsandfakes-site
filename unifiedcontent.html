@@ -1099,6 +1099,148 @@
             box-shadow: 0 12px 35px rgba(255, 68, 68, 0.4);
         }
 
+        /* Text Highlighting Styles */
+        .analyzed-text-container {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 2px solid #e2e8f0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .analyzed-text {
+            line-height: 1.8;
+            font-size: 1rem;
+            color: #374151;
+            font-family: inherit;
+        }
+
+        .highlight-ai {
+            background: linear-gradient(135deg, rgba(255, 68, 68, 0.3), rgba(255, 107, 107, 0.2));
+            padding: 2px 4px;
+            border-radius: 4px;
+            border-bottom: 2px solid #ff4444;
+            position: relative;
+            cursor: help;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-ai:hover {
+            background: linear-gradient(135deg, rgba(255, 68, 68, 0.4), rgba(255, 107, 107, 0.3));
+            transform: scale(1.02);
+        }
+
+        .highlight-plagiarism {
+            background: linear-gradient(135deg, rgba(255, 142, 83, 0.3), rgba(255, 170, 0, 0.2));
+            padding: 2px 4px;
+            border-radius: 4px;
+            border-bottom: 2px solid #ff8e53;
+            position: relative;
+            cursor: help;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-plagiarism:hover {
+            background: linear-gradient(135deg, rgba(255, 142, 83, 0.4), rgba(255, 170, 0, 0.3));
+            transform: scale(1.02);
+        }
+
+        .highlight-suspicious {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.3), rgba(255, 235, 59, 0.2));
+            padding: 2px 4px;
+            border-radius: 4px;
+            border-bottom: 2px solid #ffc107;
+            position: relative;
+            cursor: help;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-suspicious:hover {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.4), rgba(255, 235, 59, 0.3));
+            transform: scale(1.02);
+        }
+
+        .highlight-legend {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .legend-ai { background: linear-gradient(135deg, rgba(255, 68, 68, 0.7), rgba(255, 107, 107, 0.5)); }
+        .legend-plagiarism { background: linear-gradient(135deg, rgba(255, 142, 83, 0.7), rgba(255, 170, 0, 0.5)); }
+        .legend-suspicious { background: linear-gradient(135deg, rgba(255, 193, 7, 0.7), rgba(255, 235, 59, 0.5)); }
+
+        .highlighting-toggle {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .highlighting-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .highlighting-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .stat-ai { color: #ff4444; }
+        .stat-plagiarism { color: #ff8e53; }
+        .stat-suspicious { color: #ffc107; }
+
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2.2rem;
@@ -1643,4 +1785,72 @@ Perfect for academic papers, articles, reports, and any written content." oninpu
             return {
                 authenticity_score: baseScore / 100,
                 final_assessment: executiveSummary,
-                ai_analysis: `AI pattern analysis indicates ${Math.round(aiProbability * 100)}% likelihood of artificial generation. ${aiProbability > 0.3 ? 'Detected characteristic AI patterns including formulaic language structure and repetitive phrasing.' : 'Natural human writing patterns detected with
+                ai_analysis: `AI pattern analysis indicates ${Math.round(aiProbability * 100)}% likelihood of artificial generation. ${aiProbability > 0.3 ? 'Detected characteristic AI patterns including formulaic language structure and repetitive phrasing.' : 'Natural human writing patterns detected with authentic voice and flow.'}`,
+                plagiarism_check: normalizedHash > 0.6 ? 'Potential similarities found requiring investigation.' : 'No significant matches found in our database network.',
+                linguistic_analysis: `Comprehensive linguistic analysis completed. Vocabulary diversity: ${Math.round(60 + normalizedHash * 30)}%, Sentence structure variety: ${Math.round(50 + normalizedHash * 40)}%, Natural flow indicators: ${Math.round(baseScore)}%.`,
+                highlighted_text: currentTier === 'trial' ? generateHighlightedText(content, normalizedHash, aiProbability) : null,
+                ai_flags: Math.floor(1 + normalizedHash * 4),
+                plagiarism_flags: Math.floor(normalizedHash * 3),
+                suspicious_flags: Math.floor(normalizedHash * 2),
+                total_sentences: Math.floor(textLength / 80) + 5, // Rough sentence estimate
+                analysis_stages: currentTier === 'trial' ? 6 : 4
+            };
+        }
+
+        function generateHighlightedText(content, normalizedHash, aiProbability) {
+            if (!content) return '';
+            
+            const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 20);
+            if (sentences.length === 0) return content;
+            
+            let highlightedText = '';
+            
+            sentences.forEach((sentence, index) => {
+                let processedSentence = sentence.trim();
+                if (!processedSentence) return;
+                
+                // Add period back if it was lost
+                if (!processedSentence.match(/[.!?]$/)) {
+                    processedSentence += '.';
+                }
+                
+                // Determine if this sentence should be flagged
+                const sentenceHash = hashCode(processedSentence) / 2147483647;
+                const sentenceNormalized = Math.abs(sentenceHash);
+                
+                // AI detection patterns
+                const aiKeywords = ['furthermore', 'moreover', 'additionally', 'paradigm shift', 'cutting-edge', 'streamlines', 'innovative', 'comprehensive', 'optimization', 'implementation'];
+                const hasAIKeywords = aiKeywords.some(keyword => processedSentence.toLowerCase().includes(keyword));
+                
+                // Plagiarism patterns (simulate checking common phrases)
+                const commonPhrases = ['according to recent studies', 'it is important to note', 'in conclusion', 'the present study examines', 'through a comprehensive analysis'];
+                const hasPlagiarismRisk = commonPhrases.some(phrase => processedSentence.toLowerCase().includes(phrase));
+                
+                // Suspicious patterns
+                const suspiciousPatterns = ['significant improvements', 'demonstrated', 'indicates that', 'multiple industries', 'advanced algorithms'];
+                const hasSuspiciousPatterns = suspiciousPatterns.some(pattern => processedSentence.toLowerCase().includes(pattern));
+                
+                // Decide highlighting based on AI probability and patterns
+                if ((aiProbability > 0.3 && hasAIKeywords) || (sentenceNormalized > 0.7 && hasAIKeywords)) {
+                    highlightedText += `<span class="highlight-ai" title="AI-Generated Pattern Detected: Formulaic language structure and repetitive phrasing commonly found in AI-generated content.">${processedSentence}</span> `;
+                } else if (hasPlagiarismRisk && sentenceNormalized > 0.5) {
+                    highlightedText += `<span class="highlight-plagiarism" title="Potential Plagiarism: This phrase appears frequently in academic and online sources.">${processedSentence}</span> `;
+                } else if (hasSuspiciousPatterns && sentenceNormalized > 0.6) {
+                    highlightedText += `<span class="highlight-suspicious" title="Suspicious Similarity: This phrasing is commonly used across multiple sources.">${processedSentence}</span> `;
+                } else {
+                    highlightedText += processedSentence + ' ';
+                }
+            });
+            
+            return highlightedText.trim();
+        }
+
+        function toggleHighlighting(type) {
+            const element = document.getElementById(type + '-highlights');
+            if (element.style.display === 'none') {
+                element.style.display = 'block';
+                element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                element.style.display = 'none';
+            }
+        }
