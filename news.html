@@ -1847,7 +1847,7 @@ const { baseScore, normalizedHash, aiProbability, confidence } = scoreData;
 
             // Calculate enhanced metrics
             const credibilityScore = data.credibility_score ? Math.round(data.credibility_score * 100) : 0;
-            const aiProbability = data.ai_detection ? Math.round(data.ai_detection.ai_probability * 100) : 0;
+            const aiProbabilityPercent = data.ai_detection ? Math.round(data.ai_detection.ai_probability * 100) : 0;
             const factCheckCount = data.fact_checks ? data.fact_checks.length : 0;
             const confidenceLevel = data.ai_detection ? Math.round(data.ai_detection.confidence * 100) : 0;
 
@@ -2210,7 +2210,7 @@ const { baseScore, normalizedHash, aiProbability, confidence } = scoreData;
             const aiData = data.ai_detection;
             if (!aiData) return '';
 
-            const aiProbability = Math.round(aiData.ai_probability * 100);
+           const aiProbabilityDisplay = Math.round(aiData.ai_probability * 100);
             const confidence = Math.round(aiData.confidence * 100);
             const classification = aiData.classification || 'Unknown';
             
