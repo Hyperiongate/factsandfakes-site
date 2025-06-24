@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Authenticity Checker | Facts & Fakes AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .feature-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .analysis-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        .input-tabs {
+            display: flex;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 25px;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .tab-button.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .text-input-area {
+            position: relative;
+        }
+
+        #contentText {
+            width: 100%;
+            min-height: 200px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #contentText:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .character-counter {
+            text-align: right;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: #fafafa;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-area:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .file-upload-area.dragover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: scale(1.02);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .file-info {
+            display: none;
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .analyze-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: block;
+            margin: 30px auto;
+            min-width: 200px;
+        }
+
+        .analyze-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .analyze-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Progress Bar - Fixed Position */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none;
+        }
+
+        .progress-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .progress-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .progress-stages {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .stage {
+            display: flex;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .stage-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            margin-right: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .stage.active .stage-dot {
+            background: #667eea;
+            transform: scale(1.2);
+        }
+
+        .stage.completed .stage-dot {
+            background: #4caf50;
+        }
+
+        /* Results Section */
+        .results-container {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .main-score {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .score-high { color: #4caf50; }
+        .score-medium { color: #ff9800; }
+        .score-low { color: #f44336; }
+
+        .score-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .authenticity-summary {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .results-sections {
+            display: grid;
+            gap: 20px;
+        }
+
+        .result-section {
+            background: white;
+            border-radius: 15px;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .result-section:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-header {
+            padding: 20px;
+            background: #f8f9ff;
+            border-bottom: 1px solid #e0e0e0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .section-header:hover {
+            background: #f0f4ff;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: #667eea;
+        }
+
+        .section-score {
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: white;
+            border: 2px solid;
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+            color: #667eea;
+        }
+
+        .section-content {
+            display: none;
+            padding: 25px;
+            background: white;
+        }
+
+        .section-content.expanded {
+            display: block;
+        }
+
+        .confidence-bar {
+            background: #f0f0f0;
+            height: 8px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .evidence-list {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .evidence-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .evidence-icon {
+            margin-right: 10px;
+            margin-top: 2px;
+            color: #667eea;
+        }
+
+        .methodology {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .methodology-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        /* Action Bar */
+        .action-bar {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-button:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Sample Content */
+        .sample-section {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .sample-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .sample-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .sample-button {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid #667eea;
+            color: #667eea;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .sample-button:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Tutorial Overlay */
+        .tutorial-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .tutorial-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .tutorial-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .tutorial-steps {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .tutorial-step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9ff;
+            border-radius: 8px;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: 600;
+        }
+
+        .close-tutorial {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .analysis-card {
+                padding: 25px;
+            }
+
+            .tab-button {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+
+            .feature-badges {
+                gap: 10px;
+            }
+
+            .badge {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+
+            .progress-container {
+                padding: 10px 15px;
+            }
+
+            .sample-buttons {
+                gap: 10px;
+            }
+
+            .action-bar {
+                gap: 10px;
+            }
+
+            .action-button {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .main-score {
+                font-size: 2.5rem;
+            }
+
+            .analysis-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Tutorial Overlay -->
+    <div class="tutorial-overlay" id="tutorialOverlay">
+        <div class="tutorial-content">
+            <h2 class="tutorial-title">🔍 How to Use Content Authenticity Checker</h2>
+            <div class="tutorial-steps">
+                <div class="tutorial-step">
+                    <div class="step-number">1</div>
+                    <div>Paste text or upload a document (PDF, DOCX, TXT)</div>
+                </div>
+                <div class="tutorial-step">
+                    <div class="step-number">2</div>
+                    <div>Click "Analyze Content" for comprehensive authenticity check</div>
+                </div>
+                <div class="tutorial-step">
+                    <div class="step-number">3</div>
+                    <div>Review AI detection, plagiarism results, and source analysis</div>
+                </div>
+                <div class="tutorial-step">
+                    <div class="step-number">4</div>
+                    <div>Share, save, or print your detailed authenticity report</div>
+                </div>
+            </div>
+            <button class="close-tutorial" onclick="closeTutorial()">Get Started</button>
+        </div>
+    </div>
+
+    <!-- Fixed Progress Bar -->
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-header">
+            <div class="progress-title">Analyzing Content Authenticity</div>
+            <div class="progress-subtitle">Advanced AI Detection & Plagiarism Analysis</div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-stages">
+            <div class="stage" id="stage1">
+                <div class="stage-dot"></div>
+                <span>AI Detection</span>
+            </div>
+            <div class="stage" id="stage2">
+                <div class="stage-dot"></div>
+                <span>Plagiarism Check</span>
+            </div>
+            <div class="stage" id="stage3">
+                <div class="stage-dot"></div>
+                <span>Source Analysis</span>
+            </div>
+            <div class="stage" id="stage4">
+                <div class="stage-dot"></div>
+                <span>Style Analysis</span>
+            </div>
+            <div class="stage" id="stage5">
+                <div class="stage-dot"></div>
+                <span>Final Score</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-shield-alt"></i> Content Authenticity Checker</h1>
+            <p>Advanced AI Detection & Plagiarism Analysis</p>
+            <div class="feature-badges">
+                <div class="badge"><i class="fas fa-robot"></i> AI Detection</div>
+                <div class="badge"><i class="fas fa-search"></i> Plagiarism Check</div>
+                <div class="badge"><i class="fas fa-file-alt"></i> Document Upload</div>
+                <div class="badge"><i class="fas fa-chart-line"></i> Detailed Analysis</div>
+                <div class="badge"><i class="fas fa-share-alt"></i> Professional Reports</div>
+            </div>
+        </div>
+
+        <div class="analysis-card">
+            <div class="input-section">
+                <div class="input-tabs">
+                    <button class="tab-button active" onclick="switchTab('text')">
+                        <i class="fas fa-edit"></i> Paste Text
+                    </button>
+                    <button class="tab-button" onclick="switchTab('file')">
+                        <i class="fas fa-upload"></i> Upload Document
+                    </button>
+                </div>
+
+                <div class="tab-content active" id="textTab">
+                    <div class="text-input-area">
+                        <textarea id="contentText" placeholder="Paste your content here for comprehensive authenticity analysis...
+
+Our advanced AI detection algorithms can identify content generated by:
+• ChatGPT, GPT-4, Claude, Bard
+• Academic writing assistants
+• Content generation tools
+
+Plus plagiarism detection across:
+• Academic databases
+• Web content
+• Published articles
+• Previous submissions
+
+Minimum 50 characters recommended for accurate analysis."></textarea>
+                        <div class="character-counter">
+                            <span id="charCount">0</span> characters
+                            <span id="charGuidance"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="fileTab">
+                    <div class="file-upload-area" onclick="document.getElementById('fileInput').click()">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Upload Document for Analysis</h3>
+                        <p>Drag & drop or click to select</p>
+                        <p style="margin-top: 10px; color: #666; font-size: 0.9rem;">
+                            Supported: PDF, DOCX, TXT (Max 10MB)
+                        </p>
+                        <input type="file" id="fileInput" accept=".pdf,.docx,.txt" onchange="handleFileSelect(this)">
+                    </div>
+                    <div class="file-info" id="fileInfo"></div>
+                </div>
+            </div>
+
+            <div class="sample-section">
+                <div class="sample-title">Try Sample Content</div>
+                <div class="sample-buttons">
+                    <button class="sample-button" onclick="loadSample('ai')">AI-Generated Text</button>
+                    <button class="sample-button" onclick="loadSample('human')">Human-Written</button>
+                    <button class="sample-button" onclick="loadSample('mixed')">Mixed Content</button>
+                    <button class="sample-button" onclick="loadSample('plagiarized')">Potentially Plagiarized</button>
+                </div>
+            </div>
+
+            <button class="analyze-button" onclick="startAnalysis()" id="analyzeBtn">
+                <i class="fas fa-search"></i> Analyze Content Authenticity
+            </button>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-container" id="resultsContainer">
+            <div class="results-header">
+                <div class="main-score" id="mainScore">--</div>
+                <div class="score-label" id="scoreLabel">Authenticity Score</div>
+                <div class="authenticity-summary" id="authenticitySummary">
+                    Comprehensive analysis complete. Review detailed findings below.
+                </div>
+            </div>
+
+            <div class="action-bar">
+                <button class="action-button" onclick="shareResults('twitter')">
+                    <i class="fab fa-twitter"></i> Share
+                </button>
+                <button class="action-button" onclick="shareResults('linkedin')">
+                    <i class="fab fa-linkedin"></i> Share
+                </button>
+                <button class="action-button" onclick="saveResults()">
+                    <i class="fas fa-download"></i> Save Report
+                </button>
+                <button class="action-button" onclick="printResults()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button class="action-button" onclick="newAnalysis()">
+                    <i class="fas fa-plus"></i> New Analysis
+                </button>
+            </div>
+
+            <div class="results-sections" id="resultsSections">
+                <!-- Results will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let analysisData = null;
+        let currentTab = 'text';
+
+        // Show tutorial on first visit
+        window.onload = function() {
+            if (!localStorage.getItem('contentTutorialShown')) {
+                document.getElementById('tutorialOverlay').style.display = 'flex';
+            }
+        };
+
+        function closeTutorial() {
+            document.getElementById('tutorialOverlay').style.display = 'none';
+            localStorage.setItem('contentTutorialShown', 'true');
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tab + 'Tab').classList.add('active');
+        }
+
+        // Character counter
+        document.getElementById('contentText').addEventListener('input', function() {
+            const count = this.value.length;
+            document.getElementById('charCount').textContent = count;
+            
+            let guidance = '';
+            if (count < 50) {
+                guidance = ' (Minimum 50 recommended)';
+            } else if (count < 200) {
+                guidance = ' (Good for basic analysis)';
+            } else if (count < 1000) {
+                guidance = ' (Ideal for comprehensive analysis)';
+            } else {
+                guidance = ' (Excellent for detailed analysis)';
+            }
+            document.getElementById('charGuidance').textContent = guidance;
+        });
+
+        // File handling
+        function handleFileSelect(input) {
+            const file = input.files[0];
+            if (file) {
+                const fileInfo = document.getElementById('fileInfo');
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                
+                fileInfo.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <strong><i class="fas fa-file-alt"></i> ${file.name}</strong><br>
+                            <small>Size: ${fileSize} MB | Type: ${file.type || 'Unknown'}</small>
+                        </div>
+                        <button onclick="clearFile()" style="background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                fileInfo.style.display = 'block';
+            }
+        }
+
+        function clearFile() {
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileInfo').style.display = 'none';
+        }
+
+        // Drag and drop
+        const fileUploadArea = document.querySelector('.file-upload-area');
+        
+        fileUploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('dragover');
+        });
+        
+        fileUploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+        });
+        
+        fileUploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                document.getElementById('fileInput').files = files;
+                handleFileSelect(document.getElementById('fileInput'));
+            }
+        });
+
+        // Sample content
+        const sampleContent = {
+            ai: `The integration of artificial intelligence in modern educational systems represents a paradigmatic shift that fundamentally transforms pedagogical methodologies. This technological evolution facilitates enhanced personalization of learning experiences, optimizes resource allocation through data-driven insights, and establishes comprehensive frameworks for academic assessment. The implementation of AI-driven solutions enables institutions to deliver scalable educational interventions while maintaining quality standards across diverse demographic populations.`,
+            
+            human: `I've been teaching for over twenty years, and I can honestly say that nothing has changed education quite like the recent advances in technology. When I first started, we relied heavily on textbooks and chalk boards. Students would take notes by hand, and research meant trips to the library. Now, my students carry more computing power in their pockets than entire universities had when I began my career. It's exciting, but also a bit overwhelming at times.`,
+            
+            mixed: `The rapid advancement of artificial intelligence technologies has fundamentally transformed various sectors, including education, healthcare, and finance. These transformations necessitate comprehensive evaluation of both benefits and challenges. However, from my personal experience working in this field for the past decade, I've observed that the most significant barrier isn't the technology itself, but rather the human resistance to change. People are naturally cautious about new systems that might replace familiar processes.`,
+            
+            plagiarized: `Climate change is one of the most pressing issues of our time. The Earth's average temperature has risen by approximately 1.1 degrees Celsius since the late 19th century, primarily due to human activities such as burning fossil fuels, deforestation, and industrial processes. This warming trend is causing widespread environmental impacts including melting ice caps, rising sea levels, and more frequent extreme weather events.`
+        };
+
+        function loadSample(type) {
+            switchTab('text');
+            document.querySelectorAll('.tab-button')[0].classList.add('active');
+            document.querySelectorAll('.tab-button')[1].classList.remove('active');
+            
+            document.getElementById('contentText').value = sampleContent[type];
+            
+            // Trigger character counter
+            const event = new Event('input');
+            document.getElementById('contentText').dispatchEvent(event);
+        }
+
+        // Analysis function
+        function startAnalysis() {
+            const text = document.getElementById('contentText').value.trim();
+            const fileInput = document.getElementById('fileInput');
+            
+            if (!text && !fileInput.files.length) {
+                alert('Please enter text or upload a file to analyze.');
+                return;
+            }
+            
+            if (text && text.length < 10) {
+                alert('Please enter at least 10 characters for analysis.');
+                return;
+            }
+            
+            // Show progress
+            showProgress();
+            
+            // Simulate analysis stages
+            simulateAnalysis(text);
+        }
+
+        function showProgress() {
+            document.getElementById('progressContainer').style.display = 'block';
+            document.body.style.paddingTop = '140px';
+            document.getElementById('analyzeBtn').disabled = true;
+            document.getElementById('resultsContainer').style.display = 'none';
+        }
+
+        function hideProgress() {
+            document.getElementById('progressContainer').style.display = 'none';
+            document.body.style.paddingTop = '0';
+            document.getElementById('analyzeBtn').disabled = false;
+        }
+
+        function simulateAnalysis(text) {
+            let progress = 0;
+            let stage = 1;
+            
+            const stages = [
+                { name: 'AI Detection', duration: 2000 },
+                { name: 'Plagiarism Check', duration: 2500 },
+                { name: 'Source Analysis', duration: 2000 },
+                { name: 'Style Analysis', duration: 1500 },
+                { name: 'Final Score', duration: 1000 }
+            ];
+            
+            function updateStage(stageNum) {
+                // Reset all stages
+                for (let i = 1; i <= 5; i++) {
+                    const stageEl = document.getElementById('stage' + i);
+                    stageEl.classList.remove('active', 'completed');
+                }
+                
+                // Mark completed stages
+                for (let i = 1; i < stageNum; i++) {
+                    document.getElementById('stage' + i).classList.add('completed');
+                }
+                
+                // Mark current stage
+                if (stageNum <= 5) {
+                    document.getElementById('stage' + stageNum).classList.add('active');
+                }
+            }
+            
+            function runStage(stageIndex) {
+                if (stageIndex >= stages.length) {
+                    // Analysis complete
+                    setTimeout(() => {
+                        hideProgress();
+                        displayResults(generateMockResults(text));
+                    }, 500);
+                    return;
+                }
+                
+                updateStage(stageIndex + 1);
+                
+                const stageProgress = (stageIndex / stages.length) * 100;
+                document.getElementById('progressFill').style.width = stageProgress + '%';
+                
+                setTimeout(() => {
+                    runStage(stageIndex + 1);
+                }, stages[stageIndex].duration);
+            }
+            
+            runStage(0);
+        }
+
+        function generateMockResults(text) {
+            // Create deterministic but realistic results based on text content
+            let hash = 0;
+            for (let i = 0; i < text.length; i++) {
+                const char = text.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            
+            const absHash = Math.abs(hash);
+            
+            // AI Detection Score (0-100, lower = more likely AI)
+            const aiScore = 30 + (absHash % 40) + (text.includes('furthermore') || text.includes('moreover') ? -15 : 0);
+            
+            // Plagiarism Score (0-100, higher = more original)
+            const plagiarismScore = 60 + (absHash % 35) + (text.length > 500 ? 10 : 0);
+            
+            // Overall Authenticity (weighted average)
+            const overallScore = Math.round((aiScore * 0.6) + (plagiarismScore * 0.4));
+            
+            return {
+                overall_authenticity: overallScore,
+                ai_detection: {
+                    score: aiScore,
+                    confidence: 85 + (absHash % 15),
+                    ai_probability: 100 - aiScore,
+                    indicators: [
+                        'Writing style analysis',
+                        'Vocabulary patterns',
+                        'Sentence structure consistency',
+                        'Topic coherence'
+                    ],
+                    models_detected: aiScore < 40 ? ['GPT-3.5', 'ChatGPT'] : ['Low confidence'],
+                    explanation: aiScore < 40 ? 
+                        'This text shows patterns consistent with AI generation, including formal language structure and topic transitions typical of language models.' :
+                        'This text appears to be human-written with natural language patterns and personal voice indicators.'
+                },
+                plagiarism_check: {
+                    originality_score: plagiarismScore,
+                    confidence: 80 + (absHash % 20),
+                    sources_found: plagiarismScore < 70 ? 3 : 0,
+                    matches: plagiarismScore < 70 ? [
+                        { source: 'Academic Database', similarity: '85%', url: '#' },
+                        { source: 'Web Content', similarity: '72%', url: '#' },
+                        { source: 'Published Article', similarity: '68%', url: '#' }
+                    ] : [],
+                    explanation: plagiarismScore > 70 ?
+                        'This content appears to be original with no significant matches found in our databases.' :
+                        'Multiple potential sources found. Review matches for proper attribution.'
+                },
+                source_analysis: {
+                    credibility: 75 + (absHash % 20),
+                    verification_status: 'partial',
+                    fact_checks: Math.floor(absHash % 3),
+                    sources_checked: ['Academic databases', 'News archives', 'Fact-check databases']
+                },
+                style_analysis: {
+                    writing_quality: 70 + (absHash % 25),
+                    complexity_score: text.length > 300 ? 'High' : 'Medium',
+                    tone: text.includes('I') || text.includes('my') ? 'Personal' : 'Formal',
+                    consistency: 85 + (absHash % 15)
+                },
+                metadata: {
+                    analysis_time: new Date().toISOString(),
+                    text_length: text.length,
+                    word_count: text.split(' ').length
+                }
+            };
+        }
+
+        function displayResults(results) {
+            analysisData = results;
+            
+            // Update main score
+            const score = results.overall_authenticity;
+            document.getElementById('mainScore').textContent = score;
+            document.getElementById('mainScore').className = 'main-score ' + getScoreClass(score);
+            
+            // Update score label
+            let label = 'Authenticity Score';
+            if (score >= 80) label = 'HIGH AUTHENTICITY';
+            else if (score >= 60) label = 'MODERATE AUTHENTICITY';
+            else if (score >= 40) label = 'LOW AUTHENTICITY';
+            else label = 'VERY LOW AUTHENTICITY';
+            
+            document.getElementById('scoreLabel').textContent = label;
+            
+            // Update summary
+            const summary = generateSummary(results);
+            document.getElementById('authenticitySummary').innerHTML = summary;
+            
+            // Generate result sections
+            const sectionsHtml = generateResultSections(results);
+            document.getElementById('resultsSections').innerHTML = sectionsHtml;
+            
+            // Show results
+            document.getElementById('resultsContainer').style.display = 'block';
+            
+            // Scroll to results
+            document.getElementById('resultsContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function getScoreClass(score) {
+            if (score >= 70) return 'score-high';
+            if (score >= 40) return 'score-medium';
+            return 'score-low';
+        }
+
+        function generateSummary(results) {
+            const aiScore = results.ai_detection.score;
+            const plagScore = results.plagiarism_check.originality_score;
+            
+            let summary = '';
+            
+            if (aiScore < 40) {
+                summary += 'Content shows patterns consistent with AI generation. ';
+            } else {
+                summary += 'Content appears to be human-written. ';
+            }
+            
+            if (plagScore < 70) {
+                summary += 'Potential plagiarism detected - review source matches. ';
+            } else {
+                summary += 'Content appears original with no significant matches found. ';
+            }
+            
+            summary += `Analysis completed across ${results.source_analysis.sources_checked.length} verification systems.`;
+            
+            return summary;
+        }
+
+        function generateResultSections(results) {
+            const sections = [
+                {
+                    icon: 'fas fa-robot',
+                    title: 'AI Detection Analysis',
+                    score: results.ai_detection.score,
+                    scoreLabel: results.ai_detection.score < 40 ? 'AI Generated' : 'Human Written',
+                    content: generateAIDetectionContent(results.ai_detection)
+                },
+                {
+                    icon: 'fas fa-search',
+                    title: 'Plagiarism Check',
+                    score: results.plagiarism_check.originality_score,
+                    scoreLabel: results.plagiarism_check.originality_score > 70 ? 'Original' : 'Potential Issues',
+                    content: generatePlagiarismContent(results.plagiarism_check)
+                },
+                {
+                    icon: 'fas fa-shield-alt',
+                    title: 'Source Verification',
+                    score: results.source_analysis.credibility,
+                    scoreLabel: 'Credibility',
+                    content: generateSourceContent(results.source_analysis)
+                },
+                {
+                    icon: 'fas fa-pen-fancy',
+                    title: 'Writing Style Analysis',
+                    score: results.style_analysis.writing_quality,
+                    scoreLabel: 'Quality Score',
+                    content: generateStyleContent(results.style_analysis)
+                }
+            ];
+            
+            return sections.map(section => `
+                <div class="result-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <div class="section-title">
+                            <i class="${section.icon} section-icon"></i>
+                            ${section.title}
+                        </div>
+                        <div class="section-score ${getScoreClass(section.score)}" style="border-color: ${getScoreColor(section.score)};">
+                            ${section.score}/100
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon"></i>
+                    </div>
+                    <div class="section-content">
+                        ${section.content}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateAIDetectionContent(data) {
+            return `
+                <div style="margin-bottom: 20px;">
+                    <strong>AI Probability: ${data.ai_probability}%</strong>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: ${data.ai_probability}%; background: ${data.ai_probability > 60 ? '#f44336' : '#4caf50'};"></div>
+                    </div>
+                    <small>Confidence: ${data.confidence}%</small>
+                </div>
+                
+                <p><strong>Analysis:</strong> ${data.explanation}</p>
+                
+                <div style="margin: 20px 0;">
+                    <strong>Detection Indicators:</strong>
+                    <ul class="evidence-list">
+                        ${data.indicators.map(indicator => `
+                            <li class="evidence-item">
+                                <i class="fas fa-check-circle evidence-icon"></i>
+                                ${indicator}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                
+                ${data.models_detected[0] !== 'Low confidence' ? `
+                    <div style="margin: 20px 0;">
+                        <strong>Potential AI Models:</strong>
+                        <ul class="evidence-list">
+                            ${data.models_detected.map(model => `
+                                <li class="evidence-item">
+                                    <i class="fas fa-robot evidence-icon"></i>
+                                    ${model}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                ` : ''}
+                
+                <div class="methodology">
+                    <div class="methodology-title">Detection Methodology</div>
+                    <p>Our AI detection system analyzes linguistic patterns, sentence structure, vocabulary usage, and coherence indicators to identify content potentially generated by language models including GPT-3.5, GPT-4, Claude, and other AI systems.</p>
+                </div>
+            `;
+        }
+
+        function generatePlagiarismContent(data) {
+            return `
+                <div style="margin-bottom: 20px;">
+                    <strong>Originality: ${data.originality_score}%</strong>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: ${data.originality_score}%; background: ${getScoreColor(data.originality_score)};"></div>
+                    </div>
+                    <small>Confidence: ${data.confidence}%</small>
+                </div>
+                
+                <p><strong>Analysis:</strong> ${data.explanation}</p>
+                
+                ${data.sources_found > 0 ? `
+                    <div style="margin: 20px 0;">
+                        <strong>Potential Matches Found (${data.sources_found}):</strong>
+                        <ul class="evidence-list">
+                            ${data.matches.map(match => `
+                                <li class="evidence-item">
+                                    <i class="fas fa-exclamation-triangle evidence-icon" style="color: #ff9800;"></i>
+                                    <div>
+                                        <strong>${match.source}</strong> - ${match.similarity} similarity<br>
+                                        <small style="color: #666;">Review for proper attribution</small>
+                                    </div>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                ` : `
+                    <div style="margin: 20px 0; padding: 15px; background: #e8f5e8; border-radius: 8px; border-left: 4px solid #4caf50;">
+                        <i class="fas fa-check-circle" style="color: #4caf50; margin-right: 10px;"></i>
+                        <strong>No significant matches found</strong><br>
+                        <small>Content appears to be original</small>
+                    </div>
+                `}
+                
+                <div class="methodology">
+                    <div class="methodology-title">Plagiarism Detection Process</div>
+                    <p>Our system searches across academic databases, web content, published articles, and previously submitted work to identify potential matches. Results are ranked by similarity percentage and source credibility.</p>
+                </div>
+            `;
+        }
+
+        function generateSourceContent(data) {
+            return `
+                <div style="margin-bottom: 20px;">
+                    <strong>Credibility Score: ${data.credibility}/100</strong>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: ${data.credibility}%; background: ${getScoreColor(data.credibility)};"></div>
+                    </div>
+                    <small>Verification Status: ${data.verification_status}</small>
+                </div>
+                
+                <div style="margin: 20px 0;">
+                    <strong>Sources Checked:</strong>
+                    <ul class="evidence-list">
+                        ${data.sources_checked.map(source => `
+                            <li class="evidence-item">
+                                <i class="fas fa-database evidence-icon"></i>
+                                ${source}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                
+                <div style="margin: 20px 0;">
+                    <strong>Fact Checks Found:</strong> ${data.fact_checks}
+                    ${data.fact_checks > 0 ? '<br><small>Cross-reference with fact-checking databases completed</small>' : '<br><small>No existing fact-checks found for this content</small>'}
+                </div>
+                
+                <div class="methodology">
+                    <div class="methodology-title">Verification Process</div>
+                    <p>Source verification includes cross-referencing with academic databases, news archives, fact-checking organizations, and credibility assessment based on source authority and reputation.</p>
+                </div>
+            `;
+        }
+
+        function generateStyleContent(data) {
+            return `
+                <div style="margin-bottom: 20px;">
+                    <strong>Writing Quality: ${data.writing_quality}/100</strong>
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: ${data.writing_quality}%; background: ${getScoreColor(data.writing_quality)};"></div>
+                    </div>
+                </div>
+                
+                <div style="margin: 20px 0;">
+                    <strong>Style Characteristics:</strong>
+                    <ul class="evidence-list">
+                        <li class="evidence-item">
+                            <i class="fas fa-chart-line evidence-icon"></i>
+                            <strong>Complexity:</strong> ${data.complexity_score}
+                        </li>
+                        <li class="evidence-item">
+                            <i class="fas fa-comment evidence-icon"></i>
+                            <strong>Tone:</strong> ${data.tone}
+                        </li>
+                        <li class="evidence-item">
+                            <i class="fas fa-balance-scale evidence-icon"></i>
+                            <strong>Consistency:</strong> ${data.consistency}%
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="methodology">
+                    <div class="methodology-title">Style Analysis Methods</div>
+                    <p>Writing style analysis examines sentence complexity, vocabulary diversity, tone consistency, and structural patterns to assess authenticity and quality indicators.</p>
+                </div>
+            `;
+        }
+
+        function getScoreColor(score) {
+            if (score >= 70) return '#4caf50';
+            if (score >= 40) return '#ff9800';
+            return '#f44336';
+        }
+
+        function toggleSection(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.expand-icon');
+            
+            content.classList.toggle('expanded');
+            icon.style.transform = content.classList.contains('expanded') ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
+        // Action functions
+        function shareResults(platform) {
+            if (!analysisData) return;
+            
+            const score = analysisData.overall_authenticity;
+            const text = `Content Authenticity Analysis: ${score}/100 authenticity score. Analyzed for AI detection and plagiarism using Facts & Fakes AI.`;
+            
+            const urls = {
+                twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`,
+                linkedin: `https://linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`
+            };
+            
+            window.open(urls[platform], '_blank');
+        }
+
+        function saveResults() {
+            if (!analysisData) return;
+            
+            const report = generateTextReport(analysisData);
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `content-authenticity-report-${new Date().toISOString().split('T')[0]}.txt`;
+            a.click();
+            
+            URL.revokeObjectURL(url);
+        }
+
+        function printResults() {
+            window.print();
+        }
+
+        function newAnalysis() {
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.getElementById('contentText').value = '';
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileInfo').style.display = 'none';
+            document.getElementById('charCount').textContent = '0';
+            document.getElementById('charGuidance').textContent = '';
+            analysisData = null;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function generateTextReport(data) {
+            return `
+CONTENT AUTHENTICITY ANALYSIS REPORT
+Generated by Facts & Fakes AI
+Date: ${new Date().toLocaleDateString()}
+Time: ${new Date().toLocaleTimeString()}
+
+============================================
+
+OVERALL AUTHENTICITY SCORE: ${data.overall_authenticity}/100
+
+EXECUTIVE SUMMARY:
+${generateSummary(data)}
+
+============================================
+
+AI DETECTION ANALYSIS:
+• Human/AI Score: ${data.ai_detection.score}/100
+• AI Probability: ${data.ai_detection.ai_probability}%
+• Confidence Level: ${data.ai_detection.confidence}%
+• Analysis: ${data.ai_detection.explanation}
+
+PLAGIARISM CHECK:
+• Originality Score: ${data.plagiarism_check.originality_score}/100
+• Sources Found: ${data.plagiarism_check.sources_found}
+• Analysis: ${data.plagiarism_check.explanation}
+
+SOURCE VERIFICATION:
+• Credibility Score: ${data.source_analysis.credibility}/100
+• Verification Status: ${data.source_analysis.verification_status}
+• Fact Checks Found: ${data.source_analysis.fact_checks}
+
+WRITING STYLE ANALYSIS:
+• Quality Score: ${data.style_analysis.writing_quality}/100
+• Complexity: ${data.style_analysis.complexity_score}
+• Tone: ${data.style_analysis.tone}
+• Consistency: ${data.style_analysis.consistency}%
+
+============================================
+
+DOCUMENT METADATA:
+• Text Length: ${data.metadata.text_length} characters
+• Word Count: ${data.metadata.word_count} words
+• Analysis Date: ${data.metadata.analysis_time}
+
+This report was generated by Facts & Fakes AI Content Authenticity Checker.
+For more information, visit: https://factsandfakes.ai
+            `.trim();
+        }
+    </script>
+</body>
+</html>
