@@ -2262,7 +2262,7 @@ const { baseScore, normalizedHash, aiProbability, confidence } = scoreData;
                                 <p><strong>Classification:</strong> ${classification}</p>
                               <p><strong>AI Probability:</strong> ${aiProbabilityDisplay}%</p>
                                 <div class="metric-bar">
-                                    <div class="metric-fill" style="width: ${aiProbability}%; background: ${aiProbability >= 50 ? '#ef4444' : '#10b981'};"></div>
+                                    <div class="metric-fill" style="width: ${aiProbabilityDisplay}%; background: ${aiProbabilityDisplay >= 50 ? '#ef4444' : '#10b981'};"></div>
                                 </div>
                                 <span class="confidence-badge ${getConfidenceClass(confidence)}">
                                     ${confidence}% Detection Confidence
