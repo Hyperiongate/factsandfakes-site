@@ -201,12 +201,8 @@
             var results = document.getElementById('results');
             if (!results) return;
             
-            var score = Math.floor(Math.random() * 30) + 60; // Random score 60-90
-            var aiProbability = Math.floor(Math.random() * 40) + 10; // Random 10-50%
-            
-            results.innerHTML = '<div class="executive-summary"><h3>Analysis Complete</h3><p>Authenticity Score: ' + score + '%</p><p>AI Probability: ' + aiProbability + '%</p><p>Analysis completed successfully. ' + (currentTier === 'trial' ? 'Premium features active.' : 'Upgrade to Premium for detailed highlighting.') + '</p></div>';
-            results.style.display = 'block';
-            results.scrollIntoView({ behavior: 'smooth' });
+            var data = generateEnhancedDemoData(text, currentTier);
+            displayComprehensiveResults(data);
         }
 
         function toggleHighlighting(type) {
@@ -2084,47 +2080,88 @@ Perfect for academic papers, articles, reports, and any written content." oninpu
         }
 
         function generateEnhancedDemoData(content, tier) {
-            const textLength = (content || '').length;
-            const hash = hashCode(content || 'demo');
-            const normalizedHash = Math.abs(hash) / 2147483647;
+            var textLength = (content || '').length;
+            var contentLower = (content || '').toLowerCase();
+            var hash = 0;
+            for (var i = 0; i < content.length; i++) {
+                var char = content.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            var normalizedHash = Math.abs(hash) / 2147483647;
             
-            let baseScore = 45 + (normalizedHash * 40);
+            var baseScore = 45 + (normalizedHash * 40);
             
-            const contentLower = (content || '').toLowerCase();
+            // AI-like patterns
             if (contentLower.includes('furthermore') || contentLower.includes('moreover') || contentLower.includes('additionally')) {
-                baseScore -= 20; // AI-like patterns
+                baseScore -= 20;
             }
             if (contentLower.includes('paradigm shift') || contentLower.includes('cutting-edge') || contentLower.includes('streamlines')) {
-                baseScore -= 15; // More AI-like language
+                baseScore -= 15;
             }
+            // Human-like expressions
             if (contentLower.includes("can't believe") || contentLower.includes('honestly') || contentLower.includes('made my morning')) {
-                baseScore += 25; // Human-like expressions
+                baseScore += 25;
             }
             
             baseScore = Math.max(10, Math.min(95, baseScore));
             
-            const aiProbability = normalizedHash * 0.3 + (contentLower.includes('furthermore') ? 0.4 : 0);
-            const confidence = 75 + (normalizedHash * 20);
+            var aiProbability = normalizedHash * 0.3 + (contentLower.includes('furthermore') ? 0.4 : 0);
+            var confidence = 75 + (normalizedHash * 20);
             
-            let executiveSummary = '';
+            var executiveSummary = '';
             if (tier === 'free') {
-                executiveSummary = `I've analyzed your ${textLength}-character content and assigned an authenticity score of ${Math.round(baseScore)}%. ${baseScore >= 70 ? "This content shows strong indicators of human authorship with natural language patterns and authentic writing style." : baseScore >= 50 ? "The analysis reveals mixed signals - some elements suggest human writing while others show potential AI generation patterns." : "Multiple red flags detected that suggest this content may be artificially generated or heavily processed through AI tools."}. Looking at AI detection specifically, ${aiProbability > 0.3 ? "I'm seeing significant AI-like patterns including repetitive structures and formulaic language that are characteristic of AI-generated text" : "the writing appears authentically human with natural variations and personal voice"}. Want deeper insights? Our Premium analysis provides comprehensive plagiarism checking, advanced source verification, and detailed technical analysis.`;
+                executiveSummary = "I've analyzed your " + textLength + "-character content and assigned an authenticity score of " + Math.round(baseScore) + "%. " + (baseScore >= 70 ? "This content shows strong indicators of human authorship with natural language patterns and authentic writing style." : baseScore >= 50 ? "The analysis reveals mixed signals - some elements suggest human writing while others show potential AI generation patterns." : "Multiple red flags detected that suggest this content may be artificially generated or heavily processed through AI tools.") + " Looking at AI detection specifically, " + (aiProbability > 0.3 ? "I'm seeing significant AI-like patterns including repetitive structures and formulaic language that are characteristic of AI-generated text" : "the writing appears authentically human with natural variations and personal voice") + ". Want deeper insights? Our Premium analysis provides comprehensive plagiarism checking, advanced source verification, and detailed technical analysis.";
             } else {
-                executiveSummary = `Comprehensive analysis of your ${textLength}-character content using our full six-dimensional verification platform reveals an authenticity score of ${Math.round(baseScore)}%. ${baseScore >= 80 ? "This content demonstrates excellent authenticity markers with natural human writing patterns, original voice, and authentic linguistic flow." : baseScore >= 60 ? "The content shows moderate authenticity with some areas of concern that warrant additional verification." : "Significant authenticity concerns detected across multiple analysis dimensions require careful review."}. Our advanced AI detection using four different algorithms indicates ${aiProbability > 0.3 ? "approximately " + Math.round(aiProbability * 100) + "% probability of AI generation based on linguistic patterns, sentence structure consistency, and vocabulary usage analysis" : "strong human authorship indicators with natural language variation and authentic personal expression"}. Plagiarism verification across academic databases and web sources shows ${normalizedHash > 0.6 ? "potential content similarities requiring investigation" : "no significant matches in our comprehensive database network"}. Bottom line: ${baseScore >= 70 ? "This content passes our enterprise-grade authenticity verification and appears suitable for academic or professional use" : baseScore >= 50 ? "Proceed with caution - verify key elements independently and consider additional review before high-stakes usage" : "This content requires significant additional verification before use in academic or professional contexts"}.`;
+                executiveSummary = "Comprehensive analysis of your " + textLength + "-character content using our full six-dimensional verification platform reveals an authenticity score of " + Math.round(baseScore) + "%. " + (baseScore >= 80 ? "This content demonstrates excellent authenticity markers with natural human writing patterns, original voice, and authentic linguistic flow." : baseScore >= 60 ? "The content shows moderate authenticity with some areas of concern that warrant additional verification." : "Significant authenticity concerns detected across multiple analysis dimensions require careful review.") + " Our advanced AI detection using four different algorithms indicates " + (aiProbability > 0.3 ? "approximately " + Math.round(aiProbability * 100) + "% probability of AI generation based on linguistic patterns, sentence structure consistency, and vocabulary usage analysis" : "strong human authorship indicators with natural language variation and authentic personal expression") + ". Plagiarism verification across academic databases and web sources shows " + (normalizedHash > 0.6 ? "potential content similarities requiring investigation" : "no significant matches in our comprehensive database network") + ". Bottom line: " + (baseScore >= 70 ? "This content passes our enterprise-grade authenticity verification and appears suitable for academic or professional use" : baseScore >= 50 ? "Proceed with caution - verify key elements independently and consider additional review before high-stakes usage" : "This content requires significant additional verification before use in academic or professional contexts") + ".";
             }
             
             return {
                 authenticity_score: baseScore / 100,
                 final_assessment: executiveSummary,
-                ai_analysis: `AI pattern analysis indicates ${Math.round(aiProbability * 100)}% likelihood of artificial generation. ${aiProbability > 0.3 ? 'Detected characteristic AI patterns including formulaic language structure and repetitive phrasing.' : 'Natural human writing patterns detected with authentic voice and flow.'}`,
+                ai_analysis: "AI pattern analysis indicates " + Math.round(aiProbability * 100) + "% likelihood of artificial generation. " + (aiProbability > 0.3 ? 'Detected characteristic AI patterns including formulaic language structure and repetitive phrasing.' : 'Natural human writing patterns detected with authentic voice and flow.'),
                 plagiarism_check: normalizedHash > 0.6 ? 'Potential similarities found requiring investigation.' : 'No significant matches found in our database network.',
-                linguistic_analysis: `Comprehensive linguistic analysis completed. Vocabulary diversity: ${Math.round(60 + normalizedHash * 30)}%, Sentence structure variety: ${Math.round(50 + normalizedHash * 40)}%, Natural flow indicators: ${Math.round(baseScore)}%.`,
-                highlighted_text: currentTier === 'trial' ? generateHighlightedText(content, normalizedHash, aiProbability) : null,
+                linguistic_analysis: "Comprehensive linguistic analysis completed. Vocabulary diversity: " + Math.round(60 + normalizedHash * 30) + "%, Sentence structure variety: " + Math.round(50 + normalizedHash * 40) + "%, Natural flow indicators: " + Math.round(baseScore) + "%.",
+                highlighted_text: tier === 'trial' ? generateHighlightedText(content, normalizedHash, aiProbability) : null,
                 ai_flags: Math.floor(1 + normalizedHash * 4),
                 plagiarism_flags: Math.floor(normalizedHash * 3),
                 suspicious_flags: Math.floor(normalizedHash * 2),
-                total_sentences: Math.floor(textLength / 80) + 5, // Rough sentence estimate
-                analysis_stages: currentTier === 'trial' ? 6 : 4
+                total_sentences: Math.floor(textLength / 80) + 5,
+                analysis_stages: tier === 'trial' ? 6 : 4,
+                // Add data for detailed sections
+                bias_analysis: tier === 'trial' ? {
+                    political_lean: normalizedHash > 0.7 ? 'Right-leaning' : normalizedHash > 0.3 ? 'Center' : 'Left-leaning',
+                    bias_score: normalizedHash * 100,
+                    emotional_language: Math.round(normalizedHash * 80),
+                    objectivity_score: Math.round((1 - normalizedHash) * 90)
+                } : null,
+                source_analysis: tier === 'trial' ? {
+                    domain_authority: Math.round(40 + normalizedHash * 50),
+                    editorial_standards: normalizedHash > 0.5 ? 'High' : 'Medium',
+                    author_credibility: Math.round(50 + normalizedHash * 40),
+                    publication_reputation: normalizedHash > 0.6 ? 'Established' : 'Emerging'
+                } : null,
+                cross_platform: tier === 'trial' ? {
+                    sources_checked: Math.round(15 + normalizedHash * 35),
+                    consensus_level: Math.round(60 + normalizedHash * 30),
+                    contradicting_sources: Math.round(normalizedHash * 10)
+                } : null,
+                fact_checks: normalizedHash > 0.6 ? [
+                    {
+                        title: tier === 'trial' ? 'Comprehensive Fact Check Result' : 'Basic Fact Check Result',
+                        claim: 'Sample claim verification',
+                        rating: normalizedHash > 0.8 ? 'Verified' : 'Unverified',
+                        publisher: tier === 'trial' ? 'Premium Fact Check Database' : 'Standard Fact Check Database',
+                        url: '#demo',
+                        confidence: 'Medium'
+                    }
+                ] : [],
+                methodology: {
+                    analysis_type: tier === 'trial' ? 'Comprehensive Premium Analysis' : 'Standard Free Analysis',
+                    data_sources: tier === 'trial' ? '500+ verification sources' : '15+ verification sources',
+                    processing_time: '3.2 seconds',
+                    confidence_level: 'High'
+                }
             };
         }
 
@@ -2241,67 +2278,8 @@ Perfect for academic papers, articles, reports, and any written content." oninpu
         }
 
         function generateAnalysisSections(data) {
-            return `
-                <div class="expandable-section">
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <h3>🤖 AI Pattern Detection</h3>
-                        <span class="toggle-icon">▼</span>
-                    </div>
-                    <div class="section-content">
-                        ${generateAIPatternContent(data)}
-                    </div>
-                </div>
-
-                <div class="expandable-section">
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <h3>🔍 Plagiarism Detection ${currentTier === 'free' ? '(Premium Feature)' : ''}</h3>
-                        <span class="toggle-icon">▼</span>
-                    </div>
-                    <div class="section-content ${currentTier === 'free' ? 'premium-locked' : ''}">
-                        ${currentTier === 'free' ? generatePremiumOverlay() : generatePlagiarismContent(data)}
-                    </div>
-                </div>
-
-                <div class="expandable-section">
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <h3>📊 Linguistic Analysis</h3>
-                        <span class="toggle-icon">▼</span>
-                    </div>
-                    <div class="section-content">
-                        ${generateLinguisticContent(data)}
-                    </div>
-                </div>
-
-                <div class="expandable-section">
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <h3>🌐 Cross-Platform Verification ${currentTier === 'free' ? '(Premium Feature)' : ''}</h3>
-                        <span class="toggle-icon">▼</span>
-                    </div>
-                    <div class="section-content ${currentTier === 'free' ? 'premium-locked' : ''}">
-                        ${currentTier === 'free' ? generatePremiumOverlay() : generateCrossPlatformContent(data)}
-                    </div>
-                </div>
-
-                <div class="expandable-section">
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <h3>⚙️ Technical Analysis ${currentTier === 'free' ? '(Premium Feature)' : ''}</h3>
-                        <span class="toggle-icon">▼</span>
-                    </div>
-                    <div class="section-content ${currentTier === 'free' ? 'premium-locked' : ''}">
-                        ${currentTier === 'free' ? generatePremiumOverlay() : generateTechnicalContent(data)}
-                    </div>
-                </div>
-
-                <div class="expandable-section">
-                    <div class="section-header" onclick="toggleSection(this)">
-                        <h3>📈 Analysis Methodology</h3>
-                        <span class="toggle-icon">▼</span>
-                    </div>
-                    <div class="section-content">
-                        ${generateMethodologyContent(data)}
-                    </div>
-                </div>
-            `;
+            return generateAIPatternContent(data) + generatePlagiarismContent(data) + generateLinguisticContent(data) + 
+                   generateCrossPlatformContent(data) + generateTechnicalContent(data) + generateMethodologyContent(data);
         }
 
         function generateLinguisticContent(data) {
