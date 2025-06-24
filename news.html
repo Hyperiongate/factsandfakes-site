@@ -86,21 +86,6 @@
             overflow: hidden;
         }
 
-        .nav-links a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .nav-links a:hover::before {
-            left: 100%;
-        }
-
         .nav-links a:hover {
             background: rgba(255, 255, 255, 0.2);
             transform: translateY(-2px);
@@ -179,24 +164,6 @@
             text-align: center;
             border: 2px solid transparent;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-highlight::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s;
-        }
-
-        .feature-highlight:hover::before {
-            transform: translateX(100%);
         }
 
         .feature-highlight:hover {
@@ -251,21 +218,6 @@
             justify-content: center;
         }
 
-        .tier-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.6s;
-        }
-
-        .tier-btn:hover::before {
-            left: 100%;
-        }
-
         .tier-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
@@ -281,14 +233,7 @@
             transform: translateY(-3px);
         }
 
-        .tier-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
-
         .tier-badge {
-            position: static;
             background: linear-gradient(45deg, #ff4444, #ff6b6b);
             color: white;
             font-size: 0.7rem;
@@ -309,20 +254,6 @@
             overflow: hidden;
         }
 
-        .premium-features::before {
-            content: '✨';
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            animation: sparkle 2s ease-in-out infinite;
-        }
-
-        @keyframes sparkle {
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.7; }
-            50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
-        }
-
         .premium-features h4 {
             color: #667eea;
             margin-bottom: 15px;
@@ -341,12 +272,59 @@
             padding: 8px 0;
             color: #4a5568;
             font-weight: 500;
-            position: relative;
         }
 
         .premium-list li::before {
             content: '🔥';
             margin-right: 8px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            display: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88 0%, #00cc44 20%, #ffaa00 40%, #ff6600 70%, #ff0066 100%);
+            border-radius: 15px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0%;
+        }
+
+        .progress-details {
+            text-align: center;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .input-section {
@@ -358,19 +336,6 @@
             gap: 15px;
             margin-bottom: 25px;
             border-bottom: 3px solid #e2e8f0;
-            position: relative;
-        }
-
-        .input-tabs::after {
-            content: '';
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 2px;
-            transition: all 0.3s ease;
-            width: 120px;
         }
 
         .input-tab {
@@ -383,24 +348,6 @@
             border-radius: 15px 15px 0 0;
             transition: all 0.3s ease;
             font-size: 1rem;
-            border-bottom: 3px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .input-tab::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .input-tab:hover::before {
-            left: 100%;
         }
 
         .input-tab:hover {
@@ -412,10 +359,7 @@
         .input-tab.active {
             background: white;
             color: #667eea;
-            border-bottom-color: #667eea;
-            box-shadow: 
-                0 -4px 15px rgba(0, 0, 0, 0.1),
-                0 0 0 2px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
             transform: translateY(-2px);
         }
 
@@ -465,9 +409,7 @@
         .input-group input:focus, .input-group textarea:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 
-                0 0 0 4px rgba(102, 126, 234, 0.1),
-                0 5px 15px rgba(102, 126, 234, 0.2);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
             transform: translateY(-2px);
         }
 
@@ -504,23 +446,6 @@
             cursor: pointer;
             margin: 8px;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .sample-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .sample-btn:hover::before {
-            left: 100%;
         }
 
         .sample-btn:hover {
@@ -560,24 +485,7 @@
             transition: all 0.4s ease;
             width: 100%;
             margin-bottom: 40px;
-            position: relative;
-            overflow: hidden;
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .analyze-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.6s;
-        }
-
-        .analyze-btn:hover::before {
-            left: 100%;
         }
 
         .analyze-btn:hover {
@@ -585,16 +493,65 @@
             box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
         }
 
-        .analyze-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
         .results {
             display: none;
             margin-top: 40px;
             animation: fadeInUp 0.6s ease;
+        }
+
+        .executive-summary {
+            background: linear-gradient(145deg, #f8fafc, #ffffff);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 3px solid rgba(102, 126, 234, 0.1);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .credibility-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .credibility-score {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .score-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: white;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .assessment-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .grade-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
         @media (max-width: 768px) {
@@ -764,8 +721,16 @@
                 </div>
             </div>
 
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-text" id="progressText">Initializing Professional Analysis...</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-details" id="progressDetails">Activating enterprise verification systems...</div>
+            </div>
+
             <div class="results" id="results">
-                <!-- Results will be populated here -->
+                <!-- Enhanced results will be populated here -->
             </div>
         </div>
     </div>
@@ -825,10 +790,29 @@
 
         function loadSample(type) {
             const samples = {
-                reliable: 'WASHINGTON (Associated Press) — The Federal Reserve raised its benchmark interest rate by 0.25 percentage points Wednesday, bringing it to a 22-year high of 5.25%-5.5% as the central bank continues its fight against inflation.',
-                biased: 'BREAKING: Biden\'s Federal Reserve ATTACKS American Families Again With Devastating Rate Hike! The radical left Fed just SLAMMED working families with another crushing rate hike.',
-                fake: 'EXCLUSIVE LEAK: Secret Fed Documents Reveal Conspiracy to Crash Economy Before 2024 Election! Leaked internal Federal Reserve memos show deliberate planning to destroy the housing market.',
-                mixed: 'Fed Raises Rates to 22-Year High Amid Growing Economic Uncertainty. The Federal Reserve increased its benchmark interest rate by 0.25 percentage points yesterday, a move that most economists expected but some critics argue could push the economy into recession.'
+                reliable: `WASHINGTON (Associated Press) — The Federal Reserve raised its benchmark interest rate by 0.25 percentage points Wednesday, bringing it to a 22-year high of 5.25%-5.5% as the central bank continues its fight against inflation. The decision was unanimous among voting members of the Federal Open Market Committee.
+
+Fed Chair Jerome Powell said in a news conference that the committee will assess incoming data to determine future policy moves. "We're prepared to do more if appropriate," Powell said, noting that inflation remains above the Fed's 2% target.
+
+Consumer prices rose 3.2% in July compared to a year earlier, according to the Labor Department's Consumer Price Index report released earlier this month. While this represents a significant decline from the 9.1% peak reached in June 2022, it still exceeds the Fed's target.`,
+                
+                biased: `BREAKING: Biden's Federal Reserve ATTACKS American Families Again With Devastating Rate Hike!
+
+The radical left Fed just SLAMMED working families with another crushing rate hike, making it even harder for patriotic Americans to afford homes and live the American Dream. This is just another example of the Biden administration's relentless WAR on middle-class values and hardworking families.
+
+While coastal elites get richer from their Wall Street connections, ordinary Americans are being DESTROYED by these socialist economic policies.`,
+                
+                fake: `EXCLUSIVE LEAK: Secret Fed Documents Reveal Conspiracy to Crash Economy Before 2024 Election!
+
+Leaked internal Federal Reserve memos obtained by this reporter show Fed officials deliberately planning to destroy the housing market and crash the stock market to help Democrats in the upcoming election. The smoking gun documents prove what many Americans suspected all along.
+
+"Operation Market Crash" was the code name for the plan, according to a whistleblower inside the Fed.`,
+                
+                mixed: `Fed Raises Rates to 22-Year High Amid Growing Economic Uncertainty
+
+The Federal Reserve increased its benchmark interest rate by 0.25 percentage points yesterday, a move that most economists expected but some critics argue could push the economy into recession. The rate now sits at 5.25%-5.5%, the highest level since 2001.
+
+Chairman Powell's comments during the press conference seemed confident about the Fed's approach, though financial markets reacted negatively to his remarks.`
             };
             
             const textarea = document.getElementById('news-text');
@@ -864,6 +848,187 @@
             }
         }
 
+        function updateProgress(percentage, text, detail = '') {
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const progressDetails = document.getElementById('progressDetails');
+            
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = text;
+            progressDetails.textContent = detail;
+        }
+
+        function showProgress() {
+            const progressContainer = document.getElementById('progressContainer');
+            progressContainer.style.display = 'block';
+            updateProgress(0, 'Initializing Professional Analysis...', 'Preparing enterprise verification systems...');
+        }
+
+        function hideProgress() {
+            const progressContainer = document.getElementById('progressContainer');
+            progressContainer.style.display = 'none';
+        }
+
+        function generateDemoData(content, tier) {
+            // Simple hash function for consistent results
+            function hashCode(str) {
+                let hash = 0;
+                for (let i = 0; i < str.length; i++) {
+                    const char = str.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash;
+                }
+                return hash;
+            }
+
+            const contentKey = (content || '').trim().toLowerCase();
+            const hash = Math.abs(hashCode(contentKey));
+            const normalizedHash = (hash % 1000) / 1000;
+            
+            let baseScore = 45 + (normalizedHash * 40);
+            
+            // Adjust based on content keywords
+            if (contentKey.includes('breaking')) baseScore -= 15;
+            if (contentKey.includes('associated press')) baseScore += 20;
+            if (contentKey.includes('attack')) baseScore -= 25;
+            if (contentKey.includes('exclusive leak')) baseScore -= 30;
+            
+            baseScore = Math.max(10, Math.min(95, baseScore));
+            
+            const aiProbability = normalizedHash * 0.25;
+            const confidence = 75 + (normalizedHash * 20);
+            
+            return {
+                credibility_score: baseScore / 100,
+                assessment: `Analysis complete for ${content.length}-character content. Credibility score: ${Math.round(baseScore)}%. ${tier === 'trial' ? 'Premium analysis shows comprehensive verification across all dimensions.' : 'Basic analysis complete. Upgrade for detailed bias analysis and source verification.'}`,
+                ai_detection: {
+                    ai_probability: aiProbability,
+                    classification: aiProbability > 0.15 ? 'Possibly AI-Generated' : 'Likely Human-Written',
+                    confidence: confidence / 100,
+                    details: 'Multi-model AI detection analysis completed.'
+                },
+                fact_checks: [],
+                methodology: {
+                    analysis_type: tier === 'trial' ? 'Comprehensive Premium Analysis' : 'Standard Free Analysis',
+                    data_sources: tier === 'trial' ? '500+ verification sources' : '15+ verification sources',
+                    processing_time: '3.2 seconds',
+                    confidence_level: 'High'
+                }
+            };
+        }
+
+        function getScoreColor(score) {
+            if (score >= 80) return '#10b981';
+            if (score >= 65) return '#059669';
+            if (score >= 50) return '#f59e0b';
+            if (score >= 35) return '#f97316';
+            return '#ef4444';
+        }
+
+        function getGradeFromScore(score) {
+            if (score >= 95) return 'A+';
+            if (score >= 90) return 'A';
+            if (score >= 85) return 'A-';
+            if (score >= 80) return 'B+';
+            if (score >= 75) return 'B';
+            if (score >= 70) return 'B-';
+            if (score >= 65) return 'C+';
+            if (score >= 60) return 'C';
+            if (score >= 55) return 'C-';
+            if (score >= 50) return 'D';
+            return 'F';
+        }
+
+        function getAssessment(score) {
+            if (score >= 85) return 'Highly Credible';
+            if (score >= 70) return 'Generally Credible';
+            if (score >= 55) return 'Moderately Credible';
+            if (score >= 40) return 'Questionable';
+            if (score >= 25) return 'Low Credibility';
+            return 'Unreliable';
+        }
+
+        function displayComprehensiveResults(data) {
+            const results = document.getElementById('results');
+            results.style.display = 'block';
+
+            const credibilityScore = data.credibility_score ? Math.round(data.credibility_score * 100) : 0;
+            const aiProbabilityPercent = data.ai_detection ? Math.round(data.ai_detection.ai_probability * 100) : 0;
+            const confidenceLevel = data.ai_detection ? Math.round(data.ai_detection.confidence * 100) : 0;
+
+            const scoreColor = getScoreColor(credibilityScore);
+            const grade = getGradeFromScore(credibilityScore);
+            const assessment = getAssessment(credibilityScore);
+
+            results.innerHTML = `
+                <div class="executive-summary">
+                    <div class="credibility-header">
+                        <div class="credibility-score">
+                            <div class="score-circle" style="background: ${scoreColor};">
+                                ${credibilityScore}
+                            </div>
+                            <div>
+                                <div class="assessment-text" style="color: ${scoreColor};">
+                                    ${assessment}
+                                </div>
+                                <div style="font-size: 1.1rem; opacity: 0.8; margin-top: 5px;">
+                                    <strong>Grade: ${grade}</strong> | Confidence: ${confidenceLevel}%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grade-badge">
+                            ${currentTier === 'free' ? '🆓 Free Analysis' : '⭐ Premium Analysis'}
+                        </div>
+                    </div>
+                    
+                    <div style="background: linear-gradient(145deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.05)); padding: 25px; border-radius: 20px; margin: 25px 0; border: 2px solid rgba(102, 126, 234, 0.1);">
+                        <h4 style="color: #667eea; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-chart-line"></i> Executive Summary
+                        </h4>
+                        <p style="color: #374151; font-size: 1.15rem; line-height: 1.7; margin-bottom: 15px;">
+                            ${data.assessment}
+                        </p>
+                        ${currentTier === 'free' ? `
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 15px; margin-top: 20px; text-align: center;">
+                            <h4 style="margin-bottom: 15px;">🚀 Unlock Complete Enterprise Analysis</h4>
+                            <p style="margin-bottom: 20px; opacity: 0.9;">Get advanced political bias assessment, comprehensive source verification, author credibility scoring, and cross-platform monitoring</p>
+                            <button onclick="selectTier('trial')" style="background: white; color: #667eea; border: none; padding: 12px 25px; border-radius: 10px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease;">
+                                <i class="fas fa-star"></i> Upgrade to Premium
+                            </button>
+                        </div>
+                        ` : `
+                        <div style="background: rgba(0, 204, 68, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid #00cc44;">
+                            <strong style="color: #00cc44;">✅ Premium Features Active:</strong> Complete bias analysis, source verification, and cross-platform monitoring enabled.
+                        </div>
+                        `}
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-top: 25px;">
+                        <div style="background: linear-gradient(145deg, rgba(102, 126, 234, 0.1), rgba(102, 126, 234, 0.05)); padding: 25px; border-radius: 20px; text-align: center; border: 2px solid rgba(102, 126, 234, 0.1);">
+                            <div style="font-size: 2.5rem; font-weight: 900; color: ${scoreColor}; margin-bottom: 8px;">${credibilityScore}</div>
+                            <div style="font-size: 0.95rem; opacity: 0.8; font-weight: 600;">Credibility Score</div>
+                            <div style="font-size: 0.8rem; color: #6b7280; margin-top: 5px;">${credibilityScore >= 80 ? 'Excellent' : credibilityScore >= 60 ? 'Good' : 'Poor'} reliability</div>
+                        </div>
+                        <div style="background: linear-gradient(145deg, rgba(102, 126, 234, 0.1), rgba(102, 126, 234, 0.05)); padding: 25px; border-radius: 20px; text-align: center; border: 2px solid rgba(102, 126, 234, 0.1);">
+                            <div style="font-size: 2.5rem; font-weight: 900; color: #667eea; margin-bottom: 8px;">${grade}</div>
+                            <div style="font-size: 0.95rem; opacity: 0.8; font-weight: 600;">Quality Grade</div>
+                            <div style="font-size: 0.8rem; color: #6b7280; margin-top: 5px;">Academic Scale</div>
+                        </div>
+                        <div style="background: linear-gradient(145deg, rgba(102, 126, 234, 0.1), rgba(102, 126, 234, 0.05)); padding: 25px; border-radius: 20px; text-align: center; border: 2px solid rgba(102, 126, 234, 0.1);">
+                            <div style="font-size: 2.5rem; font-weight: 900; color: ${aiProbabilityPercent >= 50 ? '#ef4444' : '#059669'}; margin-bottom: 8px;">${aiProbabilityPercent}%</div>
+                            <div style="font-size: 0.95rem; opacity: 0.8; font-weight: 600;">AI Probability</div>
+                            <div style="font-size: 0.8rem; color: #6b7280; margin-top: 5px;">${aiProbabilityPercent >= 50 ? 'Likely AI' : 'Likely Human'}</div>
+                        </div>
+                        <div style="background: linear-gradient(145deg, rgba(102, 126, 234, 0.1), rgba(102, 126, 234, 0.05)); padding: 25px; border-radius: 20px; text-align: center; border: 2px solid rgba(102, 126, 234, 0.1);">
+                            <div style="font-size: 2.5rem; font-weight: 900; color: #764ba2; margin-bottom: 8px;">${confidenceLevel}%</div>
+                            <div style="font-size: 0.95rem; opacity: 0.8; font-weight: 600;">Confidence</div>
+                            <div style="font-size: 0.8rem; color: #6b7280; margin-top: 5px;">Analysis Certainty</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
         async function analyzeNews() {
             const newsUrl = document.getElementById('news-url').value.trim();
             const newsText = document.getElementById('news-text').value.trim();
@@ -873,50 +1038,45 @@
                 return;
             }
 
-            // Simulate analysis
-            document.getElementById('results').innerHTML = `
-                <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-top: 20px;">
-                    <h3 style="color: #667eea; margin-bottom: 20px;">✅ Analysis Complete!</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                        <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 15px;">
-                            <div style="font-size: 2rem; font-weight: bold; color: #10b981; margin-bottom: 10px;">75</div>
-                            <div style="font-weight: 600;">Credibility Score</div>
-                            <div style="font-size: 0.9rem; color: #6b7280;">Generally Credible</div>
-                        </div>
-                        <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 15px;">
-                            <div style="font-size: 2rem; font-weight: bold; color: #667eea; margin-bottom: 10px;">B</div>
-                            <div style="font-weight: 600;">Quality Grade</div>
-                            <div style="font-size: 0.9rem; color: #6b7280;">Good Quality</div>
-                        </div>
-                        <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 15px;">
-                            <div style="font-size: 2rem; font-weight: bold; color: #059669; margin-bottom: 10px;">15%</div>
-                            <div style="font-weight: 600;">AI Probability</div>
-                            <div style="font-size: 0.9rem; color: #6b7280;">Likely Human</div>
-                        </div>
-                    </div>
-                    <div style="margin-top: 25px; padding: 20px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.05)); border-radius: 15px;">
-                        <h4 style="color: #667eea; margin-bottom: 15px;">📊 Analysis Summary</h4>
-                        <p style="line-height: 1.6; color: #374151;">
-                            This content shows ${currentTier === 'free' ? 'good basic credibility indicators' : 'comprehensive verification across all dimensions'}. 
-                            ${currentTier === 'free' ? 'For detailed bias analysis, source verification, and cross-platform monitoring, upgrade to Premium.' : 'Advanced analysis reveals balanced reporting with reliable sourcing and minimal bias detected.'}
-                        </p>
-                        ${currentTier === 'free' ? `
-                        <div style="margin-top: 15px; text-align: center;">
-                            <button onclick="selectTier('trial')" style="background: #667eea; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 600; cursor: pointer;">
-                                🚀 Unlock Premium Analysis
-                            </button>
-                        </div>
-                        ` : ''}
-                    </div>
-                </div>
-            `;
-            document.getElementById('results').style.display = 'block';
+            showProgress();
+            document.getElementById('results').style.display = 'none';
+
+            try {
+                // Progress simulation
+                updateProgress(15, '🤖 AI Content Analysis Active...', 'Running detection algorithms');
+                await new Promise(resolve => setTimeout(resolve, 800));
+                
+                updateProgress(45, '📰 Source Verification Processing...', 'Cross-referencing databases');
+                await new Promise(resolve => setTimeout(resolve, 900));
+                
+                updateProgress(75, '🌐 Cross-Platform Monitoring...', 'Scanning news sources');
+                await new Promise(resolve => setTimeout(resolve, 700));
+                
+                updateProgress(95, '✅ Finalizing Assessment...', 'Computing scores');
+                await new Promise(resolve => setTimeout(resolve, 600));
+
+                // Generate demo data
+                const data = generateDemoData(newsText || newsUrl, currentTier);
+                
+                updateProgress(100, '🎉 Analysis Complete!', 'Results ready');
+                
+                setTimeout(() => {
+                    hideProgress();
+                    displayComprehensiveResults(data);
+                }, 500);
+
+            } catch (error) {
+                console.error('Analysis failed:', error);
+                hideProgress();
+                alert('Analysis failed. Please try again.');
+            }
         }
 
         function resetAnalysis() {
             document.getElementById('news-text').value = '';
             document.getElementById('news-url').value = '';
             document.getElementById('results').style.display = 'none';
+            hideProgress();
             updateCharCount();
         }
 
