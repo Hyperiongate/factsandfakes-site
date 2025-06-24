@@ -1562,32 +1562,42 @@ Perfect for academic papers, articles, reports, and any written content." oninpu
         }
 
         // File upload handling - ENHANCED VERSION WITH PDF/DOCX SUPPORT
-        document.getElementById('fileUpload').addEventListener('click', () => {
-            document.getElementById('fileInputElement').click();
-        });
-
-        document.getElementById('fileInputElement').addEventListener('change', handleFileUpload);
-
-        // Drag and drop handling
-        const fileUploadArea = document.getElementById('fileUpload');
-        
-        fileUploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            fileUploadArea.classList.add('dragover');
-        });
-
-        fileUploadArea.addEventListener('dragleave', () => {
-            fileUploadArea.classList.remove('dragover');
-        });
-
-        fileUploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            fileUploadArea.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                handleFileUpload({target: {files: files}});
+        function initializeFileUpload() {
+            const fileUploadArea = document.getElementById('fileUpload');
+            const fileInputElement = document.getElementById('fileInputElement');
+            
+            if (!fileUploadArea || !fileInputElement) {
+                console.error('File upload elements not found');
+                return;
             }
-        });
+
+            fileUploadArea.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('File upload area clicked');
+                fileInputElement.click();
+            });
+
+            fileInputElement.addEventListener('change', handleFileUpload);
+
+            // Drag and drop handling
+            fileUploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                fileUploadArea.classList.add('dragover');
+            });
+
+            fileUploadArea.addEventListener('dragleave', () => {
+                fileUploadArea.classList.remove('dragover');
+            });
+
+            fileUploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileUploadArea.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFileUpload({target: {files: files}});
+                }
+            });
+        }
 
         async function handleFileUpload(event) {
             const file = event.target.files[0];
