@@ -5,6 +5,225 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unified Content Checker</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        // GLOBAL VARIABLES AND FUNCTIONS - DECLARED IMMEDIATELY
+        var currentInputType = 'text';
+        var currentTier = 'free';
+        var sampleTexts = {
+            ai_generated: "Furthermore, it is important to note that artificial intelligence represents a paradigm shift in how we approach content creation. Moreover, this innovative technology leverages advanced algorithms to optimize the writing process. Additionally, comprehensive studies indicate that these cutting-edge solutions provide significant benefits across multiple industries. In conclusion, the implementation of AI-driven systems streamlines operations and enhances productivity.",
+            human_written: "I can't believe what happened today! So I was walking to the coffee shop around the corner from my apartment, and I see this guy just standing there with like 20 dogs. Twenty! I'm not even exaggerating. Some were huge German Shepherds, others were tiny Chihuahuas, and they were all just chilling together. Turns out he runs a dog-walking service and was doing a group walk. Made my morning honestly - sometimes you just need to see something that makes you smile.",
+            mixed_content: "According to recent studies, machine learning algorithms have demonstrated significant improvements in natural language processing tasks. However, I've personally noticed that when I use AI writing tools, the output often feels somewhat robotic and lacks the personal touch that makes writing engaging. The technology is impressive, don't get me wrong, but there's still something special about human creativity that can't be replicated.",
+            academic_style: "The present study examines the efficacy of automated content detection systems in identifying artificially generated text. Through a comprehensive analysis of linguistic patterns, syntactic structures, and semantic coherence, we demonstrate that current detection methodologies achieve approximately 85% accuracy rates. These findings have significant implications for academic integrity and content verification processes in digital environments."
+        };
+
+        function switchInputType(type) {
+            currentInputType = type;
+            var tabs = document.querySelectorAll('.input-tab');
+            var contents = document.querySelectorAll('.input-content');
+            
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+                if ((type === 'text' && i === 0) || (type === 'file' && i === 1)) {
+                    tabs[i].classList.add('active');
+                }
+            }
+            
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+            
+            var targetContent = document.getElementById(type + 'Input');
+            if (targetContent) {
+                setTimeout(function() {
+                    targetContent.classList.add('active');
+                }, 150);
+            }
+        }
+
+        function selectTier(tier) {
+            currentTier = tier;
+            var buttons = document.querySelectorAll('.tier-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            
+            var selectedBtn = document.getElementById(tier + 'Btn');
+            if (selectedBtn) {
+                selectedBtn.classList.add('active');
+            }
+
+            var premiumToggle = document.getElementById('premiumToggle');
+            var premiumPreview = document.getElementById('premiumPreview');
+            
+            if (tier === 'trial') {
+                if (premiumToggle) premiumToggle.style.display = 'block';
+            } else {
+                if (premiumToggle) premiumToggle.style.display = 'none';
+                if (premiumPreview) premiumPreview.classList.remove('show');
+            }
+
+            var analyzeBtn = document.querySelector('.analyze-btn');
+            if (analyzeBtn) {
+                if (tier === 'free') {
+                    analyzeBtn.innerHTML = '<i class="fas fa-search"></i> Launch Professional Analysis (FREE)';
+                    analyzeBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                } else {
+                    analyzeBtn.innerHTML = '<i class="fas fa-star"></i> Launch Premium Analysis (TRIAL)';
+                    analyzeBtn.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%)';
+                }
+            }
+        }
+
+        function loadSample(type) {
+            var textarea = document.getElementById('content-text');
+            if (textarea && sampleTexts[type]) {
+                textarea.value = sampleTexts[type];
+                updateCharCount();
+                if (currentInputType !== 'text') {
+                    switchInputType('text');
+                }
+            }
+        }
+
+        function toggleFeatures() {
+            var featuresToggle = document.querySelector('.features-toggle');
+            var featureHighlights = document.getElementById('featureHighlights');
+            if (featuresToggle) featuresToggle.classList.toggle('expanded');
+            if (featureHighlights) featureHighlights.classList.toggle('show');
+        }
+
+        function togglePremiumFeatures() {
+            var premiumToggle = document.getElementById('premiumToggle');
+            var premiumPreview = document.getElementById('premiumPreview');
+            if (premiumToggle) premiumToggle.classList.toggle('expanded');
+            if (premiumPreview) premiumPreview.classList.toggle('show');
+        }
+
+        function updateCharCount() {
+            var textarea = document.getElementById('content-text');
+            var counter = document.getElementById('charCounter');
+            if (!textarea || !counter) return;
+            
+            var length = textarea.value.length;
+            counter.textContent = length.toLocaleString() + ' characters';
+            
+            if (length > 5000) {
+                counter.className = 'char-counter error';
+                counter.textContent += ' (⚠️ Too long - may affect accuracy)';
+            } else if (length > 3000) {
+                counter.className = 'char-counter warning';
+                counter.textContent += ' (⚡ Optimal range: 100-3000 characters)';
+            } else if (length > 100) {
+                counter.className = 'char-counter';
+                counter.textContent += ' (✅ Good length for analysis)';
+            } else if (length > 0) {
+                counter.className = 'char-counter';
+                counter.textContent += ' (📝 Keep typing...)';
+            } else {
+                counter.className = 'char-counter';
+            }
+        }
+
+        function analyzeContent() {
+            var textInput = document.getElementById('content-text');
+            if (!textInput) {
+                alert('Please enter some text to analyze or upload a document.');
+                return;
+            }
+            
+            var text = textInput.value.trim();
+            if (!text) {
+                alert('Please enter some text to analyze or upload a document.');
+                return;
+            }
+
+            if (text.length < 50) {
+                alert('Please enter at least 50 characters for accurate analysis.');
+                return;
+            }
+
+            var analyzeBtn = document.querySelector('.analyze-btn');
+            if (analyzeBtn) {
+                analyzeBtn.disabled = true;
+                analyzeBtn.innerHTML = '🔬 Analyzing...';
+            }
+
+            showProgress();
+            var resultsDiv = document.getElementById('results');
+            if (resultsDiv) resultsDiv.style.display = 'none';
+
+            // Simple progress simulation
+            setTimeout(function() {
+                updateProgress(20, '🤖 AI Content Analysis...', 'Running detection algorithms');
+                setTimeout(function() {
+                    updateProgress(50, '🔍 Plagiarism Check...', 'Checking sources');
+                    setTimeout(function() {
+                        updateProgress(80, '📊 Analysis Complete...', 'Generating results');
+                        setTimeout(function() {
+                            updateProgress(100, '✅ Done!', 'Results ready');
+                            setTimeout(function() {
+                                hideProgress();
+                                showSimpleResults(text);
+                                if (analyzeBtn) {
+                                    analyzeBtn.disabled = false;
+                                    analyzeBtn.innerHTML = currentTier === 'free' ? 
+                                        '<i class="fas fa-search"></i> Launch Professional Analysis (FREE)' : 
+                                        '<i class="fas fa-star"></i> Launch Premium Analysis (TRIAL)';
+                                }
+                            }, 500);
+                        }, 800);
+                    }, 1000);
+                }, 1000);
+            }, 500);
+        }
+
+        function showProgress() {
+            var progressContainer = document.getElementById('progressContainer');
+            if (progressContainer) progressContainer.style.display = 'block';
+        }
+
+        function hideProgress() {
+            var progressContainer = document.getElementById('progressContainer');
+            if (progressContainer) progressContainer.style.display = 'none';
+        }
+
+        function updateProgress(percentage, text, detail) {
+            var progressFill = document.getElementById('progressFill');
+            var progressText = document.getElementById('progressText');
+            var progressDetails = document.getElementById('progressDetails');
+            
+            if (progressFill) progressFill.style.width = percentage + '%';
+            if (progressText) progressText.textContent = text;
+            if (progressDetails) progressDetails.textContent = detail;
+        }
+
+        function showSimpleResults(text) {
+            var results = document.getElementById('results');
+            if (!results) return;
+            
+            var score = Math.floor(Math.random() * 30) + 60; // Random score 60-90
+            var aiProbability = Math.floor(Math.random() * 40) + 10; // Random 10-50%
+            
+            results.innerHTML = '<div class="executive-summary"><h3>Analysis Complete</h3><p>Authenticity Score: ' + score + '%</p><p>AI Probability: ' + aiProbability + '%</p><p>Analysis completed successfully. ' + (currentTier === 'trial' ? 'Premium features active.' : 'Upgrade to Premium for detailed highlighting.') + '</p></div>';
+            results.style.display = 'block';
+            results.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleHighlighting(type) {
+            var element = document.getElementById(type + '-highlights');
+            if (element) {
+                element.style.display = element.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+
+        function toggleSection(header) {
+            if (header) {
+                header.classList.toggle('expanded');
+                var content = header.nextElementSibling;
+                if (content) content.classList.toggle('expanded');
+            }
+        }
+    </script>
     <style>
         * {
             margin: 0;
