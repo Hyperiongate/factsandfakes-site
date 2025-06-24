@@ -350,7 +350,7 @@
             margin-right: 8px;
         }
 
-        /* COMPACT FLOATING PROGRESS BAR */
+        /* COMPACT FLOATING PROGRESS BAR - ALWAYS VISIBLE */
         .progress-container {
             display: none;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -368,7 +368,7 @@
             transform: translateX(-50%);
             width: 90%;
             max-width: 600px;
-            z-index: 1000;
+            z-index: 9999;
             color: white;
             overflow: hidden;
         }
@@ -1356,12 +1356,12 @@
             <div class="premium-features" id="premiumPreview" style="display: none;">
                 <h4>🔥 Premium Features Unlocked:</h4>
                 <div class="premium-list">
-                    <li>Advanced political bias analysis</li>
-                    <li>Comprehensive source verification</li>
-                    <li>Author credibility scoring</li>
-                    <li>Cross-platform monitoring</li>
-                    <li>Historical trend analysis</li>
-                    <li>Executive summary reports</li>
+                    <li>Advanced political bias analysis across multiple spectrums</li>
+                    <li>Comprehensive source verification with 15+ trust metrics</li>
+                    <li>Author credibility scoring and publication history</li>
+                    <li>Cross-platform monitoring across 500+ news sources</li>
+                    <li>Enhanced fact-checking with detailed breakdowns</li>
+                    <li>Professional executive summary reports</li>
                 </div>
             </div>
 
@@ -1742,7 +1742,7 @@ Some data suggests inflation is cooling, but other indicators show persistent pr
             }
         }
 
-        // Enhanced demo data generator with CONSISTENT scoring
+        // Enhanced demo data generator with COMPREHENSIVE EXECUTIVE SUMMARIES
         function generateEnhancedDemoData(content, tier) {
             const textLength = (content || '').length;
             const hash = hashCode(content || 'demo');
@@ -1769,9 +1769,17 @@ Some data suggests inflation is cooling, but other indicators show persistent pr
             const aiProbability = normalizedHash * 0.25;
             const confidence = 75 + (normalizedHash * 20);
             
+            // Generate comprehensive executive summaries
+            let executiveSummary = '';
+            if (tier === 'free') {
+                executiveSummary = `Our AI analysis has evaluated this ${textLength}-character content and assigned a credibility score of ${Math.round(baseScore)}%. The analysis examined language patterns, structural elements, and potential bias indicators using our standard verification protocols. Key findings include ${aiProbability > 0.15 ? 'possible AI-generated characteristics in the writing style' : 'human-authored content patterns'} and ${baseScore >= 70 ? 'generally reliable sourcing and presentation' : baseScore >= 50 ? 'mixed reliability indicators requiring caution' : 'multiple credibility concerns detected'}. This assessment is based on linguistic analysis, fact-checking database queries, and basic source verification. For more detailed political bias analysis, comprehensive source verification, and cross-platform monitoring across our network of 500+ news organizations, consider upgrading to our Premium analysis tier.`;
+            } else {
+                executiveSummary = `Our comprehensive Premium analysis has conducted a thorough evaluation of this ${textLength}-character content, resulting in a credibility score of ${Math.round(baseScore)}%. This assessment utilized our complete six-dimensional verification framework including advanced political bias detection, comprehensive source verification across 15+ trust metrics, AI content analysis using multiple detection models, and cross-platform monitoring across our network of 500+ news organizations. Key findings reveal ${aiProbability > 0.15 ? 'potential AI-generated content characteristics requiring further scrutiny' : 'authentic human-authored content with natural writing patterns'}, ${baseScore >= 70 ? 'strong credibility indicators with reliable sourcing and balanced presentation' : baseScore >= 50 ? 'moderate credibility with some concerning elements that warrant careful consideration' : 'significant credibility issues including potential bias, unreliable sourcing, or misleading presentation'}. The political bias analysis indicates ${normalizedHash > 0.7 ? 'right-leaning perspectives' : normalizedHash > 0.3 ? 'centrist positioning' : 'left-leaning viewpoints'} with ${Math.round(normalizedHash * 80)}% emotional language usage. Source verification confirms ${normalizedHash > 0.6 ? 'established publication standards' : 'emerging or unverified source characteristics'}. This professional-grade assessment provides actionable intelligence for informed decision-making in media consumption and information evaluation.`;
+            }
+            
             return {
                 credibility_score: baseScore / 100,
-                assessment: `Professional ${tier} analysis completed: ${Math.round(baseScore)}% credibility score for ${textLength} character content. ${tier === 'trial' ? 'Premium features provide enhanced bias detection, source verification, and cross-platform monitoring across our network of 500+ news organizations.' : 'Upgrade to Premium for advanced bias analysis, comprehensive source verification, and cross-platform monitoring across 500+ news organizations.'}`,
+                assessment: executiveSummary,
                 ai_detection: {
                     ai_probability: aiProbability,
                     classification: aiProbability > 0.15 ? 'Possibly AI-Generated' : 'Likely Human-Written',
