@@ -148,6 +148,600 @@
         .header {
             text-align: center;
             margin-bottom: 40px;
+            padding: 30px 20px;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+            position: relative;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+            color: white;
+        }
+
+        .usage-tracker {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #1e293b;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .usage-count {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .usage-reset {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        .tier-selector {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tier-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4444;
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .input-section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #374151;
+        }
+
+        .input-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .input-content {
+            display: none;
+        }
+
+        .input-content.active {
+            display: block;
+        }
+
+        textarea, input[type="url"] {
+            width: 100%;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            background: white;
+            color: #1e293b;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        textarea {
+            resize: none;
+            height: 200px;
+            overflow-y: auto;
+        }
+
+        textarea:focus, input[type="url"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.1);
+        }
+
+        input[type="url"] {
+            height: 60px;
+        }
+
+        .analyze-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .progress-container {
+            display: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 25px;
+            margin: 30px 0;
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 100;
+            color: white;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #00cc44, #ffaa00, #ff6600);
+            border-radius: 15px;
+            transition: width 1s ease;
+            width: 0%;
+            position: relative;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .progress-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            height: 6px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.3));
+            border-radius: 10px;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-details {
+            text-align: center;
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .progress-timer {
+            text-align: center;
+            font-size: 1rem;
+            color: #ffaa00;
+            margin-top: 15px;
+            font-weight: 600;
+            background: rgba(255, 170, 0, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-left: 6px solid #00ff88;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 25px auto;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results-container {
+            display: none;
+        }
+
+        .comparison-view {
+            display: none;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .comparison-side {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            position: relative;
+        }
+
+        .comparison-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .free-header {
+            background: rgba(255, 170, 0, 0.2);
+            border: 2px solid #ffaa00;
+            color: #ffaa00;
+        }
+
+        .premium-header {
+            background: rgba(102, 126, 234, 0.2);
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-included {
+            color: #00cc44;
+        }
+
+        .feature-excluded {
+            color: #ff4444;
+            opacity: 0.6;
+        }
+
+        .executive-summary {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .credibility-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .credibility-score {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .score-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .assessment-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .grade-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .analysis-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .analysis-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1e293b;
+        }
+
+        .card-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .premium-lock {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 10;
+            color: white;
+        }
+
+        .lock-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .lock-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .unlock-btn {
+            background: #374151 !important;
+            color: #ffffff !important;
+            border: 2px solid #374151 !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            border-radius: 12px !important;
+            padding: 12px 24px !important;
+            font-size: 0.95rem !important;
+            margin-top: 10px !important;
+        }
+
+        .unlock-btn:hover {
+            background: #4b5563 !important;
+            border-color: #4b5563 !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            color: #374151;
+        }
+
+        .metric-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .metric-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 10px;
+            transition: width 0.8s ease;
+        }
+
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            color: #374151;
+        }
+
+        .metric-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .metric-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 10px;
+            transition: width 0.8s ease;
+        }
+
+        .bias-meter {
+            position: relative;
+            height: 40px;
+            background: linear-gradient(90deg, #0066cc 0%, #4488cc 25%, #cccccc 50%, #cc8888 75%, #cc0000 100%);
+            border-radius: 20px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .bias-indicator {
+            position: absolute;
+            top: -10px;
+            width: 20px;
+            height: 60px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: left 0.5s ease;
+        }
+
+        .bias-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .upgrade-banner {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .analysis-grid { grid-template-columns: 1fr; }
+            .credibility-header { flex-direction: column; }
+            .container { padding: 15px; }
+            .comparison-view { flex-direction: column; }
+            .usage-tracker { 
+                position: relative; 
+                margin: 15px auto 0; 
+                display: block;
+                text-align: center;
+            }
+            .nav-links {
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+            .nav-links a {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
             padding: 30px 0;
             background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
             border-radius: 20px;
@@ -772,11 +1366,21 @@
         }
 
         @media (max-width: 768px) {
-            .header h1 { font-size: 2rem; }
-            .analysis-grid { grid-template-columns: 1fr; }
-            .credibility-header { flex-direction: column; }
-            .container { padding: 15px; }
-            .comparison-view { flex-direction: column; }
+            .header h1 { 
+                font-size: 2rem; 
+            }
+            .analysis-grid { 
+                grid-template-columns: 1fr; 
+            }
+            .credibility-header { 
+                flex-direction: column; 
+            }
+            .container { 
+                padding: 15px; 
+            }
+            .comparison-view { 
+                flex-direction: column; 
+            }
             .usage-tracker { 
                 position: relative; 
                 margin: 15px auto 0; 
@@ -794,6 +1398,13 @@
             .nav-container {
                 flex-direction: column;
                 gap: 15px;
+            }
+            .progress-container {
+                padding: 25px;
+                margin: 20px 0;
+            }
+            .progress-text {
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -1024,30 +1635,376 @@
 
         // Input type switching
         function switchInputType(type) {
-            console.log('Switching to input type:', type);
+            console.log('🔄 Switching to input type:', type);
             currentInputType = type;
             
-            // Update tabs
-            document.querySelectorAll('.input-tab').forEach(tab => {
+            // Update tabs - remove active from all, add to clicked
+            document.querySelectorAll('.input-tab').forEach((tab, index) => {
                 tab.classList.remove('active');
-            });
-            
-            // Find the clicked tab and make it active
-            document.querySelectorAll('.input-tab').forEach(tab => {
-                if ((type === 'text' && tab.textContent.includes('Paste Text')) || 
-                    (type === 'url' && tab.textContent.includes('Analyze URL'))) {
+                if ((type === 'text' && index === 0) || (type === 'url' && index === 1)) {
                     tab.classList.add('active');
+                    console.log('✅ Tab activated:', tab.textContent);
                 }
             });
             
-            // Update content
+            // Update content - hide all, show selected
             document.querySelectorAll('.input-content').forEach(content => {
                 content.classList.remove('active');
             });
-            document.getElementById(type + 'Input').classList.add('active');
             
-            console.log('Input type switched to:', type);
+            const targetContent = document.getElementById(type + 'Input');
+            if (targetContent) {
+                targetContent.classList.add('active');
+                console.log('✅ Content switched to:', type);
+            } else {
+                console.error('❌ Could not find content element:', type + 'Input');
+            }
         }
+
+        // Tier selection
+        function selectTier(tier) {
+            console.log('🎯 Selecting tier:', tier);
+            currentTier = tier;
+            
+            // Update button states
+            document.querySelectorAll('.tier-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tier + 'Btn').classList.add('active');
+
+            // Update analyze button text
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            if (tier === 'free') {
+                analyzeBtn.textContent = '🚀 ANALYZE NEWS (FREE)';
+            } else {
+                analyzeBtn.textContent = '⭐ TRY PREMIUM ANALYSIS';
+            }
+            
+            console.log('✅ Tier selected:', tier);
+        }
+
+        function showComparison() {
+            console.log('📊 Showing comparison view');
+            hideResults();
+            hideError();
+            document.getElementById('comparisonView').style.display = 'flex';
+            document.getElementById('comparisonView').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideComparison() {
+            document.getElementById('comparisonView').style.display = 'none';
+        }
+
+        function hideResults() {
+            document.getElementById('resultsContainer').style.display = 'none';
+        }
+
+        function showError(message) {
+            console.log('❌ Showing error:', message);
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            errorDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideError() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function showConversionPrompts() {
+            // Placeholder for conversion logic
+            console.log('💰 Showing conversion prompts...');
+        }
+
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        function displayResults(data, tier) {
+            console.log('📊 Displaying results for tier:', tier);
+            const container = document.getElementById('resultsContainer');
+            container.style.display = 'block';
+            container.classList.add('fade-in');
+
+            const score = Math.round(data.scoring?.overall_credibility || 75);
+            const grade = getGradeFromScore(score);
+            const assessment = getConversationalAssessment(score, data);
+
+            container.innerHTML = `
+                <div class="executive-summary">
+                    <div class="credibility-header">
+                        <div class="credibility-score">
+                            <div class="score-circle" style="background: ${getScoreColor(score)}; box-shadow: 0 0 30px ${getScoreColor(score)}40;">
+                                ${score}
+                            </div>
+                            <div>
+                                <div class="assessment-text" style="color: ${getScoreColor(score)};">
+                                    ${getScoreLabel(score)}
+                                </div>
+                                <div style="font-size: 1rem; opacity: 0.8;">Grade: ${grade}</div>
+                            </div>
+                        </div>
+                        <div class="grade-badge" style="background: ${getScoreColor(score)}; color: white;">
+                            ${tier === 'free' ? 'Free Analysis' : 'Premium Analysis'}
+                        </div>
+                    </div>
+                    
+                    <div style="font-size: 1.2rem; line-height: 1.7; margin-bottom: 25px; padding: 20px; background: rgba(102, 126, 234, 0.05); border-radius: 15px; border-left: 4px solid ${getScoreColor(score)};">
+                        ${assessment}
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 15px; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: bold; color: ${getScoreColor(score)};">${score}</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">Credibility Score</div>
+                        </div>
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 15px; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: bold; color: #667eea;">${grade}</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">Letter Grade</div>
+                        </div>
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 15px; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: bold; color: #764ba2;">${data.source_verification?.sources_found || 0}</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">Sources Found</div>
+                        </div>
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 20px; border-radius: 15px; text-align: center;">
+                            <div style="font-size: 2rem; font-weight: bold; color: #059669;">${Math.round(data.ai_analysis?.confidence_level || 85)}%</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">AI Confidence</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analysis-grid">
+                    <div class="analysis-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon">🤖</div>
+                                AI Analysis
+                            </div>
+                        </div>
+                        
+                        <div style="background: rgba(102, 126, 234, 0.05); padding: 20px; border-radius: 12px; margin: 15px 0;">
+                            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: #374151;">
+                                What our AI found:
+                            </div>
+                            <div style="line-height: 1.6; color: #6b7280;">
+                                ${getAIConversation(data.ai_analysis, score)}
+                            </div>
+                        </div>
+                        
+                        <div class="metric-item">
+                            <span>Overall Assessment:</span>
+                            <span style="color: ${getScoreColor(score)}; font-weight: bold;">${score}/100</span>
+                        </div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: ${score}%; background: ${getScoreColor(score)};"></div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="card-icon">📰</div>
+                                Source Verification
+                            </div>
+                        </div>
+                        
+                        <div style="background: rgba(102, 126, 234, 0.05); padding: 20px; border-radius: 12px; margin: 15px 0;">
+                            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: #374151;">
+                                Source check results:
+                            </div>
+                            <div style="line-height: 1.6; color: #6b7280;">
+                                ${getSourceConversation(data.source_verification)}
+                            </div>
+                        </div>
+                        
+                        <div class="metric-item">
+                            <span>Sources Found:</span>
+                            <span style="font-weight: bold;">${data.source_verification?.sources_found || 0}</span>
+                        </div>
+                        
+                        ${data.source_verification?.sources_found > 0 ? `
+                            <div class="metric-item">
+                                <span>Avg Source Quality:</span>
+                                <span style="color: ${getScoreColor(data.source_verification.average_source_credibility || 70)}; font-weight: bold;">
+                                    ${Math.round(data.source_verification.average_source_credibility || 70)}/100
+                                </span>
+                            </div>
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: ${data.source_verification.average_source_credibility || 70}%; background: ${getScoreColor(data.source_verification.average_source_credibility || 70)};"></div>
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    ${tier === 'trial' ? `
+                        <div class="analysis-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="card-icon">🎯</div>
+                                    Political Bias Analysis
+                                </div>
+                            </div>
+                            
+                            <div style="background: rgba(102, 126, 234, 0.05); padding: 20px; border-radius: 12px; margin: 15px 0;">
+                                <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: #374151;">
+                                    Bias assessment:
+                                </div>
+                                <div style="line-height: 1.6; color: #6b7280;">
+                                    ${getBiasConversation(data.political_bias)}
+                                </div>
+                            </div>
+                            
+                            <div class="bias-meter">
+                                <div class="bias-indicator" style="left: ${(data.political_bias?.bias_score + 100) / 2 || 50}%;"></div>
+                            </div>
+                            <div class="bias-labels">
+                                <span>Left</span>
+                                <span>Center</span>
+                                <span>Right</span>
+                            </div>
+                        </div>
+                    ` : `
+                        <div class="analysis-card">
+                            <div class="premium-lock">
+                                <div class="lock-icon">🔒</div>
+                                <div class="lock-text">Political Bias Analysis</div>
+                                <div style="opacity: 0.8;">Unlock with Premium</div>
+                                <button class="unlock-btn" onclick="selectTier('trial')">Try Premium</button>
+                            </div>
+                        </div>
+                    `}
+                </div>
+            `;
+            
+            container.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Helper functions for conversational assessments
+        function getConversationalAssessment(score, data) {
+            if (score >= 85) {
+                return "Excellent! This content demonstrates strong credibility indicators. Our AI analysis found professional language, proper sourcing, and factual consistency. You can feel confident sharing this information.";
+            } else if (score >= 70) {
+                return "Pretty good! This content shows solid credibility with some minor concerns. The writing appears professional and most claims seem well-supported. Consider it reliable but perhaps verify key claims independently.";
+            } else if (score >= 55) {
+                return "Mixed signals here. While some aspects of this content appear credible, our analysis found several concerns that affect its overall reliability. I'd recommend cross-checking the main claims with other sources before sharing.";
+            } else if (score >= 40) {
+                return "Proceed with caution. This content raises multiple red flags in our credibility analysis. The sourcing may be weak, language potentially biased, or claims unsubstantiated. Definitely verify through reliable sources before believing or sharing.";
+            } else {
+                return "Significant concerns detected. Our analysis suggests this content has serious credibility issues - weak sourcing, potential misinformation, or highly biased presentation. I'd strongly recommend finding alternative, more reliable sources on this topic.";
+            }
+        }
+
+        function getAIConversation(aiData, score) {
+            const confidence = aiData?.confidence_level || 85;
+            if (score >= 75) {
+                return `The content shows strong credibility markers with ${confidence}% confidence. Professional language, factual tone, and logical structure all point to reliable information.`;
+            } else if (score >= 50) {
+                return `Mixed credibility signals detected with ${confidence}% confidence. Some good indicators present, but also areas of concern that lower the overall reliability score.`;
+            } else {
+                return `Multiple credibility concerns identified with ${confidence}% confidence. The content shows patterns often associated with unreliable or biased information sources.`;
+            }
+        }
+
+        function getSourceConversation(sourceData) {
+            const sourcesFound = sourceData?.sources_found || 0;
+            if (sourcesFound >= 3) {
+                return `Great news! We found ${sourcesFound} sources covering similar topics, which helps verify the information. Cross-referencing multiple sources strengthens credibility.`;
+            } else if (sourcesFound >= 1) {
+                return `We found ${sourcesFound} related source${sourcesFound > 1 ? 's' : ''} for comparison. Limited source availability makes independent verification more challenging.`;
+            } else {
+                return "No matching sources found in our database. This could mean the information is very recent, from a specialized field, or potentially unverified by major news outlets.";
+            }
+        }
+
+        function getBiasConversation(biasData) {
+            const biasScore = biasData?.bias_score || 0;
+            const absScore = Math.abs(biasScore);
+            
+            if (absScore <= 15) {
+                return "Excellent neutrality! The language appears balanced and objective, with minimal political lean detected. This suggests fair, unbiased reporting.";
+            } else if (absScore <= 35) {
+                return `Moderate ${biasScore < 0 ? 'left-leaning' : 'right-leaning'} bias detected. While not extreme, there are subtle language choices that suggest a political perspective. Still within reasonable bounds for most readers.`;
+            } else {
+                return `Strong ${biasScore < 0 ? 'left-leaning' : 'right-leaning'} bias identified. The language and framing show clear political positioning. Consider seeking additional perspectives from different viewpoints.`;
+            }
+        }
+
+        function getScoreLabel(score) {
+            if (score >= 85) return "HIGHLY CREDIBLE";
+            if (score >= 70) return "CREDIBLE";
+            if (score >= 55) return "MIXED CREDIBILITY";
+            if (score >= 40) return "LOW CREDIBILITY";
+            return "VERY LOW CREDIBILITY";
+        }
+
+        // Helper functions for colors and scoring
+        function getScoreColor(score) {
+            if (score >= 80) return '#00cc44';
+            if (score >= 60) return '#88cc00';
+            if (score >= 40) return '#ffaa00';
+            return '#ff4444';
+        }
+
+        function getBiasColor(biasScore) {
+            if (Math.abs(biasScore) <= 20) return '#cccccc';
+            if (biasScore < 0) return '#4488cc';
+            return '#cc8888';
+        }
+
+        function getExpertiseColor(expertise) {
+            switch(expertise.toLowerCase()) {
+                case 'expert': return '#00cc44';
+                case 'professional': return '#88cc00';
+                case 'amateur': return '#ffaa00';
+                default: return '#cc8888';
+            }
+        }
+
+        function getCredibilityBadgeColor(score) {
+            if (score >= 80) return 'rgba(0, 204, 68, 0.3)';
+            if (score >= 60) return 'rgba(136, 204, 0, 0.3)';
+            if (score >= 40) return 'rgba(255, 170, 0, 0.3)';
+            return 'rgba(255, 68, 68, 0.3)';
+        }
+
+        function getClaimClass(rating) {
+            const ratingLower = rating.toLowerCase();
+            if (ratingLower.includes('true') || ratingLower.includes('accurate')) return 'verified';
+            if (ratingLower.includes('false') || ratingLower.includes('inaccurate')) return 'disputed';
+            return 'mixed';
+        }
+
+        function getGradeFromScore(score) {
+            if (score >= 97) return "A+";
+            if (score >= 93) return "A";
+            if (score >= 90) return "A-";
+            if (score >= 87) return "B+";
+            if (score >= 83) return "B";
+            if (score >= 80) return "B-";
+            if (score >= 77) return "C+";
+            if (score >= 73) return "C";
+            if (score >= 70) return "C-";
+            if (score >= 67) return "D+";
+            if (score >= 63) return "D";
+            if (score >= 60) return "D-";
+            return "F";
+        }
+
+        // Initialize the interface
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Facts & Fakes system loading...');
+            selectTier('free');
+            console.log('✅ Facts & Fakes freemium system loaded successfully');
+        });
+
+        // Keyboard shortcut
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                startAnalysis();
+            }
+        });
 
         // URL content extraction (simplified for demo)
         async function extractUrlContent(url) {
