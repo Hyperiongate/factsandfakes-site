@@ -1766,6 +1766,33 @@ function getConsistentScore(content) {
     contentScoreCache[contentKey] = result;
     return result;
 }
+        function getConsistentScore(content) {
+    const contentKey = (content || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    
+    if (contentScoreCache[contentKey]) {
+        return contentScoreCache[contentKey];
+    }
+    
+    const hash = hashCode(contentKey);
+    const normalizedHash = Math.abs(hash) / 2147483647;
+    let baseScore = 45 + (normalizedHash * 40);
+    
+    if (contentKey.includes('breaking')) baseScore -= 15;
+    if (contentKey.includes('associated press')) baseScore += 20;
+    if (contentKey.includes('attack')) baseScore -= 25;
+    
+    baseScore = Math.max(10, Math.min(95, baseScore));
+    
+    const result = {
+        baseScore,
+        normalizedHash,
+        aiProbability: normalizedHash * 0.25,
+        confidence: 75 + (normalizedHash * 20)
+    };
+    
+    contentScoreCache[contentKey] = result;
+    return result;
+}
         function generateEnhancedDemoData(content, tier) {
             const textLength = (content || '').length;
             const scoreData = getConsistentScore(content);
