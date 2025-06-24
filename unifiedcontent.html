@@ -1001,31 +1001,82 @@
             const file = event.target.files[0];
             if (!file) return;
 
+            console.log('File selected:', file.name, file.type, file.size);
+
+            // Show file info immediately
+            showFileInfo(file);
+
             if (file.size > 10 * 1024 * 1024) {
                 alert('File size too large. Please choose a file smaller than 10MB.');
                 return;
             }
 
             const allowedTypes = ['text/plain', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-            if (!allowedTypes.includes(file.type) && !file.name.match(/\.(txt|pdf|docx)$/i)) {
+            const isValidType = allowedTypes.includes(file.type) || file.name.match(/\.(txt|pdf|docx)$/i);
+            
+            if (!isValidType) {
                 alert('Unsupported file type. Please choose a TXT, PDF, or DOCX file.');
                 return;
             }
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                if (file.type === 'text/plain') {
+                if (file.type === 'text/plain' || file.name.toLowerCase().endsWith('.txt')) {
                     document.getElementById('textInput').value = e.target.result;
                     updateCharCounter();
-                    switchTab('text');
+                    // Switch to text tab to show the loaded content
+                    switchToTextTab();
+                    alert(`✅ File "${file.name}" loaded successfully! ${e.target.result.length} characters loaded.`);
                 } else {
                     alert('PDF and DOCX processing requires server-side handling. Please convert to text format for now.');
                 }
             };
             
-            if (file.type === 'text/plain') {
+            reader.onerror = function() {
+                alert('Error reading file. Please try again.');
+            };
+            
+            if (file.type === 'text/plain' || file.name.toLowerCase().endsWith('.txt')) {
                 reader.readAsText(file);
+            } else {
+                alert('Currently only TXT files are supported for direct upload. PDF and DOCX support coming soon!');
             }
+        }
+
+        function showFileInfo(file) {
+            const sizeKB = (file.size / 1024).toFixed(1);
+            const fileInfo = document.createElement('div');
+            fileInfo.style.cssText = `
+                margin-top: 15px;
+                padding: 15px;
+                background: #e8f4fd;
+                border-radius: 8px;
+                border-left: 4px solid #667eea;
+            `;
+            fileInfo.innerHTML = `
+                <strong>📄 File Selected:</strong><br>
+                <strong>Name:</strong> ${file.name}<br>
+                <strong>Size:</strong> ${sizeKB} KB<br>
+                <strong>Type:</strong> ${file.type || 'Unknown'}
+            `;
+            
+            // Remove any existing file info
+            const existingInfo = document.querySelector('.file-info');
+            if (existingInfo) {
+                existingInfo.remove();
+            }
+            
+            fileInfo.className = 'file-info';
+            document.getElementById('file-tab').appendChild(fileInfo);
+        }
+
+        function switchToTextTab() {
+            // Switch to text tab programmatically
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            document.querySelectorAll('.tab-button')[0].classList.add('active');
+            document.getElementById('text-tab').classList.add('active');
         }
 
         // Main analysis function
