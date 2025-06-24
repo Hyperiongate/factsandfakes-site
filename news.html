@@ -166,10 +166,57 @@
         }
 
         .feature-highlights {
-            display: grid;
+            display: none;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .feature-highlights.show {
+            display: grid;
+        }
+
+        .features-toggle {
+            background: linear-gradient(145deg, rgba(102, 126, 234, 0.1), rgba(102, 126, 234, 0.05));
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 15px;
+            padding: 20px;
             margin-bottom: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .features-toggle:hover {
+            background: linear-gradient(145deg, rgba(102, 126, 234, 0.15), rgba(102, 126, 234, 0.1));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .features-toggle h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .features-toggle p {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .features-toggle .toggle-arrow {
+            font-size: 1.5rem;
+            color: #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .features-toggle.expanded .toggle-arrow {
+            transform: rotate(180deg);
         }
 
         .feature-highlight {
@@ -290,6 +337,7 @@
         }
 
         .premium-features {
+            display: none;
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
             border: 2px solid rgba(102, 126, 234, 0.2);
             border-radius: 20px;
@@ -297,6 +345,53 @@
             margin: 20px 0;
             position: relative;
             overflow: hidden;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .premium-features.show {
+            display: block;
+        }
+
+        .premium-toggle {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 142, 83, 0.1));
+            border: 2px solid rgba(255, 107, 107, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-toggle:hover {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 142, 83, 0.15));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
+        }
+
+        .premium-toggle h4 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .premium-toggle p {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .premium-toggle .toggle-arrow {
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            transition: transform 0.3s ease;
+        }
+
+        .premium-toggle.expanded .toggle-arrow {
+            transform: rotate(180deg);
         }
 
         .premium-features h4 {
@@ -324,28 +419,20 @@
             margin-right: 8px;
         }
 
-        /* ENHANCED PROGRESS BAR */
+        /* COMPACT PROGRESS BAR */
         .progress-container {
             display: none;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 50px 40px;
-            border-radius: 0 0 30px 30px;
-            margin: 0;
+            padding: 25px 30px;
+            border-radius: 15px;
+            margin: 20px 0;
             box-shadow: 
-                0 30px 80px rgba(102, 126, 234, 0.5),
-                inset 0 2px 0 rgba(255, 255, 255, 0.2),
-                0 0 0 3px rgba(255, 255, 255, 0.1);
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top: none;
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 92%;
-            max-width: 900px;
-            z-index: 1000;
+                0 15px 30px rgba(102, 126, 234, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.1);
             color: white;
             overflow: hidden;
+            position: relative;
         }
 
         .progress-container::before {
@@ -366,29 +453,25 @@
 
         .progress-text {
             text-align: center;
-            font-weight: 800;
+            font-weight: 700;
             color: white;
-            margin-bottom: 25px;
-            font-size: 1.5rem;
-            text-shadow: 
-                0 3px 6px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(255, 255, 255, 0.3);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
             position: relative;
             z-index: 2;
         }
 
         .progress-bar {
             width: 100%;
-            height: 28px;
+            height: 20px;
             background: rgba(0, 0, 0, 0.25);
-            border-radius: 20px;
+            border-radius: 15px;
             overflow: hidden;
-            margin-bottom: 35px;
-            border: 3px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
             position: relative;
-            box-shadow: 
-                inset 0 3px 6px rgba(0, 0, 0, 0.4),
-                0 0 25px rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
             z-index: 2;
         }
 
@@ -400,13 +483,11 @@
                 #ffaa00 40%, 
                 #ff6600 70%, 
                 #ff0066 100%);
-            border-radius: 20px;
+            border-radius: 15px;
             transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
             width: 0%;
             position: relative;
-            box-shadow: 
-                0 0 30px rgba(0, 255, 136, 0.7),
-                inset 0 3px 0 rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
             overflow: hidden;
         }
 
@@ -427,14 +508,14 @@
         .progress-fill::after {
             content: '';
             position: absolute;
-            top: 3px;
-            left: 3px;
-            right: 3px;
-            height: 10px;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            height: 6px;
             background: linear-gradient(90deg, 
                 rgba(255,255,255,0.9), 
                 rgba(255,255,255,0.3));
-            border-radius: 15px;
+            border-radius: 10px;
         }
 
         @keyframes progress-wave {
@@ -444,48 +525,16 @@
 
         .progress-details {
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 0.95rem;
             color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 25px;
-            font-weight: 600;
+            font-weight: 500;
             position: relative;
             z-index: 2;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .loading-spinner {
-            width: 90px;
-            height: 90px;
-            border: 10px solid rgba(255, 255, 255, 0.2);
-            border-left: 10px solid #00ff88;
-            border-top: 10px solid #ffaa00;
-            border-radius: 50%;
-            animation: enhanced-spin 1.2s linear infinite;
-            margin: 35px auto;
-            box-shadow: 
-                0 0 50px rgba(0, 255, 136, 0.5),
-                inset 0 0 25px rgba(255, 255, 255, 0.1);
-            position: relative;
-            z-index: 2;
-        }
-
-        .loading-spinner::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 50px;
-            height: 50px;
-            border: 5px solid transparent;
-            border-top: 5px solid #ffffff;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: enhanced-spin 0.7s linear infinite reverse;
-        }
-
-        @keyframes enhanced-spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            display: none;
         }
 
         .input-section {
@@ -498,6 +547,27 @@
             margin-bottom: 25px;
             border-bottom: 3px solid #e2e8f0;
             position: relative;
+        }
+
+        .input-tabs::before {
+            content: '👆 Choose Input Type';
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            animation: pointPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pointPulse {
+            0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+            50% { transform: translateX(-50%) scale(1.05); opacity: 1; }
         }
 
         .input-tab {
@@ -1024,7 +1094,13 @@
                 <p>Six-dimensional AI-powered analysis with comprehensive verification</p>
             </div>
 
-            <div class="feature-highlights">
+            <div class="features-toggle" onclick="toggleFeatures()">
+                <h3>🚀 Our Six-Dimensional Analysis Platform</h3>
+                <p>Click to explore our comprehensive verification capabilities</p>
+                <span class="toggle-arrow">▼</span>
+            </div>
+
+            <div class="feature-highlights" id="featureHighlights">
                 <div class="feature-highlight">
                     <i class="fas fa-balance-scale"></i>
                     <strong>Political Bias Analysis</strong>
@@ -1068,7 +1144,13 @@
                 </button>
             </div>
 
-            <div class="premium-features" id="premiumPreview" style="display: none;">
+            <div class="premium-toggle" id="premiumToggle" onclick="togglePremiumFeatures()" style="display: none;">
+                <h4>⭐ Premium Features Available</h4>
+                <p>Click to see what's unlocked with Premium Trial</p>
+                <span class="toggle-arrow">▼</span>
+            </div>
+
+            <div class="premium-features" id="premiumPreview">
                 <h4>🔥 Premium Features Unlocked:</h4>
                 <div class="premium-list">
                     <li>Advanced political bias analysis</li>
@@ -1148,11 +1230,15 @@
             const selectedBtn = document.getElementById(tier + 'Btn');
             selectedBtn.classList.add('active');
 
+            const premiumToggle = document.getElementById('premiumToggle');
             const premiumPreview = document.getElementById('premiumPreview');
+            
             if (tier === 'trial') {
-                premiumPreview.style.display = 'block';
+                premiumToggle.style.display = 'block';
+                // Don't auto-show, let user click to see
             } else {
-                premiumPreview.style.display = 'none';
+                premiumToggle.style.display = 'none';
+                premiumPreview.classList.remove('show');
             }
 
             const analyzeBtn = document.querySelector('.analyze-btn');
@@ -1163,6 +1249,22 @@
                 analyzeBtn.innerHTML = '<i class="fas fa-star"></i> Launch Premium Analysis (TRIAL)';
                 analyzeBtn.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%)';
             }
+        }
+
+        function toggleFeatures() {
+            const featuresToggle = document.querySelector('.features-toggle');
+            const featureHighlights = document.getElementById('featureHighlights');
+            
+            featuresToggle.classList.toggle('expanded');
+            featureHighlights.classList.toggle('show');
+        }
+
+        function togglePremiumFeatures() {
+            const premiumToggle = document.getElementById('premiumToggle');
+            const premiumPreview = document.getElementById('premiumPreview');
+            
+            premiumToggle.classList.toggle('expanded');
+            premiumPreview.classList.toggle('show');
         }
 
         function switchInputType(type) {
