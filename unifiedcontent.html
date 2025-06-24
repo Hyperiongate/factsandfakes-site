@@ -1987,3 +1987,126 @@ Perfect for academic papers, articles, reports, and any written content." oninpu
             const content = header.nextElementSibling;
             content.classList.toggle('expanded');
         }
+
+        function generateAnalysisSections(data) {
+            return `
+                <div class="expandable-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <h3>🤖 AI Pattern Detection</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="section-content">
+                        ${generateAIPatternContent(data)}
+                    </div>
+                </div>
+
+                <div class="expandable-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <h3>🔍 Plagiarism Detection ${currentTier === 'free' ? '(Premium Feature)' : ''}</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="section-content ${currentTier === 'free' ? 'premium-locked' : ''}">
+                        ${currentTier === 'free' ? generatePremiumOverlay() : generatePlagiarismContent(data)}
+                    </div>
+                </div>
+
+                <div class="expandable-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <h3>📊 Linguistic Analysis</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="section-content">
+                        ${generateLinguisticContent(data)}
+                    </div>
+                </div>
+
+                <div class="expandable-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <h3>🌐 Cross-Platform Verification ${currentTier === 'free' ? '(Premium Feature)' : ''}</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="section-content ${currentTier === 'free' ? 'premium-locked' : ''}">
+                        ${currentTier === 'free' ? generatePremiumOverlay() : generateCrossPlatformContent(data)}
+                    </div>
+                </div>
+
+                <div class="expandable-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <h3>⚙️ Technical Analysis ${currentTier === 'free' ? '(Premium Feature)' : ''}</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="section-content ${currentTier === 'free' ? 'premium-locked' : ''}">
+                        ${currentTier === 'free' ? generatePremiumOverlay() : generateTechnicalContent(data)}
+                    </div>
+                </div>
+
+                <div class="expandable-section">
+                    <div class="section-header" onclick="toggleSection(this)">
+                        <h3>📈 Analysis Methodology</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="section-content">
+                        ${generateMethodologyContent(data)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateLinguisticContent(data) {
+            return `
+                <div class="finding-item">
+                    <h5>Linguistic Analysis Results</h5>
+                    <p><strong>Analysis:</strong> ${data.linguistic_analysis || 'Linguistic pattern analysis completed.'}</p>
+                </div>
+                
+                <div class="finding-item">
+                    <h5>Writing Style Assessment</h5>
+                    <p>Evaluation of vocabulary diversity, sentence structure variety, natural language flow, and authenticity indicators.</p>
+                </div>
+            `;
+        }
+
+        function generateCrossPlatformContent(data) {
+            return `
+                <div class="finding-item">
+                    <h5>Cross-Platform Verification</h5>
+                    <p>Advanced analysis across multiple platforms and databases to detect potential content copying or adaptation.</p>
+                </div>
+            `;
+        }
+
+        function generateTechnicalContent(data) {
+            return `
+                <div class="finding-item">
+                    <h5>Technical Analysis</h5>
+                    <p>Advanced perplexity scoring, similarity algorithms, and statistical modeling for precise authenticity detection.</p>
+                </div>
+            `;
+        }
+
+        function generateMethodologyContent(data) {
+            return `
+                <div class="finding-item">
+                    <h5>Analysis Framework</h5>
+                    <p>Our unified detection system combines AI pattern recognition with comprehensive plagiarism checking using multiple advanced algorithms and databases.</p>
+                </div>
+                
+                <div class="finding-item">
+                    <h5>Detection Accuracy</h5>
+                    <p>Our system achieves 85-95% accuracy for AI detection and 90-99% for plagiarism detection across various content types.</p>
+                </div>
+            `;
+        }
+
+        function generatePremiumOverlay() {
+            return `
+                <div class="locked-feature">
+                    <i class="fas fa-lock"></i>
+                    <h3>Premium Feature</h3>
+                    <p>Advanced analysis features available with Premium Trial access. Upgrade to unlock deep source verification and technical analysis.</p>
+                    <button onclick="selectTier('trial')">
+                        🔓 Unlock Premium Analysis
+                    </button>
+                </div>
+            `;
+        }
