@@ -1444,6 +1444,7 @@ Perfect for academic papers, articles, reports, and any written content." oninpu
     </div>
 
     <script>
+        // Global variables
         let currentInputType = 'text';
         let currentTier = 'free';
 
@@ -1457,6 +1458,38 @@ Perfect for academic papers, articles, reports, and any written content." oninpu
             
             academic_style: "The present study examines the efficacy of automated content detection systems in identifying artificially generated text. Through a comprehensive analysis of linguistic patterns, syntactic structures, and semantic coherence, we demonstrate that current detection methodologies achieve approximately 85% accuracy rates. These findings have significant implications for academic integrity and content verification processes in digital environments."
         };
+
+        // Input type switching function
+        function switchInputType(type) {
+            console.log('Switching to input type:', type);
+            currentInputType = type;
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.input-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab
+            const tabs = document.querySelectorAll('.input-tab');
+            if (type === 'text' && tabs[0]) {
+                tabs[0].classList.add('active');
+            } else if (type === 'file' && tabs[1]) {
+                tabs[1].classList.add('active');
+            }
+            
+            // Hide all content
+            document.querySelectorAll('.input-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show target content
+            const targetContent = document.getElementById(type + 'Input');
+            if (targetContent) {
+                setTimeout(() => {
+                    targetContent.classList.add('active');
+                }, 150);
+            }
+        }
 
         function selectTier(tier) {
             currentTier = tier;
