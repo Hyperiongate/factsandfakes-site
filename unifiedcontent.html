@@ -1569,20 +1569,20 @@ Perfect for academic papers, articles, reports, and any written content." oninpu
         document.getElementById('fileInputElement').addEventListener('change', handleFileUpload);
 
         // Drag and drop handling
-        const fileUpload = document.getElementById('fileUpload');
+        const fileUploadArea = document.getElementById('fileUpload');
         
-        fileUpload.addEventListener('dragover', (e) => {
+        fileUploadArea.addEventListener('dragover', (e) => {
             e.preventDefault();
-            fileUpload.classList.add('dragover');
+            fileUploadArea.classList.add('dragover');
         });
 
-        fileUpload.addEventListener('dragleave', () => {
-            fileUpload.classList.remove('dragover');
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.classList.remove('dragover');
         });
 
-        fileUpload.addEventListener('drop', (e) => {
+        fileUploadArea.addEventListener('drop', (e) => {
             e.preventDefault();
-            fileUpload.classList.remove('dragover');
+            fileUploadArea.classList.remove('dragover');
             const files = e.dataTransfer.files;
             if (files.length > 0) {
                 handleFileUpload({target: {files: files}});
