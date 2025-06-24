@@ -547,14 +547,14 @@
             margin-bottom: 25px;
             border-bottom: 3px solid #e2e8f0;
             position: relative;
+            margin-top: 50px;
         }
 
         .input-tabs::before {
-            content: '👆 Choose Input Type';
+            content: '👇 Choose Input Type 👇';
             position: absolute;
-            top: -35px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: -45px;
+            left: 92px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             padding: 8px 16px;
@@ -566,8 +566,8 @@
         }
 
         @keyframes pointPulse {
-            0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
-            50% { transform: translateX(-50%) scale(1.05); opacity: 1; }
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
         }
 
         .input-tab {
