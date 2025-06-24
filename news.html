@@ -1,17 +1,4 @@
-.analyze-btn:disabled {
-            opacity: 0.4 !important;
-            cursor: not-allowed !important;
-            transform: none !important;
-            background: #6b7280 !important;
-            border-color: #6b7280 !important;
-            color: #ffffff !important;
-        }        .tier-btn:disabled {
-            opacity: 0.4 !important;
-            cursor: not-allowed !important;
-            background: #6b7280 !important;
-            color: #ffffff !important;
-            border-color: #6b7280 !important;
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -105,12 +92,21 @@
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3) !important;
         }
 
-        .tier-btn:disabled, .analyze-btn:disabled {
-            background: #9ca3af !important;
-            border-color: #9ca3af !important;
-            opacity: 0.6 !important;
+        .analyze-btn:disabled {
+            opacity: 0.4 !important;
             cursor: not-allowed !important;
             transform: none !important;
+            background: #6b7280 !important;
+            border-color: #6b7280 !important;
+            color: #ffffff !important;
+        }        
+        
+        .tier-btn:disabled {
+            opacity: 0.4 !important;
+            cursor: not-allowed !important;
+            background: #6b7280 !important;
+            color: #ffffff !important;
+            border-color: #6b7280 !important;
         }
 
         /* PROFESSIONAL TAB BUTTONS */
@@ -285,47 +281,82 @@
             flex-wrap: wrap;
         }
 
+        /* ENHANCED FANCY PROGRESS BAR */
         .progress-container {
             display: none;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 40px;
+            padding: 50px;
             border-radius: 25px;
-            margin: 30px 0;
-            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.3);
-            border: 3px solid rgba(255, 255, 255, 0.2);
+            margin: 40px 0;
+            box-shadow: 
+                0 25px 60px rgba(102, 126, 234, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.1);
             position: relative;
             z-index: 100;
             color: white;
+            overflow: hidden;
+        }
+
+        .progress-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: progress-shimmer 3s infinite;
+        }
+
+        @keyframes progress-shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
         .progress-text {
             text-align: center;
             font-weight: 700;
             color: white;
-            margin-bottom: 20px;
-            font-size: 1.4rem;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+            text-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 2;
         }
 
         .progress-bar {
             width: 100%;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.2);
+            height: 24px;
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 15px;
             overflow: hidden;
-            margin-bottom: 25px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
             position: relative;
+            box-shadow: 
+                inset 0 2px 4px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(255, 255, 255, 0.1);
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #00ff88, #00cc44, #ffaa00, #ff6600);
+            background: linear-gradient(90deg, 
+                #00ff88 0%, 
+                #00cc44 25%, 
+                #ffaa00 50%, 
+                #ff6600 75%, 
+                #ff0066 100%);
             border-radius: 15px;
-            transition: width 1s ease;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
             width: 0%;
             position: relative;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 0 25px rgba(0, 255, 136, 0.6),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3);
+            overflow: hidden;
         }
 
         .progress-fill::before {
@@ -335,8 +366,11 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            animation: shimmer 1.5s infinite;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255,255,255,0.5), 
+                transparent);
+            animation: progress-wave 1.8s infinite;
         }
 
         .progress-fill::after {
@@ -345,49 +379,103 @@
             top: 2px;
             left: 2px;
             right: 2px;
-            height: 6px;
-            background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.3));
+            height: 8px;
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0.9), 
+                rgba(255,255,255,0.3));
             border-radius: 10px;
         }
 
-        @keyframes shimmer {
+        @keyframes progress-wave {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
         }
 
         .progress-details {
             text-align: center;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-weight: 500;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .progress-timer {
             text-align: center;
-            font-size: 1rem;
-            color: #ffaa00;
-            margin-top: 15px;
+            font-size: 1.1rem;
+            color: #ffeb3b;
+            margin-top: 20px;
             font-weight: 600;
-            background: rgba(255, 170, 0, 0.2);
-            padding: 10px;
-            border-radius: 10px;
+            background: rgba(255, 235, 59, 0.1);
+            padding: 12px 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 235, 59, 0.3);
+            position: relative;
+            z-index: 2;
         }
 
         .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 6px solid rgba(255, 255, 255, 0.3);
-            border-left: 6px solid #00ff88;
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(255, 255, 255, 0.2);
+            border-left: 8px solid #00ff88;
+            border-top: 8px solid #ffaa00;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 25px auto;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+            animation: enhanced-spin 1.5s linear infinite;
+            margin: 30px auto;
+            box-shadow: 
+                0 0 40px rgba(0, 255, 136, 0.4),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 2;
         }
 
-        @keyframes spin {
+        .loading-spinner::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            border: 4px solid transparent;
+            border-top: 4px solid #ffffff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: enhanced-spin 0.8s linear infinite reverse;
+        }
+
+        @keyframes enhanced-spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        .progress-stage-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stage-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .stage-dot.active {
+            background: #00ff88;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+        }
+
+        .stage-dot.completed {
+            background: #ffffff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
         }
 
         .results-container {
@@ -585,48 +673,6 @@
             margin-bottom: 10px;
         }
 
-        .unlock-btn {
-            background: #374151 !important;
-            color: #ffffff !important;
-            border: 2px solid #374151 !important;
-            font-weight: 600 !important;
-            cursor: pointer !important;
-            transition: all 0.3s ease !important;
-            border-radius: 12px !important;
-            padding: 12px 24px !important;
-            font-size: 0.95rem !important;
-            margin-top: 10px !important;
-        }
-
-        .unlock-btn:hover {
-            background: #4b5563 !important;
-            border-color: #4b5563 !important;
-            transform: translateY(-1px) !important;
-        }
-
-        .metric-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 15px 0;
-            color: #374151;
-        }
-
-        .metric-bar {
-            background: #e2e8f0;
-            height: 8px;
-            border-radius: 10px;
-            margin: 10px 0;
-            overflow: hidden;
-        }
-
-        .metric-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 10px;
-            transition: width 0.8s ease;
-        }
-
         .metric-item {
             display: flex;
             justify-content: space-between;
@@ -707,662 +753,39 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 768px) {
-            .header h1 { font-size: 2rem; }
-            .analysis-grid { grid-template-columns: 1fr; }
-            .credibility-header { flex-direction: column; }
-            .container { padding: 15px; }
-            .comparison-view { flex-direction: column; }
-            .usage-tracker { 
-                position: relative; 
-                margin: 15px auto 0; 
-                display: block;
-                text-align: center;
-            }
-            .nav-links {
-                gap: 15px;
-                flex-wrap: wrap;
-            }
-            .nav-links a {
-                font-size: 0.9rem;
-                padding: 6px 12px;
-            }
-            .nav-container {
-                flex-direction: column;
-                gap: 15px;
-            }
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 30px 0;
-            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
-            position: relative;
-            color: white;
-        }
-
-        .header h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(45deg, #ffffff, #f1f5f9);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            font-weight: 300;
-            color: white;
-        }
-
-        .usage-tracker {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 12px 20px;
-            border-radius: 25px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .usage-count {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .usage-reset {
-            font-size: 0.8rem;
-            opacity: 0.8;
-            margin-top: 2px;
-        }
-
-        .tier-selector {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .tier-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(102, 126, 234, 0.3);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            position: relative;
-        }
-
-        .tier-btn.active {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border-color: #667eea;
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .tier-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .tier-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #ff4444;
-            color: white;
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-weight: bold;
-        }
-
-        .input-section {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 30px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        label {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #e0e7ff;
-        }
-
-        textarea, input[type="url"] {
-            width: 100%;
-            padding: 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 15px;
-            background: white;
-            color: #1e293b;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-
-        textarea {
-            resize: none;
-            height: 200px;
-            overflow-y: auto;
-        }
-
-        textarea:focus, input[type="url"]:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.1);
-        }
-
-        input[type="url"] {
-            height: 60px;
-        }
-
-        .analyze-controls {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .analyze-btn {
-            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 18px 40px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .analyze-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
-        }
-
-        .analyze-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .compare-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 18px 40px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .compare-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        .progress-container {
-            display: none;
-            background: white;
-            padding: 35px;
-            border-radius: 20px;
-            margin: 30px 0;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-            border: 2px solid #e2e8f0;
-            position: relative;
-            z-index: 100;
-        }
-
-        .progress-text {
-            text-align: center;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 16px;
-            background: #e2e8f0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            border: 1px solid #cbd5e1;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 10px;
-            transition: width 0.8s ease;
-            width: 0%;
-            position: relative;
-        }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .progress-details {
-            text-align: center;
-            font-size: 1rem;
-            color: #6b7280;
-            margin-bottom: 15px;
-        }
-
-        .progress-timer {
-            text-align: center;
-            font-size: 0.9rem;
-            color: #ef4444;
-            margin-top: 10px;
-            font-weight: 600;
-        }
-
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #e2e8f0;
-            border-left: 5px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-
-        .results-container {
-            display: none;
-        }
-
-        .comparison-view {
-            display: none;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .comparison-side {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 25px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-        }
-
-        .comparison-header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 15px;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .free-header {
-            background: rgba(255, 170, 0, 0.2);
-            border: 2px solid #ffaa00;
-            color: #ffaa00;
-        }
-
-        .premium-header {
-            background: rgba(102, 126, 234, 0.2);
-            border: 2px solid #667eea;
-            color: #667eea;
-        }
-
-        .feature-list {
-            list-style: none;
-            margin: 20px 0;
-        }
-
-        .feature-list li {
-            padding: 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .feature-included {
-            color: #00cc44;
-        }
-
-        .feature-excluded {
-            color: #ff4444;
-            opacity: 0.6;
-        }
-
-        .executive-summary {
+        /* Conversational Analysis Display */
+        .conversation-bubble {
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-        }
-
-        .credibility-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .credibility-score {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .score-circle {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 800;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .assessment-text {
-            font-size: 1.3rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .grade-badge {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 8px 16px;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .analysis-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .analysis-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
             padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .analysis-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .card-icon {
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-
-        .premium-lock {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
             border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            z-index: 10;
+            margin: 20px 0;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
         }
 
-        .lock-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            opacity: 0.8;
-        }
-
-        .lock-text {
+        .conversation-bubble h4 {
+            color: #667eea;
             font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .unlock-btn {
-            background: #059669;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
             font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-
-        .unlock-btn:hover {
-            background: #047857;
-            transform: scale(1.05);
-        }
-
-        .metric-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 15px 0;
-        }
-
-        .metric-bar {
-            background: rgba(255, 255, 255, 0.1);
-            height: 8px;
-            border-radius: 10px;
-            margin: 10px 0;
-            overflow: hidden;
-        }
-
-        .metric-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 10px;
-            transition: width 0.8s ease;
-        }
-
-        .bias-meter {
-            position: relative;
-            height: 40px;
-            background: linear-gradient(90deg, #0066cc 0%, #4488cc 25%, #cccccc 50%, #cc8888 75%, #cc0000 100%);
-            border-radius: 20px;
-            margin: 15px 0;
-            overflow: hidden;
-        }
-
-        .bias-indicator {
-            position: absolute;
-            top: -10px;
-            width: 20px;
-            height: 60px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            transition: left 0.5s ease;
-        }
-
-        .bias-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        .upgrade-banner {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            margin: 20px 0;
-            display: none;
-        }
-
-        .upgrade-banner h3 {
-            margin-bottom: 10px;
-            font-size: 1.3rem;
-        }
-
-        .upgrade-banner p {
             margin-bottom: 15px;
-            opacity: 0.9;
-        }
-
-        .upgrade-banner button {
-            background: white;
-            color: #ee5a24;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .upgrade-banner button:hover {
-            transform: scale(1.05);
-        }
-
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #e2e8f0;
-            border-left: 4px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 10px;
-            color: #1e293b;
         }
 
-        .metric-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 15px 0;
+        .conversation-bubble p {
+            font-size: 1.1rem;
+            line-height: 1.7;
             color: #374151;
+            margin-bottom: 15px;
         }
 
-        .metric-bar {
-            background: #e2e8f0;
-            height: 8px;
-            border-radius: 10px;
+        .conversation-bubble .key-point {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 15px;
+            border-radius: 12px;
             margin: 10px 0;
-            overflow: hidden;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error-message {
-            background: rgba(255, 68, 68, 0.1);
-            border: 1px solid rgba(255, 68, 68, 0.3);
-            color: #ff9999;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.8s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            border-left: 3px solid #667eea;
         }
 
         @media (max-width: 768px) {
@@ -1388,6 +811,13 @@
             .nav-container {
                 flex-direction: column;
                 gap: 15px;
+            }
+            .progress-container {
+                padding: 30px 20px;
+            }
+            .loading-spinner {
+                width: 60px;
+                height: 60px;
             }
         }
     </style>
@@ -1466,12 +896,19 @@
 
         <div class="progress-container" id="progressContainer">
             <div class="progress-text" id="progressText">Initializing AI Analysis...</div>
+            <div class="progress-stage-indicator" id="stageIndicator">
+                <div class="stage-dot" data-stage="0"></div>
+                <div class="stage-dot" data-stage="1"></div>
+                <div class="stage-dot" data-stage="2"></div>
+                <div class="stage-dot" data-stage="3"></div>
+                <div class="stage-dot" data-stage="4"></div>
+            </div>
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
             <div class="progress-details" id="progressDetails">Starting analysis...</div>
             <div class="progress-timer" id="progressTimer"></div>
-            <div class="loading-spinner" style="margin-top: 20px;"></div>
+            <div class="loading-spinner"></div>
         </div>
 
         <div class="upgrade-banner" id="upgradeBanner">
@@ -1615,6 +1052,7 @@
         let analysisData = null;
         let currentInputType = 'text';
         let analysisStartTime = null;
+        let currentStage = 0;
 
         // Input type switching
         function switchInputType(type) {
@@ -1706,6 +1144,12 @@
             }
         }
 
+        // FIXED FUNCTION NAME - This was the main issue!
+        function startAnalysis() {
+            console.log('🚀 Starting analysis...');
+            analyzeNews();
+        }
+
         function displayResults(data, tier) {
             console.log('📊 Displaying results for tier:', tier);
             const container = document.getElementById('resultsContainer');
@@ -1735,8 +1179,12 @@
                         </div>
                     </div>
                     
-                    <div style="font-size: 1.2rem; line-height: 1.7; margin-bottom: 25px; padding: 20px; background: rgba(102, 126, 234, 0.05); border-radius: 15px; border-left: 4px solid ${getScoreColor(score)};">
-                        ${assessment}
+                    <div class="conversation-bubble">
+                        <h4>🤖 What I Found:</h4>
+                        <p>${assessment}</p>
+                        <div class="key-point">
+                            <strong>Bottom Line:</strong> This content scored <strong>${score}/100</strong> on our credibility scale, which puts it in the <strong>"${getScoreLabel(score)}"</strong> category.
+                        </div>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
@@ -1768,12 +1216,11 @@
                             </div>
                         </div>
                         
-                        <div style="background: rgba(102, 126, 234, 0.05); padding: 20px; border-radius: 12px; margin: 15px 0;">
-                            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: #374151;">
-                                What our AI found:
-                            </div>
-                            <div style="line-height: 1.6; color: #6b7280;">
-                                ${getAIConversation(data.ai_analysis, score)}
+                        <div class="conversation-bubble">
+                            <h4>🧠 What our AI thinks:</h4>
+                            <p>${getAIConversation(data.ai_analysis, score)}</p>
+                            <div class="key-point">
+                                I'm ${Math.round(data.ai_analysis?.confidence_level || 85)}% confident in this assessment based on the language patterns, structure, and content quality I analyzed.
                             </div>
                         </div>
                         
@@ -1794,13 +1241,14 @@
                             </div>
                         </div>
                         
-                        <div style="background: rgba(102, 126, 234, 0.05); padding: 20px; border-radius: 12px; margin: 15px 0;">
-                            <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: #374151;">
-                                Source check results:
-                            </div>
-                            <div style="line-height: 1.6; color: #6b7280;">
-                                ${getSourceConversation(data.source_verification)}
-                            </div>
+                        <div class="conversation-bubble">
+                            <h4>🔍 Source check results:</h4>
+                            <p>${getSourceConversation(data.source_verification)}</p>
+                            ${data.source_verification?.sources_found > 0 ? `
+                                <div class="key-point">
+                                    The sources I found had an average credibility rating of ${Math.round(data.source_verification.average_source_credibility || 70)}/100, which ${data.source_verification.average_source_credibility >= 70 ? 'strengthens' : 'weakens'} the overall assessment.
+                                </div>
+                            ` : ''}
                         </div>
                         
                         <div class="metric-item">
@@ -1830,12 +1278,11 @@
                                 </div>
                             </div>
                             
-                            <div style="background: rgba(102, 126, 234, 0.05); padding: 20px; border-radius: 12px; margin: 15px 0;">
-                                <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: #374151;">
-                                    Bias assessment:
-                                </div>
-                                <div style="line-height: 1.6; color: #6b7280;">
-                                    ${getBiasConversation(data.political_bias)}
+                            <div class="conversation-bubble">
+                                <h4>⚖️ Bias assessment:</h4>
+                                <p>${getBiasConversation(data.political_bias)}</p>
+                                <div class="key-point">
+                                    This kind of analysis helps you understand the perspective and potential agenda behind the content you're reading.
                                 </div>
                             </div>
                             
@@ -1864,40 +1311,53 @@
             container.scrollIntoView({ behavior: 'smooth' });
         }
 
+        // Enhanced progress system with stages
+        function updateProgressStage(stage) {
+            currentStage = stage;
+            document.querySelectorAll('.stage-dot').forEach((dot, index) => {
+                dot.classList.remove('active', 'completed');
+                if (index < stage) {
+                    dot.classList.add('completed');
+                } else if (index === stage) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
         // Helper functions for conversational assessments
         function getConversationalAssessment(score, data) {
             if (score >= 85) {
-                return "Excellent! This content demonstrates strong credibility indicators. Our AI analysis found professional language, proper sourcing, and factual consistency. You can feel confident sharing this information.";
+                return "Excellent news! This content demonstrates strong credibility indicators. My AI analysis found professional language, proper sourcing, and factual consistency. You can feel confident sharing this information with others.";
             } else if (score >= 70) {
-                return "Pretty good! This content shows solid credibility with some minor concerns. The writing appears professional and most claims seem well-supported. Consider it reliable but perhaps verify key claims independently.";
+                return "This looks pretty good! The content shows solid credibility with only some minor concerns. The writing appears professional and most claims seem well-supported. I'd consider it reliable, though you might want to verify key claims independently.";
             } else if (score >= 55) {
-                return "Mixed signals here. While some aspects of this content appear credible, our analysis found several concerns that affect its overall reliability. I'd recommend cross-checking the main claims with other sources before sharing.";
+                return "I'm seeing mixed signals here. While some aspects of this content appear credible, my analysis found several concerns that affect its overall reliability. I'd recommend cross-checking the main claims with other sources before sharing.";
             } else if (score >= 40) {
-                return "Proceed with caution. This content raises multiple red flags in our credibility analysis. The sourcing may be weak, language potentially biased, or claims unsubstantiated. Definitely verify through reliable sources before believing or sharing.";
+                return "I'd proceed with caution on this one. This content raises multiple red flags in my credibility analysis. The sourcing may be weak, language potentially biased, or claims unsubstantiated. Definitely verify through reliable sources before believing or sharing.";
             } else {
-                return "Significant concerns detected. Our analysis suggests this content has serious credibility issues - weak sourcing, potential misinformation, or highly biased presentation. I'd strongly recommend finding alternative, more reliable sources on this topic.";
+                return "I have significant concerns about this content. My analysis suggests serious credibility issues - weak sourcing, potential misinformation, or highly biased presentation. I'd strongly recommend finding alternative, more reliable sources on this topic.";
             }
         }
 
         function getAIConversation(aiData, score) {
             const confidence = aiData?.confidence_level || 85;
             if (score >= 75) {
-                return `The content shows strong credibility markers with ${confidence}% confidence. Professional language, factual tone, and logical structure all point to reliable information.`;
+                return `I found strong credibility markers in this content with ${confidence}% confidence. The professional language, factual tone, and logical structure all point to reliable information. The writing style and content quality suggest this comes from a credible source.`;
             } else if (score >= 50) {
-                return `Mixed credibility signals detected with ${confidence}% confidence. Some good indicators present, but also areas of concern that lower the overall reliability score.`;
+                return `I detected mixed credibility signals with ${confidence}% confidence. There are some good indicators present, but also areas of concern that lower the overall reliability score. The content has both strengths and weaknesses.`;
             } else {
-                return `Multiple credibility concerns identified with ${confidence}% confidence. The content shows patterns often associated with unreliable or biased information sources.`;
+                return `I identified multiple credibility concerns with ${confidence}% confidence. The content shows patterns I often see in unreliable or biased information sources - things like emotional language, lack of sourcing, or questionable claims.`;
             }
         }
 
         function getSourceConversation(sourceData) {
             const sourcesFound = sourceData?.sources_found || 0;
             if (sourcesFound >= 3) {
-                return `Great news! We found ${sourcesFound} sources covering similar topics, which helps verify the information. Cross-referencing multiple sources strengthens credibility.`;
+                return `Great news! I found ${sourcesFound} sources covering similar topics, which helps verify the information. When multiple reputable sources report on the same story, it significantly strengthens credibility. Cross-referencing like this is one of the best ways to verify news.`;
             } else if (sourcesFound >= 1) {
-                return `We found ${sourcesFound} related source${sourcesFound > 1 ? 's' : ''} for comparison. Limited source availability makes independent verification more challenging.`;
+                return `I found ${sourcesFound} related source${sourcesFound > 1 ? 's' : ''} for comparison. While this provides some verification, having more sources would make the validation stronger. Limited source availability makes independent verification more challenging.`;
             } else {
-                return "No matching sources found in our database. This could mean the information is very recent, from a specialized field, or potentially unverified by major news outlets.";
+                return "I wasn't able to find matching sources in my database. This could mean the information is very recent, from a specialized field, or potentially unverified by major news outlets. When stories aren't covered by multiple sources, that's worth noting.";
             }
         }
 
@@ -1906,11 +1366,11 @@
             const absScore = Math.abs(biasScore);
             
             if (absScore <= 15) {
-                return "Excellent neutrality! The language appears balanced and objective, with minimal political lean detected. This suggests fair, unbiased reporting.";
+                return "Excellent neutrality! The language appears balanced and objective, with minimal political lean detected. This suggests fair, unbiased reporting that presents information without pushing a particular agenda.";
             } else if (absScore <= 35) {
-                return `Moderate ${biasScore < 0 ? 'left-leaning' : 'right-leaning'} bias detected. While not extreme, there are subtle language choices that suggest a political perspective. Still within reasonable bounds for most readers.`;
+                return `I detected moderate ${biasScore < 0 ? 'left-leaning' : 'right-leaning'} bias in the language and framing. While not extreme, there are subtle word choices and presentation styles that suggest a political perspective. It's still within reasonable bounds for most readers, but good to be aware of.`;
             } else {
-                return `Strong ${biasScore < 0 ? 'left-leaning' : 'right-leaning'} bias identified. The language and framing show clear political positioning. Consider seeking additional perspectives from different viewpoints.`;
+                return `I found strong ${biasScore < 0 ? 'left-leaning' : 'right-leaning'} bias in this content. The language and framing show clear political positioning rather than neutral reporting. This doesn't necessarily make it wrong, but you should consider seeking additional perspectives from different viewpoints to get the full picture.`;
             }
         }
 
@@ -1974,20 +1434,6 @@
             if (score >= 60) return "D-";
             return "F";
         }
-
-        // Initialize the interface
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Facts & Fakes system loading...');
-            selectTier('free');
-            console.log('✅ Facts & Fakes freemium system loaded successfully');
-        });
-
-        // Keyboard shortcut
-        document.addEventListener('keydown', function(e) {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                startAnalysis();
-            }
-        });
 
         // URL content extraction (simplified for demo)
         async function extractUrlContent(url) {
@@ -2073,23 +1519,31 @@
             hideComparison();
             
             try {
-                // FAST MOCK ANALYSIS - 3 seconds max
-                updateProgress(10, '🚀 Starting analysis...', 'Initializing AI systems');
-                await new Promise(resolve => setTimeout(resolve, 400));
-                
-                updateProgress(30, '🤖 AI analyzing content...', 'Processing language patterns');
+                // Enhanced progress with stages
+                updateProgressStage(0);
+                updateProgress(5, '🚀 Starting analysis...', 'Initializing AI systems');
                 await new Promise(resolve => setTimeout(resolve, 600));
                 
+                updateProgressStage(1);
+                updateProgress(25, '🤖 AI analyzing content...', 'Processing language patterns and structure');
+                await new Promise(resolve => setTimeout(resolve, 800));
+                
+                updateProgressStage(2);
+                updateProgress(45, '📰 Checking sources...', 'Cross-referencing with news databases');
+                await new Promise(resolve => setTimeout(resolve, 700));
+                
                 if (currentTier === 'trial') {
-                    updateProgress(50, '🎯 Detecting political bias...', 'Analyzing political language');
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                    updateProgressStage(3);
+                    updateProgress(65, '🎯 Detecting political bias...', 'Analyzing political language and framing');
+                    await new Promise(resolve => setTimeout(resolve, 600));
                     
-                    updateProgress(70, '📝 Author analysis...', 'Evaluating writing style');
-                    await new Promise(resolve => setTimeout(resolve, 400));
+                    updateProgress(80, '📝 Author analysis...', 'Evaluating writing style and credibility');
+                    await new Promise(resolve => setTimeout(resolve, 500));
                 }
                 
-                updateProgress(90, '📊 Finalizing scores...', 'Computing final results');
-                await new Promise(resolve => setTimeout(resolve, 300));
+                updateProgressStage(4);
+                updateProgress(95, '📊 Finalizing scores...', 'Computing final credibility assessment');
+                await new Promise(resolve => setTimeout(resolve, 400));
                 
                 updateProgress(100, '✅ Analysis complete!', 'Results ready');
                 
@@ -2100,7 +1554,7 @@
                     hideProgress();
                     displayResults(mockData, currentTier);
                     showConversionPrompts();
-                }, 500);
+                }, 700);
 
             } catch (error) {
                 hideProgress();
@@ -2241,160 +1695,11 @@
             }
         }
 
-        function isValidUrl(string) {
-            try {
-                new URL(string);
-                return true;
-            } catch (_) {
-                return false;
-            }
-        }
-
-        function displayResults(data, tier) {
-            const container = document.getElementById('resultsContainer');
-            container.style.display = 'block';
-            container.classList.add('fade-in');
-
-            if (tier === 'free') {
-                displayFreeResults(data);
-            } else {
-                displayPremiumResults(data);
-            }
-        }
-
-        function displayFreeResults(data) {
-            const container = document.getElementById('resultsContainer');
-            const score = data.scoring?.overall_credibility || 50;
-            const summary = data.executive_summary?.summary_text || 'Analysis completed.';
-
-            container.innerHTML = `
-                <div class="executive-summary">
-                    <div class="credibility-header">
-                        <div class="credibility-score">
-                            <div class="score-circle" style="background: ${getScoreColor(score)};">
-                                ${Math.round(score)}
-                            </div>
-                            <div>
-                                <div class="assessment-text" style="color: ${getScoreColor(score)};">
-                                    FREE ANALYSIS
-                                </div>
-                                <div style="font-size: 1rem; opacity: 0.8;">Basic Credibility Check</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px;">
-                        ${summary.substring(0, 100)}... <em>(Upgrade for full analysis)</em>
-                    </div>
-                    
-                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; text-align: center;">
-                        <strong>🎯 Want the complete picture?</strong><br>
-                        <small>See political bias, author analysis, cross-platform verification & more</small><br>
-                        <button class="unlock-btn" onclick="selectTier('trial'); analyzeNews();" style="margin-top: 10px;">
-                            ⭐ Try Premium Analysis
-                        </button>
-                    </div>
-                </div>
-
-                <div class="analysis-grid">
-                    <div class="analysis-card">
-                        <div class="card-header">
-                            <div class="card-title">
-                                <div class="card-icon">🤖</div>
-                                Basic AI Analysis
-                            </div>
-                        </div>
-                        <div class="metric-item">
-                            <span>Credibility Score:</span>
-                            <span>${score}/100</span>
-                        </div>
-                        <div class="metric-bar">
-                            <div class="metric-fill" style="width: ${score}%;"></div>
-                        </div>
-                        <p style="margin-top: 15px; opacity: 0.8;">
-                            ${data.ai_analysis?.detailed_explanation || 'Basic analysis completed.'}
-                        </p>
-                    </div>
-
-                    <div class="analysis-card">
-                        <div class="premium-lock">
-                            <div class="lock-icon">🔒</div>
-                            <div class="lock-text">Political Bias Analysis</div>
-                            <div style="opacity: 0.8;">See left/right bias meter</div>
-                            <button class="unlock-btn" onclick="selectTier('trial')">Try Premium</button>
-                        </div>
-                        <div style="opacity: 0.3;">
-                            <div class="card-title">🎯 Political Bias</div>
-                            <div class="bias-meter">
-                                <div class="bias-indicator" style="left: 50%;"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="analysis-card">
-                        <div class="premium-lock">
-                            <div class="lock-icon">🔒</div>
-                            <div class="lock-text">Author Analysis</div>
-                            <div style="opacity: 0.8;">Professional credibility scoring</div>
-                            <button class="unlock-btn" onclick="selectTier('trial')">Try Premium</button>
-                        </div>
-                    </div>
-
-                    <div class="analysis-card">
-                        <div class="premium-lock">
-                            <div class="lock-icon">🔒</div>
-                            <div class="lock-text">Cross-Platform Analysis</div>
-                            <div style="opacity: 0.8;">How story appears across outlets</div>
-                            <button class="unlock-btn" onclick="selectTier('trial')">Try Premium</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function displayPremiumResults(data) {
-            const container = document.getElementById('resultsContainer');
-            
-            // Display full premium interface (reuse from previous code)
-            displayExecutiveSummary(data);
-            displayAnalysisCards(data);
-        }
-
-        function showComparison() {
-            hideResults();
-            hideError();
-            document.getElementById('comparisonView').style.display = 'flex';
-            document.getElementById('comparisonView').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function hideComparison() {
-            document.getElementById('comparisonView').style.display = 'none';
-        }
-
-        function showConversionPrompts() {
-            // Show upgrade prompts at strategic moments
-            if (currentTier === 'free' && usageTracker.usage.freeUsed === 2) {
-                setTimeout(() => {
-                    if (confirm('🎯 You have 1 free analysis left today!\n\nTry Premium now to see the full analysis with political bias, author credibility, and cross-platform verification?')) {
-                        selectTier('trial');
-                    }
-                }, 3000);
-            }
-
-            if (currentTier === 'trial') {
-                setTimeout(() => {
-                    if (confirm('🌟 Amazing! This is what Premium offers every time.\n\nUpgrade to Premium for unlimited advanced analysis?\n\n💎 Only $9.99/month')) {
-                        showUpgradeOptions();
-                    }
-                }, 5000);
-            }
-        }
-
         function showUpgradeOptions() {
             alert('🚀 Upgrade to Premium!\n\n✓ Unlimited daily analysis\n✓ Political bias detection\n✓ Author credibility profiling\n✓ Cross-platform verification\n✓ Professional reporting\n✓ Priority support\n\nOnly $9.99/month\n\n[Integration with payment system needed]');
         }
 
-        // Helper functions
+        // Enhanced progress functions
         function updateProgress(percentage, text, detail = '') {
             document.getElementById('progressFill').style.width = percentage + '%';
             document.getElementById('progressText').textContent = text;
@@ -2405,326 +1710,24 @@
             document.getElementById('progressContainer').style.display = 'block';
             document.getElementById('progressTimer').style.display = 'none';
             updateProgress(0, 'Initializing Analysis...', 'Preparing AI models...');
+            updateProgressStage(0);
         }
 
         function hideProgress() {
             document.getElementById('progressContainer').style.display = 'none';
         }
 
-        function hideResults() {
-            document.getElementById('resultsContainer').style.display = 'none';
-        }
-
-        function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-        }
-
-        function hideError() {
-            document.getElementById('errorMessage').style.display = 'none';
-        }
-
-        function getScoreColor(score) {
-            if (score >= 80) return '#00cc44';
-            if (score >= 60) return '#88cc00';
-            if (score >= 40) return '#ffaa00';
-            return '#ff4444';
-        }
-
-        // Include all the premium display functions from previous code
-        function displayExecutiveSummary(data) {
-            const summaryDiv = document.createElement('div');
-            summaryDiv.className = 'executive-summary';
-            const summary = data.executive_summary || {};
-            const scoring = data.scoring || {};
-
-            const credibilityScore = scoring.overall_credibility || 50;
-            const grade = scoring.credibility_grade || 'N/A';
-            const assessment = summary.main_assessment || 'PREMIUM ANALYSIS COMPLETE';
-
-            summaryDiv.innerHTML = `
-                <div class="credibility-header">
-                    <div class="credibility-score">
-                        <div class="score-circle" style="background: ${getScoreColor(credibilityScore)};">
-                            ${Math.round(credibilityScore)}
-                        </div>
-                        <div>
-                            <div class="assessment-text" style="color: ${getScoreColor(credibilityScore)};">
-                                ${assessment}
-                            </div>
-                            <div style="font-size: 1rem; opacity: 0.8;">Premium Analysis</div>
-                        </div>
-                    </div>
-                    <div class="grade-badge" style="background: ${getScoreColor(credibilityScore)};">
-                        Grade: ${grade}
-                    </div>
-                </div>
-                
-                <div style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px;">
-                    ${summary.summary_text || 'Premium analysis completed successfully.'}
-                </div>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                    ${(summary.key_findings || []).map(finding => `
-                        <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; text-align: center;">
-                            ${finding}
-                        </div>
-                    `).join('')}
-                </div>
-                
-                ${summary.recommendation ? `
-                    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%); padding: 20px; border-radius: 15px; margin-top: 20px;">
-                        <strong>🎯 Recommendation:</strong><br>
-                        ${summary.recommendation}
-                    </div>
-                ` : ''}
-            `;
-
-            document.getElementById('resultsContainer').appendChild(summaryDiv);
-        }
-
-        function displayAnalysisCards(data) {
-            const gridDiv = document.createElement('div');
-            gridDiv.className = 'analysis-grid';
-            
-            // Create premium analysis cards with full data
-            const cards = [
-                createPoliticalBiasCard(data.political_bias || {}),
-                createAuthorAnalysisCard(data.author_analysis || {}),
-                createSourceVerificationCard(data.source_verification || {}),
-                createAIAnalysisCard(data.ai_analysis || {}),
-                createFactCheckCard(data.fact_check_results || {}),
-                createCrossPlatformCard(data.cross_platform_analysis || {})
-            ];
-
-            gridDiv.innerHTML = cards.join('');
-            document.getElementById('resultsContainer').appendChild(gridDiv);
-        }
-
-        // Include all card creation functions from previous premium interface...
-        function createPoliticalBiasCard(biasData) {
-            const biasScore = biasData.bias_score || 0;
-            const biasLabel = biasData.bias_label || 'Unknown';
-            const objectivity = biasData.objectivity_score || 50;
-
-            return `
-                <div class="analysis-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <div class="card-icon">🎯</div>
-                            Political Bias Analysis
-                        </div>
-                    </div>
-                    
-                    <div class="metric-item">
-                        <span>Bias Rating:</span>
-                        <span style="color: ${getBiasColor(biasScore)};">
-                            ${biasLabel} (${biasScore > 0 ? '+' : ''}${biasScore})
-                        </span>
-                    </div>
-                    
-                    <div class="bias-meter">
-                        <div class="bias-indicator" style="left: ${(biasScore + 100) / 2}%;"></div>
-                    </div>
-                    
-                    <div class="bias-labels">
-                        <span>Far Left</span>
-                        <span>Center</span>
-                        <span>Far Right</span>
-                    </div>
-                    
-                    <div class="metric-item">
-                        <span>Objectivity:</span>
-                        <span>${objectivity}/100</span>
-                    </div>
-                    <div class="metric-bar">
-                        <div class="metric-fill" style="width: ${objectivity}%;"></div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function createAuthorAnalysisCard(authorData) {
-            const writingScore = authorData.writing_style_score || 50;
-            const professionalism = authorData.professionalism_score || 50;
-            const expertise = authorData.estimated_expertise_level || 'Unknown';
-
-            return `
-                <div class="analysis-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <div class="card-icon">👤</div>
-                            Author Analysis
-                        </div>
-                    </div>
-                    
-                    <div class="metric-item">
-                        <span>Writing Quality:</span>
-                        <span>${writingScore}/100</span>
-                    </div>
-                    <div class="metric-bar">
-                        <div class="metric-fill" style="width: ${writingScore}%;"></div>
-                    </div>
-                    
-                    <div class="metric-item">
-                        <span>Professionalism:</span>
-                        <span>${professionalism}/100</span>
-                    </div>
-                    <div class="metric-bar">
-                        <div class="metric-fill" style="width: ${professionalism}%;"></div>
-                    </div>
-                    
-                    <div class="metric-item">
-                        <span>Expertise Level:</span>
-                        <span style="color: ${getExpertiseColor(expertise)};">
-                            ${expertise.charAt(0).toUpperCase() + expertise.slice(1)}
-                        </span>
-                    </div>
-                </div>
-            `;
-        }
-
-        function createSourceVerificationCard(sourceData) {
-            const sourcesFound = sourceData.sources_found || 0;
-            const avgCredibility = sourceData.average_source_credibility || 0;
-
-            return `
-                <div class="analysis-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <div class="card-icon">🔍</div>
-                            Source Verification
-                        </div>
-                    </div>
-                    
-                    <div class="metric-item">
-                        <span>Sources Found:</span>
-                        <span>${sourcesFound}</span>
-                    </div>
-                    
-                    <div class="metric-item">
-                        <span>Avg Credibility:</span>
-                        <span>${Math.round(avgCredibility)}/100</span>
-                    </div>
-                    <div class="metric-bar">
-                        <div class="metric-fill" style="width: ${avgCredibility}%;"></div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function createAIAnalysisCard(aiData) {
-            const credibility = aiData.credibility_score || 50;
-            const confidence = aiData.confidence_level || 50;
-
-            return `
-                <div class="analysis-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <div class="card-icon">🤖</div>
-                            AI Analysis
-                        </div>
-                    </div>
-                    
-                    <div class="metric-item">
-                        <span>AI Credibility:</span>
-                        <span>${credibility}/100</span>
-                    </div>
-                    <div class="metric-bar">
-                        <div class="metric-fill" style="width: ${credibility}%;"></div>
-                    </div>
-                    
-                    <div class="metric-item">
-                        <span>Confidence:</span>
-                        <span>${confidence}/100</span>
-                    </div>
-                    <div class="metric-bar">
-                        <div class="metric-fill" style="width: ${confidence}%;"></div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function createFactCheckCard(factData) {
-            const factsFound = factData.fact_checks_found || 0;
-
-            return `
-                <div class="analysis-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <div class="card-icon">✅</div>
-                            Fact Checks
-                        </div>
-                    </div>
-                    
-                    <div class="metric-item">
-                        <span>Fact Checks Found:</span>
-                        <span>${factsFound}</span>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: 15px; opacity: 0.8;">
-                        ${factsFound > 0 ? 'External verification available' : 'No existing fact checks found'}
-                    </div>
-                </div>
-            `;
-        }
-
-        function createCrossPlatformCard(crossData) {
-            const platformsAnalyzed = crossData.platforms_analyzed || 0;
-            const consistency = crossData.narrative_consistency_score || 0;
-
-            return `
-                <div class="analysis-card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <div class="card-icon">📊</div>
-                            Cross-Platform
-                        </div>
-                    </div>
-                    
-                    <div class="metric-item">
-                        <span>Platforms:</span>
-                        <span>${platformsAnalyzed}</span>
-                    </div>
-                    
-                    <div class="metric-item">
-                        <span>Consistency:</span>
-                        <span>${Math.round(consistency)}/100</span>
-                    </div>
-                    <div class="metric-bar">
-                        <div class="metric-fill" style="width: ${consistency}%;"></div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Additional helper functions
-        function getBiasColor(biasScore) {
-            if (Math.abs(biasScore) <= 20) return '#cccccc';
-            if (biasScore < 0) return '#4488cc';
-            return '#cc8888';
-        }
-
-        function getExpertiseColor(expertise) {
-            switch(expertise.toLowerCase()) {
-                case 'expert': return '#00cc44';
-                case 'professional': return '#88cc00';
-                case 'amateur': return '#ffaa00';
-                default: return '#cc8888';
-            }
-        }
-
         // Initialize the interface
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Facts & Fakes system loading...');
             selectTier('free');
-            console.log('Facts & Fakes freemium system loaded successfully');
+            console.log('✅ Facts & Fakes freemium system loaded successfully');
         });
 
         // Keyboard shortcut
         document.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                analyzeNews();
+                startAnalysis();
             }
         });
     </script>
