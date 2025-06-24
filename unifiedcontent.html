@@ -1527,6 +1527,37 @@ Perfect for academic papers, articles, reports, and any written content." oninpu
             }
         }
 
+        function selectTier(tier) {
+            currentTier = tier;
+            
+            document.querySelectorAll('.tier-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const selectedBtn = document.getElementById(tier + 'Btn');
+            selectedBtn.classList.add('active');
+
+            const premiumToggle = document.getElementById('premiumToggle');
+            const premiumPreview = document.getElementById('premiumPreview');
+            
+            if (tier === 'trial') {
+                premiumToggle.style.display = 'block';
+                // Don't auto-show, let user click to see
+            } else {
+                premiumToggle.style.display = 'none';
+                premiumPreview.classList.remove('show');
+            }
+
+            const analyzeBtn = document.querySelector('.analyze-btn');
+            if (tier === 'free') {
+                analyzeBtn.innerHTML = '<i class="fas fa-search"></i> Launch Professional Analysis (FREE)';
+                analyzeBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            } else {
+                analyzeBtn.innerHTML = '<i class="fas fa-star"></i> Launch Premium Analysis (TRIAL)';
+                analyzeBtn.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%)';
+            }
+        }
+
         function loadSample(type) {
             const textarea = document.getElementById('content-text');
             textarea.value = sampleTexts[type];
@@ -1534,6 +1565,44 @@ Perfect for academic papers, articles, reports, and any written content." oninpu
             
             if (currentInputType !== 'text') {
                 switchInputType('text');
+            }
+        }
+
+        function toggleFeatures() {
+            const featuresToggle = document.querySelector('.features-toggle');
+            const featureHighlights = document.getElementById('featureHighlights');
+            
+            featuresToggle.classList.toggle('expanded');
+            featureHighlights.classList.toggle('show');
+        }
+
+        function togglePremiumFeatures() {
+            const premiumToggle = document.getElementById('premiumToggle');
+            const premiumPreview = document.getElementById('premiumPreview');
+            
+            premiumToggle.classList.toggle('expanded');
+            premiumPreview.classList.toggle('show');
+        }
+
+        function switchInputType(type) {
+            currentInputType = type;
+            
+            document.querySelectorAll('.input-tab').forEach((tab, index) => {
+                tab.classList.remove('active');
+                if ((type === 'text' && index === 0) || (type === 'file' && index === 1)) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            document.querySelectorAll('.input-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            const targetContent = document.getElementById(type + 'Input');
+            if (targetContent) {
+                setTimeout(() => {
+                    targetContent.classList.add('active');
+                }, 150);
             }
         }
 
@@ -1863,4 +1932,58 @@ Perfect for academic papers, articles, reports, and any written content." oninpu
             } else {
                 element.style.display = 'none';
             }
+        }
+
+        function hashCode(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return hash;
+        }
+
+        function getScoreColor(score) {
+            if (score >= 80) return '#10b981';
+            if (score >= 65) return '#059669';
+            if (score >= 50) return '#f59e0b';
+            if (score >= 35) return '#f97316';
+            return '#ef4444';
+        }
+
+        function getGradeFromScore(score) {
+            if (score >= 95) return 'A+';
+            if (score >= 90) return 'A';
+            if (score >= 85) return 'A-';
+            if (score >= 80) return 'B+';
+            if (score >= 75) return 'B';
+            if (score >= 70) return 'B-';
+            if (score >= 65) return 'C+';
+            if (score >= 60) return 'C';
+            if (score >= 55) return 'C-';
+            if (score >= 50) return 'D';
+            return 'F';
+        }
+
+        function getAssessment(score) {
+            if (score >= 85) return 'Highly Authentic';
+            if (score >= 70) return 'Generally Authentic';
+            if (score >= 55) return 'Moderately Authentic';
+            if (score >= 40) return 'Questionable';
+            if (score >= 25) return 'Low Authenticity';
+            return 'Unreliable';
+        }
+
+        function extractAILikelihood(data) {
+            // Extract AI likelihood from analysis text
+            const aiText = data.ai_analysis || '';
+            const match = aiText.match(/(\d+)%/);
+            return match ? parseInt(match[1]) : 30;
+        }
+
+        function toggleSection(header) {
+            header.classList.toggle('expanded');
+            const content = header.nextElementSibling;
+            content.classList.toggle('expanded');
         }
