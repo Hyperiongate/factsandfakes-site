@@ -368,7 +368,7 @@
             transform: translateX(-50%);
             width: 90%;
             max-width: 600px;
-            z-index: 9999;
+            z-index: 999999 !important;
             color: white;
             overflow: hidden;
         }
@@ -1743,10 +1743,33 @@ Some data suggests inflation is cooling, but other indicators show persistent pr
         }
 
         // Enhanced demo data generator with COMPREHENSIVE EXECUTIVE SUMMARIES
+        let contentScoreCache = {};
+
+function getConsistentScore(content) {
+    const contentKey = (content || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    
+    if (contentScoreCache[contentKey]) {
+        return contentScoreCache[contentKey];
+    }
+    
+    const hash = hashCode(contentKey);
+    const normalizedHash = Math.abs(hash) / 2147483647;
+    
+    
+    const result = {
+        baseScore,
+        normalizedHash,
+        aiProbability: normalizedHash * 0.25,
+        confidence: 75 + (normalizedHash * 20)
+    };
+    
+    contentScoreCache[contentKey] = result;
+    return result;
+}
         function generateEnhancedDemoData(content, tier) {
             const textLength = (content || '').length;
-            const hash = hashCode(content || 'demo');
-            const normalizedHash = Math.abs(hash) / 2147483647;
+            const scoreData = getConsistentScore(content);
+const { baseScore, normalizedHash, aiProbability, confidence } = scoreData;
             
             // CONSISTENT scoring regardless of tier - only features differ
             let baseScore = 45 + (normalizedHash * 40);
