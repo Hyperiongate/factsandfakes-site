@@ -249,9 +249,84 @@
         <div class="header">
             <h1><i class="fas fa-shield-alt"></i> AI Detection & Plagiarism Checker</h1>
             <p>Enterprise AI-Powered Content Authenticity Platform</p>
+            <div style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); padding: 8px 20px; border-radius: 25px; display: inline-block; font-weight: 600; font-size: 0.9rem; border: 1px solid rgba(255, 255, 255, 0.3);">
+                <i class="fas fa-star"></i> Professional Grade Analysis
+            </div>
         </div>
 
         <div class="tool-container">
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h2 style="font-size: 2.8rem; color: #4a5568; margin-bottom: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><i class="fas fa-search"></i> Content Authenticity Analysis</h2>
+                <p style="font-size: 1.2rem; color: #718096; margin-bottom: 20px;">Six-dimensional AI detection & plagiarism verification platform</p>
+            </div>
+
+            <div style="background: linear-gradient(145deg, rgba(102, 126, 234, 0.1), rgba(102, 126, 234, 0.05)); border: 2px solid rgba(102, 126, 234, 0.2); border-radius: 15px; padding: 20px; margin-bottom: 30px; text-align: center; cursor: pointer; transition: all 0.3s ease;" onclick="toggleFeatures()">
+                <h3 style="color: #667eea; margin-bottom: 10px; font-size: 1.3rem; font-weight: 700;">🚀 Our Six-Dimensional Analysis Platform</h3>
+                <p style="color: #4a5568; margin-bottom: 15px; font-size: 1rem;">Click to explore our comprehensive authenticity verification capabilities</p>
+                <span style="font-size: 1.5rem; color: #667eea;" id="featuresArrow">▼</span>
+            </div>
+
+            <div style="display: none; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;" id="featureHighlights">
+                <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 15px; text-align: center; transition: all 0.3s ease;">
+                    <i class="fas fa-robot" style="font-size: 1.5rem; color: #667eea; margin-bottom: 8px;"></i>
+                    <strong style="display: block; color: #4a5568; font-size: 0.9rem; margin-bottom: 5px;">AI Pattern Detection</strong>
+                    <span style="color: #718096; font-size: 0.8rem;">Multi-model ensemble analysis</span>
+                </div>
+                <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 15px; text-align: center; transition: all 0.3s ease;">
+                    <i class="fas fa-copy" style="font-size: 1.5rem; color: #667eea; margin-bottom: 8px;"></i>
+                    <strong style="display: block; color: #4a5568; font-size: 0.9rem; margin-bottom: 5px;">Plagiarism Verification</strong>
+                    <span style="color: #718096; font-size: 0.8rem;">Cross-platform source checking</span>
+                </div>
+                <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 15px; text-align: center; transition: all 0.3s ease;">
+                    <i class="fas fa-chart-line" style="font-size: 1.5rem; color: #667eea; margin-bottom: 8px;"></i>
+                    <strong style="display: block; color: #4a5568; font-size: 0.9rem; margin-bottom: 5px;">Linguistic Analysis</strong>
+                    <span style="color: #718096; font-size: 0.8rem;">Deep language flow assessment</span>
+                </div>
+                <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 15px; text-align: center; transition: all 0.3s ease;">
+                    <i class="fas fa-file-alt" style="font-size: 1.5rem; color: #667eea; margin-bottom: 8px;"></i>
+                    <strong style="display: block; color: #4a5568; font-size: 0.9rem; margin-bottom: 5px;">Document Processing</strong>
+                    <span style="color: #718096; font-size: 0.8rem;">PDF, DOCX, TXT support</span>
+                </div>
+                <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 15px; text-align: center; transition: all 0.3s ease;">
+                    <i class="fas fa-database" style="font-size: 1.5rem; color: #667eea; margin-bottom: 8px;"></i>
+                    <strong style="display: block; color: #4a5568; font-size: 0.9rem; margin-bottom: 5px;">Source Verification</strong>
+                    <span style="color: #718096; font-size: 0.8rem;">Academic database integration</span>
+                </div>
+                <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 15px; text-align: center; transition: all 0.3s ease;">
+                    <i class="fas fa-shield-check" style="font-size: 1.5rem; color: #667eea; margin-bottom: 8px;"></i>
+                    <strong style="display: block; color: #4a5568; font-size: 0.9rem; margin-bottom: 5px;">Authenticity Scoring</strong>
+                    <span style="color: #718096; font-size: 0.8rem;">Professional grade metrics</span>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap;" class="tier-selector">
+                <button style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-color: #667eea; color: white; border: 3px solid #667eea; font-weight: 600; cursor: pointer; border-radius: 20px; padding: 20px 35px; font-size: 1.1rem; position: relative; box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3); transform: translateY(-3px);" id="freeBtn" onclick="selectTier('free')">
+                    🆓 Free Analysis
+                    <span style="position: absolute; top: -8px; right: -8px; background: linear-gradient(45deg, #ff4444, #ff6b6b); color: white; font-size: 0.7rem; padding: 4px 8px; border-radius: 12px; font-weight: bold;">5 left</span>
+                </button>
+                <button style="background: linear-gradient(145deg, #f8fafc, #e2e8f0); color: #4a5568; border: 3px solid #e2e8f0; font-weight: 600; cursor: pointer; border-radius: 20px; padding: 20px 35px; font-size: 1.1rem; position: relative; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);" id="trialBtn" onclick="selectTier('trial')">
+                    ⭐ Premium Trial
+                    <span style="position: absolute; top: -8px; right: -8px; background: linear-gradient(45deg, #ff4444, #ff6b6b); color: white; font-size: 0.7rem; padding: 4px 8px; border-radius: 12px; font-weight: bold;">2 left</span>
+                </button>
+            </div>
+
+            <div style="display: none; background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 142, 83, 0.1)); border: 2px solid rgba(255, 107, 107, 0.2); border-radius: 15px; padding: 20px; margin: 20px 0; text-align: center; cursor: pointer;" id="premiumToggle" onclick="togglePremiumFeatures()">
+                <h4 style="color: #ff6b6b; margin-bottom: 10px; font-size: 1.3rem; font-weight: 700;">⭐ Premium Features Available</h4>
+                <p style="color: #4a5568; margin-bottom: 15px; font-size: 1rem;">Click to see what's unlocked with Premium Trial</p>
+                <span style="font-size: 1.5rem; color: #ff6b6b;" id="premiumArrow">▼</span>
+            </div>
+
+            <div style="display: none; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); border: 2px solid rgba(102, 126, 234, 0.2); border-radius: 20px; padding: 25px; margin: 20px 0;" id="premiumPreview">
+                <h4 style="color: #667eea; margin-bottom: 15px; font-size: 1.2rem;">🔥 Premium Features Unlocked:</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px;">
+                    <div style="padding: 8px 0; color: #4a5568; font-weight: 500;">🔥 Advanced AI pattern detection</div>
+                    <div style="padding: 8px 0; color: #4a5568; font-weight: 500;">🔥 Deep source verification databases</div>
+                    <div style="padding: 8px 0; color: #4a5568; font-weight: 500;">🔥 Cross-platform plagiarism checking</div>
+                    <div style="padding: 8px 0; color: #4a5568; font-weight: 500;">🔥 Technical linguistic analysis</div>
+                    <div style="padding: 8px 0; color: #4a5568; font-weight: 500;">🔥 Comprehensive document processing</div>
+                    <div style="padding: 8px 0; color: #4a5568; font-weight: 500;">🔥 Professional authenticity reports</div>
+                </div>
+            </div>
             <div class="input-section">
                 <div class="input-tabs">
                     <button class="input-tab active" onclick="switchInputType('text')">📝 Paste Content</button>
@@ -259,9 +334,28 @@
                 </div>
                 
                 <div class="input-content active" id="textInput">
+                    <div style="margin-bottom: 20px; background: rgba(102, 126, 234, 0.05); padding: 15px; border-radius: 12px; border: 1px solid rgba(102, 126, 234, 0.1);">
+                        <label style="font-size: 0.95rem; margin-bottom: 10px; font-weight: 600; color: #4a5568; display: block;">📚 Try Sample Content - Experience Our Analysis:</label>
+                        <div>
+                            <button style="background: linear-gradient(145deg, rgba(102, 126, 234, 0.1), rgba(102, 126, 234, 0.2)); border: 1px solid #667eea; color: #667eea; padding: 8px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin: 4px; transition: all 0.3s ease;" onclick="loadSample('ai_generated')">🤖 AI-Generated Text</button>
+                            <button style="background: linear-gradient(145deg, rgba(102, 126, 234, 0.1), rgba(102, 126, 234, 0.2)); border: 1px solid #667eea; color: #667eea; padding: 8px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin: 4px; transition: all 0.3s ease;" onclick="loadSample('human_written')">✍️ Human-Written Content</button>
+                            <button style="background: linear-gradient(145deg, rgba(102, 126, 234, 0.1), rgba(102, 126, 234, 0.2)); border: 1px solid #667eea; color: #667eea; padding: 8px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin: 4px; transition: all 0.3s ease;" onclick="loadSample('mixed_content')">🔀 Mixed Content</button>
+                            <button style="background: linear-gradient(145deg, rgba(102, 126, 234, 0.1), rgba(102, 126, 234, 0.2)); border: 1px solid #667eea; color: #667eea; padding: 8px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; margin: 4px; transition: all 0.3s ease;" onclick="loadSample('academic_style')">🎓 Academic Writing</button>
+                        </div>
+                    </div>
+                    
                     <div class="input-group">
-                        <label for="content-text"><i class="fas fa-file-text"></i> Content for Analysis</label>
-                        <textarea id="content-text" placeholder="Paste your content here for analysis..." oninput="updateCharCount()"></textarea>
+                        <label for="content-text"><i class="fas fa-file-text"></i> Content for Authenticity Analysis</label>
+                        <textarea id="content-text" placeholder="Paste your content here for comprehensive authenticity analysis...
+
+Our unified system will analyze:
+• AI generation patterns and signatures
+• Plagiarism indicators and source matching
+• Writing style authenticity and flow
+• Linguistic patterns and consistency
+• Content originality verification
+
+Perfect for academic papers, articles, reports, and any written content." oninput="updateCharCount()"></textarea>
                         <div class="char-counter" id="charCounter">0 characters</div>
                     </div>
                 </div>
@@ -301,12 +395,109 @@
     <script>
         // Global variables
         let currentInputType = 'text';
+        let currentTier = 'free';
+
+        // Sample content for testing
+        const sampleTexts = {
+            ai_generated: "Furthermore, it is important to note that artificial intelligence represents a paradigm shift in how we approach content creation. Moreover, this innovative technology leverages advanced algorithms to optimize the writing process. Additionally, comprehensive studies indicate that these cutting-edge solutions provide significant benefits across multiple industries. In conclusion, the implementation of AI-driven systems streamlines operations and enhances productivity.",
+            
+            human_written: "I can't believe what happened today! So I was walking to the coffee shop around the corner from my apartment, and I see this guy just standing there with like 20 dogs. Twenty! I'm not even exaggerating. Some were huge German Shepherds, others were tiny Chihuahuas, and they were all just chilling together. Turns out he runs a dog-walking service and was doing a group walk. Made my morning honestly - sometimes you just need to see something that makes you smile.",
+            
+            mixed_content: "According to recent studies, machine learning algorithms have demonstrated significant improvements in natural language processing tasks. However, I've personally noticed that when I use AI writing tools, the output often feels somewhat robotic and lacks the personal touch that makes writing engaging. The technology is impressive, don't get me wrong, but there's still something special about human creativity that can't be replicated.",
+            
+            academic_style: "The present study examines the efficacy of automated content detection systems in identifying artificially generated text. Through a comprehensive analysis of linguistic patterns, syntactic structures, and semantic coherence, we demonstrate that current detection methodologies achieve approximately 85% accuracy rates. These findings have significant implications for academic integrity and content verification processes in digital environments."
+        };
         
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Page loaded, initializing upload...');
             initializeFileUpload();
         });
+
+        function toggleFeatures() {
+            const featureHighlights = document.getElementById('featureHighlights');
+            const arrow = document.getElementById('featuresArrow');
+            
+            if (featureHighlights.style.display === 'none') {
+                featureHighlights.style.display = 'grid';
+                arrow.textContent = '▲';
+            } else {
+                featureHighlights.style.display = 'none';
+                arrow.textContent = '▼';
+            }
+        }
+
+        function togglePremiumFeatures() {
+            const premiumPreview = document.getElementById('premiumPreview');
+            const arrow = document.getElementById('premiumArrow');
+            
+            if (premiumPreview.style.display === 'none') {
+                premiumPreview.style.display = 'block';
+                arrow.textContent = '▲';
+            } else {
+                premiumPreview.style.display = 'none';
+                arrow.textContent = '▼';
+            }
+        }
+
+        function selectTier(tier) {
+            currentTier = tier;
+            
+            // Update button styles
+            const freeBtn = document.getElementById('freeBtn');
+            const trialBtn = document.getElementById('trialBtn');
+            const premiumToggle = document.getElementById('premiumToggle');
+            
+            if (tier === 'free') {
+                freeBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                freeBtn.style.color = 'white';
+                freeBtn.style.borderColor = '#667eea';
+                freeBtn.style.transform = 'translateY(-3px)';
+                freeBtn.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.3)';
+                
+                trialBtn.style.background = 'linear-gradient(145deg, #f8fafc, #e2e8f0)';
+                trialBtn.style.color = '#4a5568';
+                trialBtn.style.borderColor = '#e2e8f0';
+                trialBtn.style.transform = 'none';
+                trialBtn.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                
+                premiumToggle.style.display = 'none';
+            } else {
+                trialBtn.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%)';
+                trialBtn.style.color = 'white';
+                trialBtn.style.borderColor = '#ff6b6b';
+                trialBtn.style.transform = 'translateY(-3px)';
+                trialBtn.style.boxShadow = '0 8px 25px rgba(255, 107, 107, 0.3)';
+                
+                freeBtn.style.background = 'linear-gradient(145deg, #f8fafc, #e2e8f0)';
+                freeBtn.style.color = '#4a5568';
+                freeBtn.style.borderColor = '#e2e8f0';
+                freeBtn.style.transform = 'none';
+                freeBtn.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                
+                premiumToggle.style.display = 'block';
+            }
+
+            // Update analyze button
+            const analyzeBtn = document.querySelector('.analyze-btn');
+            if (tier === 'free') {
+                analyzeBtn.innerHTML = '<i class="fas fa-search"></i> Launch Professional Analysis (FREE)';
+                analyzeBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            } else {
+                analyzeBtn.innerHTML = '<i class="fas fa-star"></i> Launch Premium Analysis (TRIAL)';
+                analyzeBtn.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%)';
+            }
+        }
+
+        function loadSample(type) {
+            const textarea = document.getElementById('content-text');
+            textarea.value = sampleTexts[type];
+            updateCharCount();
+            
+            if (currentInputType !== 'text') {
+                switchInputType('text');
+            }
+        }
 
         function switchInputType(type) {
             console.log('Switching to:', type);
@@ -587,7 +778,7 @@
             var resultsDiv = document.getElementById('results');
             if (resultsDiv) resultsDiv.style.display = 'none';
 
-            // Simple progress simulation
+            // Enhanced progress simulation
             setTimeout(function() {
                 updateProgress(20, '🤖 AI Content Analysis...', 'Running detection algorithms');
                 setTimeout(function() {
@@ -598,10 +789,12 @@
                             updateProgress(100, '✅ Done!', 'Results ready');
                             setTimeout(function() {
                                 hideProgress();
-                                showSimpleResults(text);
+                                showEnhancedResults(text);
                                 if (analyzeBtn) {
                                     analyzeBtn.disabled = false;
-                                    analyzeBtn.innerHTML = '<i class="fas fa-search"></i> Launch Analysis';
+                                    analyzeBtn.innerHTML = currentTier === 'free' ? 
+                                        '<i class="fas fa-search"></i> Launch Professional Analysis (FREE)' : 
+                                        '<i class="fas fa-star"></i> Launch Premium Analysis (TRIAL)';
                                 }
                             }, 500);
                         }, 800);
