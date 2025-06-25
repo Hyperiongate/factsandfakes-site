@@ -3,56 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Detection & Plagiarism Checker - Enhanced</title>
+    <title>AI Detection & Plagiarism Checker</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #333;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
         .header {
             text-align: center;
             margin-bottom: 40px;
             color: white;
         }
-
+        
         .header h1 {
             font-size: 3rem;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
-
+        
         .tool-container {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             border-radius: 25px;
             padding: 50px;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
         }
-
+        
         .input-tabs {
             display: flex;
             gap: 15px;
             margin-bottom: 25px;
             border-bottom: 3px solid #e2e8f0;
         }
-
+        
         .input-tab {
             padding: 15px 30px;
             border: none;
@@ -65,43 +56,32 @@
             font-size: 1rem;
             border-bottom: 3px solid transparent;
         }
-
-        .input-tab:hover {
-            background: #f1f5f9;
-            color: #374151;
-        }
-
+        
         .input-tab.active {
             background: white;
             color: #667eea;
             border-bottom-color: #667eea;
             box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
         }
-
+        
         .input-content {
             display: none;
         }
-
+        
         .input-content.active {
             display: block;
             animation: fadeInUp 0.4s ease;
         }
-
+        
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
+        
         .input-group {
             margin-bottom: 25px;
         }
-
+        
         .input-group label {
             display: block;
             margin-bottom: 10px;
@@ -109,7 +89,7 @@
             color: #4a5568;
             font-size: 1.1rem;
         }
-
+        
         .input-group textarea {
             width: 100%;
             padding: 18px;
@@ -123,13 +103,13 @@
             resize: vertical;
             line-height: 1.6;
         }
-
+        
         .input-group textarea:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
         }
-
+        
         .file-upload {
             border: 3px dashed #667eea;
             border-radius: 15px;
@@ -139,36 +119,23 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
+        
         .file-upload:hover {
             background: rgba(102, 126, 234, 0.1);
             border-color: #5a6fd8;
             transform: translateY(-2px);
         }
-
+        
         .file-upload.dragover {
             background: rgba(102, 126, 234, 0.15);
             border-color: #4c63d2;
             transform: scale(1.02);
         }
-
-        .file-upload-icon {
-            font-size: 3rem;
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-
-        .file-upload h3 {
-            color: #4a5568;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-
-        .file-upload p {
-            color: #718096;
-            font-size: 1rem;
-        }
-
+        
+        .file-upload-icon { font-size: 3rem; color: #667eea; margin-bottom: 15px; }
+        .file-upload h3 { color: #4a5568; margin-bottom: 10px; font-size: 1.2rem; }
+        .file-upload p { color: #718096; font-size: 1rem; }
+        
         .char-counter {
             text-align: right;
             font-size: 0.95rem;
@@ -176,7 +143,7 @@
             margin-top: 8px;
             font-weight: 500;
         }
-
+        
         .analyze-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -191,12 +158,12 @@
             margin-bottom: 40px;
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
         }
-
+        
         .analyze-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
         }
-
+        
         .progress-container {
             display: none;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -206,14 +173,14 @@
             color: white;
             box-shadow: 0 15px 30px rgba(102, 126, 234, 0.3);
         }
-
+        
         .progress-text {
             text-align: center;
             font-weight: 700;
             margin-bottom: 15px;
             font-size: 1.1rem;
         }
-
+        
         .progress-bar {
             width: 100%;
             height: 20px;
@@ -223,7 +190,7 @@
             margin-bottom: 15px;
             border: 2px solid rgba(255, 255, 255, 0.2);
         }
-
+        
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #00ff88 0%, #00cc44 100%);
@@ -231,76 +198,65 @@
             transition: width 1.5s ease;
             width: 0%;
         }
-
+        
         .progress-details {
             text-align: center;
             font-size: 0.95rem;
             font-weight: 500;
         }
-
+        
         .results {
             display: none;
             margin-top: 40px;
         }
-
+        
         .message {
             margin-top: 15px;
             padding: 15px;
             border-radius: 15px;
             font-weight: 600;
         }
-
+        
         .message.success {
             background: rgba(0, 204, 68, 0.1);
             border-left: 4px solid #00cc44;
             color: #0d4718;
         }
-
+        
         .message.error {
             background: rgba(239, 68, 68, 0.1);
             border-left: 4px solid #ef4444;
             color: #7f1d1d;
         }
-
+        
         .message.info {
             background: rgba(102, 126, 234, 0.1);
             border-left: 4px solid #667eea;
             color: #364676;
         }
-
+        
         .message.warning {
             background: rgba(255, 170, 0, 0.1);
             border-left: 4px solid #ffaa00;
             color: #856404;
         }
-
+        
         .highlight-ai {
             background: linear-gradient(135deg, rgba(255, 68, 68, 0.3), rgba(255, 107, 107, 0.2));
             padding: 2px 4px;
             border-radius: 4px;
             border-bottom: 2px solid #ff4444;
             cursor: help;
-            transition: all 0.3s ease;
         }
-
+        
         .highlight-plagiarism {
             background: linear-gradient(135deg, rgba(255, 142, 83, 0.3), rgba(255, 170, 0, 0.2));
             padding: 2px 4px;
             border-radius: 4px;
             border-bottom: 2px solid #ff8e53;
             cursor: help;
-            transition: all 0.3s ease;
         }
-
-        .highlight-suspicious {
-            background: linear-gradient(135deg, rgba(255, 193, 7, 0.3), rgba(255, 235, 59, 0.2));
-            padding: 2px 4px;
-            border-radius: 4px;
-            border-bottom: 2px solid #ffc107;
-            cursor: help;
-            transition: all 0.3s ease;
-        }
-
+        
         .analyzed-text-container {
             background: #f8fafc;
             border-radius: 15px;
@@ -310,14 +266,13 @@
             max-height: 400px;
             overflow-y: auto;
         }
-
+        
         .analyzed-text {
             line-height: 1.8;
             font-size: 1rem;
             color: #374151;
-            font-family: inherit;
         }
-
+        
         .highlight-legend {
             display: flex;
             gap: 20px;
@@ -325,7 +280,7 @@
             flex-wrap: wrap;
             justify-content: center;
         }
-
+        
         .legend-item {
             display: flex;
             align-items: center;
@@ -337,27 +292,17 @@
             font-size: 0.9rem;
             font-weight: 600;
         }
-
+        
         .legend-color {
             width: 16px;
             height: 16px;
             border-radius: 3px;
             border: 1px solid rgba(0, 0, 0, 0.1);
         }
-
+        
         .legend-ai { background: linear-gradient(135deg, rgba(255, 68, 68, 0.7), rgba(255, 107, 107, 0.5)); }
         .legend-plagiarism { background: linear-gradient(135deg, rgba(255, 142, 83, 0.7), rgba(255, 170, 0, 0.5)); }
-        .legend-suspicious { background: linear-gradient(135deg, rgba(255, 193, 7, 0.7), rgba(255, 235, 59, 0.5)); }
-
-        .conversational-section {
-            background: linear-gradient(145deg, #ffffff, #f8fafc);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 25px 0;
-            border-left: 6px solid #667eea;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
+        
         .source-match {
             background: rgba(255, 142, 83, 0.1);
             border-left: 4px solid #ff8e53;
@@ -365,39 +310,7 @@
             margin: 10px 0;
             border-radius: 8px;
         }
-
-        .ai-component {
-            background: rgba(255, 68, 68, 0.1);
-            border-left: 4px solid #ff4444;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-        }
-
-        .tech-showcase {
-            background: linear-gradient(145deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
-            border-radius: 15px;
-            padding: 20px;
-            margin: 15px 0;
-            border: 1px solid rgba(102, 126, 234, 0.1);
-        }
-
-        .expandable-details {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .expandable-details:hover {
-            background: rgba(102, 126, 234, 0.05);
-        }
-
-        .details-content {
-            display: none;
-            padding-top: 15px;
-            border-top: 1px solid rgba(102, 126, 234, 0.2);
-            margin-top: 15px;
-        }
-
+        
         #fileInputElement {
             display: none !important;
         }
@@ -412,8 +325,8 @@
 
         <div class="tool-container">
             <div style="text-align: center; margin-bottom: 40px;">
-                <h2 style="font-size: 2.8rem; color: #4a5568; margin-bottom: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><i class="fas fa-search"></i> Content Authenticity Analysis</h2>
-                <p style="font-size: 1.2rem; color: #718096; margin-bottom: 20px;">Six-dimensional AI detection & plagiarism verification platform</p>
+                <h2 style="font-size: 2.8rem; color: #4a5568; margin-bottom: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><i class="fas fa-search"></i> Content Authenticity Analysis</h2>
+                <p style="font-size: 1.2rem; color: #718096;">Advanced AI detection & plagiarism verification</p>
             </div>
 
             <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap;">
@@ -473,19 +386,17 @@
                     <div class="progress-details" id="progressDetails">Preparing systems...</div>
                 </div>
 
-                <div class="results" id="results">
-                    <!-- Results will be populated here -->
-                </div>
+                <div class="results" id="results"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // ============== GLOBAL VARIABLES ==============
-        let currentInputType = 'text';
-        let currentTier = 'free';
+        // ============== GLOBAL VARIABLES - DECLARED ONCE ==============
+        var currentInputType = 'text';
+        var currentTier = 'free';
 
-        const sampleTexts = {
+        var sampleTexts = {
             ai_generated: "Furthermore, it is important to note that artificial intelligence represents a paradigm shift in how we approach content creation. Moreover, this innovative technology leverages advanced algorithms to optimize the writing process. Additionally, comprehensive studies indicate that these cutting-edge solutions provide significant benefits across multiple industries. In conclusion, the implementation of AI-driven systems streamlines operations and enhances productivity.",
             
             human_written: "I can't believe what happened today! So I was walking to the coffee shop around the corner from my apartment, and I see this guy just standing there with like 20 dogs. Twenty! I'm not even exaggerating. Some were huge German Shepherds, others were tiny Chihuahuas, and they were all just chilling together. Turns out he runs a dog-walking service and was doing a group walk. Made my morning honestly - sometimes you just need to see something that makes you smile.",
@@ -493,19 +404,13 @@
             mixed_content: "According to recent studies, machine learning algorithms have demonstrated significant improvements in natural language processing tasks. However, I've personally noticed that when I use AI writing tools, the output often feels somewhat robotic and lacks the personal touch that makes writing engaging. The technology is impressive, don't get me wrong, but there's still something special about human creativity that can't be replicated."
         };
 
-        // ============== INITIALIZATION ==============
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Page loaded, initializing...');
-            initializeFileUpload();
-        });
-
-        // ============== UTILITY FUNCTIONS ==============
+        // ============== GLOBAL FUNCTIONS - PROPERLY SCOPED ==============
         function updateCharCount() {
-            const textarea = document.getElementById('content-text');
-            const counter = document.getElementById('charCounter');
+            var textarea = document.getElementById('content-text');
+            var counter = document.getElementById('charCounter');
             if (!textarea || !counter) return;
             
-            const length = textarea.value.length;
+            var length = textarea.value.length;
             counter.textContent = length.toLocaleString() + ' characters';
             
             if (length > 5000) {
@@ -520,14 +425,14 @@
         }
 
         function showMessage(type, text) {
-            const container = document.getElementById('uploadMessages');
+            var container = document.getElementById('uploadMessages');
             if (!container) return;
             
-            const message = document.createElement('div');
+            var message = document.createElement('div');
             message.className = 'message ' + type;
             message.innerHTML = '<strong>' + type.toUpperCase() + ':</strong> ' + text;
             
-            const existing = container.querySelector('.message.' + type);
+            var existing = container.querySelector('.message.' + type);
             if (existing) existing.remove();
             
             container.appendChild(message);
@@ -539,11 +444,10 @@
             }
         }
 
-        // ============== PROGRESS FUNCTIONS ==============
         function updateProgress(percentage, text, detail) {
-            const progressFill = document.getElementById('progressFill');
-            const progressText = document.getElementById('progressText');
-            const progressDetails = document.getElementById('progressDetails');
+            var progressFill = document.getElementById('progressFill');
+            var progressText = document.getElementById('progressText');
+            var progressDetails = document.getElementById('progressDetails');
             
             if (progressFill) progressFill.style.width = percentage + '%';
             if (progressText) progressText.textContent = text;
@@ -551,7 +455,7 @@
         }
 
         function showProgress() {
-            const progressContainer = document.getElementById('progressContainer');
+            var progressContainer = document.getElementById('progressContainer');
             if (progressContainer) {
                 progressContainer.style.display = 'block';
                 updateProgress(0, 'Initializing Analysis...', 'Preparing systems...');
@@ -559,26 +463,27 @@
         }
 
         function hideProgress() {
-            const progressContainer = document.getElementById('progressContainer');
+            var progressContainer = document.getElementById('progressContainer');
             if (progressContainer) progressContainer.style.display = 'none';
         }
 
-        // ============== UI INTERACTION FUNCTIONS ==============
         function switchInputType(type) {
             currentInputType = type;
             
-            document.querySelectorAll('.input-tab').forEach(function(tab, index) {
-                tab.classList.remove('active');
-                if ((type === 'text' && index === 0) || (type === 'file' && index === 1)) {
-                    tab.classList.add('active');
+            var tabs = document.querySelectorAll('.input-tab');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+                if ((type === 'text' && i === 0) || (type === 'file' && i === 1)) {
+                    tabs[i].classList.add('active');
                 }
-            });
+            }
             
-            document.querySelectorAll('.input-content').forEach(function(content) {
-                content.classList.remove('active');
-            });
+            var contents = document.querySelectorAll('.input-content');
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
             
-            const targetContent = document.getElementById(type + 'Input');
+            var targetContent = document.getElementById(type + 'Input');
             if (targetContent) {
                 setTimeout(function() {
                     targetContent.classList.add('active');
@@ -589,8 +494,8 @@
         function selectTier(tier) {
             currentTier = tier;
             
-            const freeBtn = document.getElementById('freeBtn');
-            const trialBtn = document.getElementById('trialBtn');
+            var freeBtn = document.getElementById('freeBtn');
+            var trialBtn = document.getElementById('trialBtn');
             
             if (tier === 'free') {
                 freeBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
@@ -614,7 +519,7 @@
                 freeBtn.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
             }
 
-            const analyzeBtn = document.querySelector('.analyze-btn');
+            var analyzeBtn = document.querySelector('.analyze-btn');
             if (analyzeBtn) {
                 if (tier === 'free') {
                     analyzeBtn.innerHTML = '<i class="fas fa-search"></i> Launch Professional Analysis (FREE)';
@@ -627,7 +532,7 @@
         }
 
         function loadSample(type) {
-            const textarea = document.getElementById('content-text');
+            var textarea = document.getElementById('content-text');
             if (textarea && sampleTexts[type]) {
                 textarea.value = sampleTexts[type];
                 updateCharCount();
@@ -638,15 +543,14 @@
             }
         }
 
-        // ============== MAIN ANALYSIS FUNCTION ==============
         function analyzeContent() {
-            const textInput = document.getElementById('content-text');
+            var textInput = document.getElementById('content-text');
             if (!textInput) {
                 alert('Please enter some text to analyze or upload a document.');
                 return;
             }
             
-            const text = textInput.value.trim();
+            var text = textInput.value.trim();
             if (!text) {
                 alert('Please enter some text to analyze or upload a document.');
                 return;
@@ -657,17 +561,16 @@
                 return;
             }
 
-            const analyzeBtn = document.querySelector('.analyze-btn');
+            var analyzeBtn = document.querySelector('.analyze-btn');
             if (analyzeBtn) {
                 analyzeBtn.disabled = true;
                 analyzeBtn.innerHTML = '🔬 Analyzing...';
             }
 
             showProgress();
-            const resultsDiv = document.getElementById('results');
+            var resultsDiv = document.getElementById('results');
             if (resultsDiv) resultsDiv.style.display = 'none';
 
-            // Progress simulation
             setTimeout(function() {
                 updateProgress(20, '🤖 AI Content Analysis...', 'Running detection algorithms');
                 setTimeout(function() {
@@ -692,11 +595,10 @@
             }, 500);
         }
 
-        // ============== ENHANCED ANALYSIS FUNCTIONS ==============
         function hashCode(str) {
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                const char = str.charCodeAt(i);
+            var hash = 0;
+            for (var i = 0; i < str.length; i++) {
+                var char = str.charCodeAt(i);
                 hash = ((hash << 5) - hash) + char;
                 hash = hash & hash;
             }
@@ -704,10 +606,10 @@
         }
 
         function checkForPlagiarism(content) {
-            const contentLower = content.toLowerCase();
-            const indicators = [];
+            var lowerContent = content.toLowerCase();
+            var indicators = [];
             
-            const famousQuotes = [
+            var famousQuotes = [
                 "it was the best of times, it was the worst of times",
                 "to be or not to be, that is the question", 
                 "call me ishmael",
@@ -717,8 +619,8 @@
                 "may the force be with you"
             ];
             
-            for (let i = 0; i < famousQuotes.length; i++) {
-                if (contentLower.includes(famousQuotes[i])) {
+            for (var i = 0; i < famousQuotes.length; i++) {
+                if (lowerContent.includes(famousQuotes[i])) {
                     indicators.push({type: 'famous_quote', content: famousQuotes[i]});
                 }
             }
@@ -726,16 +628,16 @@
             return indicators;
         }
 
-        function generateHighlightedText(content, normalizedHash, aiProbability, tier) {
+        function generateHighlightedText(content, tier) {
             if (!content || tier === 'free') return null;
             
-            const sentences = content.split(/[.!?]+/).filter(function(s) { return s.trim().length > 20; });
+            var sentences = content.split(/[.!?]+/).filter(function(s) { return s.trim().length > 20; });
             if (sentences.length === 0) return content;
             
-            let highlightedText = '';
-            let aiCount = 0, plagiarismCount = 0, suspiciousCount = 0;
+            var highlightedText = '';
+            var aiCount = 0, plagiarismCount = 0;
             
-            const famousQuotes = [
+            var famousQuotes = [
                 { quote: "it was the best of times, it was the worst of times", author: "Charles Dickens" },
                 { quote: "to be or not to be, that is the question", author: "William Shakespeare" },
                 { quote: "call me ishmael", author: "Herman Melville" },
@@ -743,33 +645,37 @@
                 { quote: "may the force be with you", author: "George Lucas" }
             ];
             
-            for (let i = 0; i < sentences.length; i++) {
-                let processedSentence = sentences[i].trim();
+            for (var i = 0; i < sentences.length; i++) {
+                var processedSentence = sentences[i].trim();
                 if (!processedSentence) continue;
                 
                 if (!processedSentence.match(/[.!?]$/)) {
                     processedSentence += '.';
                 }
                 
-                const sentenceLower = processedSentence.toLowerCase();
-                let foundQuote = null;
+                var sentenceLower = processedSentence.toLowerCase();
+                var foundQuote = null;
                 
-                for (let j = 0; j < famousQuotes.length; j++) {
+                for (var j = 0; j < famousQuotes.length; j++) {
                     if (sentenceLower.includes(famousQuotes[j].quote)) {
                         foundQuote = famousQuotes[j];
                         break;
                     }
                 }
                 
-                const aiKeywords = ['furthermore', 'moreover', 'additionally', 'paradigm shift', 'cutting-edge', 'streamlines'];
-                const hasAIKeywords = aiKeywords.some(function(keyword) {
-                    return processedSentence.toLowerCase().includes(keyword);
-                });
+                var aiKeywords = ['furthermore', 'moreover', 'additionally', 'paradigm shift', 'cutting-edge', 'streamlines'];
+                var hasAIKeywords = false;
+                for (var k = 0; k < aiKeywords.length; k++) {
+                    if (processedSentence.toLowerCase().includes(aiKeywords[k])) {
+                        hasAIKeywords = true;
+                        break;
+                    }
+                }
                 
                 if (foundQuote) {
                     highlightedText += '<span class="highlight-plagiarism" title="PLAGIARISM: Quote from ' + foundQuote.author + '">' + processedSentence + '</span> ';
                     plagiarismCount++;
-                } else if (hasAIKeywords && aiProbability > 0.3) {
+                } else if (hasAIKeywords) {
                     highlightedText += '<span class="highlight-ai" title="AI Pattern Detected">' + processedSentence + '</span> ';
                     aiCount++;
                 } else {
@@ -779,17 +685,17 @@
             
             return {
                 text: highlightedText.trim(),
-                counts: { ai: aiCount, plagiarism: plagiarismCount, suspicious: suspiciousCount }
+                counts: { ai: aiCount, plagiarism: plagiarismCount, suspicious: 0 }
             };
         }
 
         function generatePlagiarismSources(content, tier) {
             if (tier === 'free') return [];
             
-            const contentLower = content.toLowerCase();
-            const sources = [];
+            var lowerContent = content.toLowerCase();
+            var sources = [];
             
-            const famousQuotes = [
+            var famousQuotes = [
                 { quote: "it was the best of times, it was the worst of times", author: "Charles Dickens", work: "A Tale of Two Cities" },
                 { quote: "to be or not to be, that is the question", author: "William Shakespeare", work: "Hamlet" },
                 { quote: "call me ishmael", author: "Herman Melville", work: "Moby Dick" },
@@ -797,8 +703,8 @@
                 { quote: "may the force be with you", author: "George Lucas", work: "Star Wars" }
             ];
             
-            for (let i = 0; i < famousQuotes.length; i++) {
-                if (contentLower.includes(famousQuotes[i].quote)) {
+            for (var i = 0; i < famousQuotes.length; i++) {
+                if (lowerContent.includes(famousQuotes[i].quote)) {
                     sources.push({
                         title: famousQuotes[i].work,
                         author: famousQuotes[i].author,
@@ -814,57 +720,52 @@
             return sources;
         }
 
-        // ============== RESULTS DISPLAY FUNCTION ==============
         function showEnhancedResults(text) {
-            const results = document.getElementById('results');
+            var results = document.getElementById('results');
             if (!results) return;
             
-            // Generate analysis data
-            const textLength = text.length;
-            const contentLower = text.toLowerCase();
-            let hash = 0;
-            for (let i = 0; i < text.length; i++) {
-                const char = text.charCodeAt(i);
+            var textLength = text.length;
+            var textLower = text.toLowerCase();
+            var hash = 0;
+            for (var i = 0; i < text.length; i++) {
+                var char = text.charCodeAt(i);
                 hash = ((hash << 5) - hash) + char;
                 hash = hash & hash;
             }
-            const normalizedHash = Math.abs(hash) / 2147483647;
+            var normalizedHash = Math.abs(hash) / 2147483647;
             
-            let baseScore = 45 + (normalizedHash * 40);
-            let aiFlags = 0;
-            const aiReasons = [];
+            var baseScore = 45 + (normalizedHash * 40);
+            var aiFlags = 0;
             
-            // Enhanced AI detection
-            const aiIndicators = {
-                transitionalPhrases: (contentLower.match(/\b(furthermore|moreover|additionally|consequently|therefore)\b/g) || []).length,
-                corporateBuzzwords: (contentLower.match(/\b(paradigm shift|cutting-edge|streamlines|optimization)\b/g) || []).length,
-                genericDescriptors: (contentLower.match(/\b(comprehensive|innovative|significant|advanced)\b/g) || []).length
+            var aiIndicators = {
+                transitionalPhrases: (textLower.match(/\b(furthermore|moreover|additionally|consequently|therefore)\b/g) || []).length,
+                corporateBuzzwords: (textLower.match(/\b(paradigm shift|cutting-edge|streamlines|optimization)\b/g) || []).length,
+                genericDescriptors: (textLower.match(/\b(comprehensive|innovative|significant|advanced)\b/g) || []).length
             };
             
-            const totalAIIndicators = Object.values(aiIndicators).reduce(function(a, b) { return a + b; }, 0);
-            const enhancedAIProbability = Math.min(85, Math.max(5, (totalAIIndicators * 15) + (normalizedHash * 25)));
-            const aiProbabilityPercent = Math.round(enhancedAIProbability);
+            var totalAIIndicators = aiIndicators.transitionalPhrases + aiIndicators.corporateBuzzwords + aiIndicators.genericDescriptors;
+            var enhancedAIProbability = Math.min(85, Math.max(5, (totalAIIndicators * 15) + (normalizedHash * 25)));
+            var aiProbabilityPercent = Math.round(enhancedAIProbability);
             
             if (totalAIIndicators > 3) {
                 baseScore = Math.max(15, baseScore - 30);
                 aiFlags = totalAIIndicators;
-                aiReasons.push('Multiple AI indicators detected');
             }
             
-            const plagiarismIndicators = checkForPlagiarism(text);
+            var plagiarismIndicators = checkForPlagiarism(text);
             if (plagiarismIndicators.length > 0) {
                 baseScore = Math.max(10, baseScore - (plagiarismIndicators.length * 20));
             }
             
             baseScore = Math.max(10, Math.min(95, baseScore));
             
-            const highlightedData = generateHighlightedText(text, normalizedHash, enhancedAIProbability / 100, currentTier);
-            const plagiarismSources = generatePlagiarismSources(text, currentTier);
+            var highlightedData = generateHighlightedText(text, currentTier);
+            var plagiarismSources = generatePlagiarismSources(text, currentTier);
             
-            const scoreColor = baseScore >= 80 ? '#10b981' : baseScore >= 65 ? '#059669' : baseScore >= 50 ? '#f59e0b' : '#ef4444';
-            const assessment = baseScore >= 85 ? 'Highly Authentic' : baseScore >= 70 ? 'Generally Authentic' : baseScore >= 55 ? 'Moderately Authentic' : 'Questionable';
+            var scoreColor = baseScore >= 80 ? '#10b981' : baseScore >= 65 ? '#059669' : baseScore >= 50 ? '#f59e0b' : '#ef4444';
+            var assessment = baseScore >= 85 ? 'Highly Authentic' : baseScore >= 70 ? 'Generally Authentic' : baseScore >= 55 ? 'Moderately Authentic' : 'Questionable';
             
-            const conversationalAnalysis = 'I analyzed your ' + textLength + '-character text and found ' + totalAIIndicators + ' AI indicators and ' + plagiarismIndicators.length + ' plagiarism matches. The authenticity score is ' + Math.round(baseScore) + '% with ' + aiProbabilityPercent + '% AI probability.';
+            var conversationalAnalysis = 'I analyzed your ' + textLength + '-character text and found ' + totalAIIndicators + ' AI indicators and ' + plagiarismIndicators.length + ' plagiarism matches. The authenticity score is ' + Math.round(baseScore) + '% with ' + aiProbabilityPercent + '% AI probability.';
             
             results.innerHTML = 
                 '<div style="background: white; border-radius: 25px; padding: 40px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);">' +
@@ -876,7 +777,7 @@
                         '</div>' +
                     '</div>' +
                     
-                    '<div class="conversational-section">' +
+                    '<div style="background: #f8fafc; border-radius: 20px; padding: 30px; margin: 25px 0; border-left: 6px solid #667eea;">' +
                         '<h4 style="color: #667eea; margin-bottom: 20px;"><i class="fas fa-comments"></i> Analysis Report</h4>' +
                         '<p style="color: #374151; line-height: 1.7;">' + conversationalAnalysis + '</p>' +
                     '</div>' +
@@ -915,10 +816,9 @@
             results.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // ============== FILE UPLOAD FUNCTIONS ==============
         function initializeFileUpload() {
-            const fileUploadArea = document.getElementById('fileUpload');
-            const fileInputElement = document.getElementById('fileInputElement');
+            var fileUploadArea = document.getElementById('fileUpload');
+            var fileInputElement = document.getElementById('fileInputElement');
             
             if (!fileUploadArea || !fileInputElement) {
                 console.error('File upload elements not found!');
@@ -955,7 +855,7 @@
                 fileUploadArea.classList.remove('dragover');
                 
                 if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                    const fakeEvent = {
+                    var fakeEvent = {
                         target: {
                             files: e.dataTransfer.files
                         }
@@ -968,10 +868,10 @@
         }
 
         async function handleFileUpload(event) {
-            const file = event.target.files[0];
+            var file = event.target.files[0];
             if (!file) return;
 
-            const sizeKB = (file.size / 1024).toFixed(1);
+            var sizeKB = (file.size / 1024).toFixed(1);
             showMessage('info', 'Selected: ' + file.name + ' (' + sizeKB + ' KB)');
 
             if (file.size > 10 * 1024 * 1024) {
@@ -979,8 +879,8 @@
                 return;
             }
 
-            const allowedTypes = ['text/plain', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-            const isValidType = allowedTypes.includes(file.type) || file.name.match(/\.(txt|pdf|docx)$/i);
+            var allowedTypes = ['text/plain', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            var isValidType = allowedTypes.includes(file.type) || file.name.match(/\.(txt|pdf|docx)$/i);
             
             if (!isValidType) {
                 showMessage('error', 'Unsupported file type! Please choose TXT, PDF, or DOCX files.');
@@ -990,10 +890,10 @@
             showMessage('warning', 'Processing "' + file.name + '"... Please wait.');
 
             try {
-                const formData = new FormData();
+                var formData = new FormData();
                 formData.append('file', file);
 
-                const response = await fetch('https://ai-detector-backend-g4mj.onrender.com/api/extract-text', {
+                var response = await fetch('https://ai-detector-backend-g4mj.onrender.com/api/extract-text', {
                     method: 'POST',
                     body: formData
                 });
@@ -1002,13 +902,13 @@
                     throw new Error('HTTP ' + response.status + ': ' + response.statusText);
                 }
 
-                const data = await response.json();
+                var data = await response.json();
                 
                 if (data.error) {
                     throw new Error(data.error);
                 }
 
-                const textarea = document.getElementById('content-text');
+                var textarea = document.getElementById('content-text');
                 textarea.value = data.text || '';
                 updateCharCount();
                 
@@ -1021,9 +921,9 @@
                 
                 if (file.name.toLowerCase().endsWith('.txt')) {
                     try {
-                        const reader = new FileReader();
+                        var reader = new FileReader();
                         reader.onload = function(e) {
-                            const textarea = document.getElementById('content-text');
+                            var textarea = document.getElementById('content-text');
                             textarea.value = e.target.result;
                             updateCharCount();
                             switchInputType('text');
@@ -1042,6 +942,12 @@
                 showMessage('error', '❌ Upload failed: ' + error.message);
             }
         }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, initializing...');
+            initializeFileUpload();
+        });
     </script>
 </body>
 </html>
