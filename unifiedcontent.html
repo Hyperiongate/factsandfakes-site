@@ -542,6 +542,29 @@ Perfect for academic papers, articles, reports, and any written content." oninpu
             }
         }
 
+        function updateProgress(percentage, text, detail = '') {
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            const progressDetails = document.getElementById('progressDetails');
+            
+            if (progressFill) progressFill.style.width = percentage + '%';
+            if (progressText) progressText.textContent = text;
+            if (progressDetails) progressDetails.textContent = detail;
+        }
+
+        function showProgress() {
+            const progressContainer = document.getElementById('progressContainer');
+            if (progressContainer) {
+                progressContainer.style.display = 'block';
+                updateProgress(0, 'Initializing Analysis...', 'Preparing systems...');
+            }
+        }
+
+        function hideProgress() {
+            const progressContainer = document.getElementById('progressContainer');
+            if (progressContainer) progressContainer.style.display = 'none';
+        }
+
         function initializeFileUpload() {
             const fileUploadArea = document.getElementById('fileUpload');
             const fileInputElement = document.getElementById('fileInputElement');
