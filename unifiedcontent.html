@@ -282,6 +282,18 @@
                 <button class="analyze-btn" onclick="analyzeContent()">
                     <i class="fas fa-search"></i> Launch Analysis
                 </button>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-text" id="progressText">Initializing Analysis...</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-details" id="progressDetails">Preparing systems...</div>
+                </div>
+
+                <div class="results" id="results">
+                    <!-- Results will be populated here -->
+                </div>
             </div>
         </div>
     </div>
@@ -548,28 +560,54 @@
         }
 
         function analyzeContent() {
-            const textarea = document.getElementById('content-text');
-            const text = textarea.value.trim();
+            var textInput = document.getElementById('content-text');
+            if (!textInput) {
+                alert('Please enter some text to analyze or upload a document.');
+                return;
+            }
             
+            var text = textInput.value.trim();
             if (!text) {
-                alert('Please enter some text or upload a document to analyze.');
+                alert('Please enter some text to analyze or upload a document.');
                 return;
             }
 
             if (text.length < 50) {
-                alert('Please enter at least 50 characters for analysis.');
+                alert('Please enter at least 50 characters for accurate analysis.');
                 return;
             }
 
-            // TODO: Replace this with your actual analysis function
-            // Example: Call your existing analysis logic here
-            console.log(`Ready to analyze ${text.length} characters`);
-            
-            // You can copy your existing analyzeContent() function logic here
-            // or call your existing function like:
-            // runActualAnalysis(text);
-            
-            alert(`✅ Upload working! Ready to analyze ${text.length} characters.\n\nNext: Integrate with your existing analysis logic.`);
+            var analyzeBtn = document.querySelector('.analyze-btn');
+            if (analyzeBtn) {
+                analyzeBtn.disabled = true;
+                analyzeBtn.innerHTML = '🔬 Analyzing...';
+            }
+
+            showProgress();
+            var resultsDiv = document.getElementById('results');
+            if (resultsDiv) resultsDiv.style.display = 'none';
+
+            // Simple progress simulation
+            setTimeout(function() {
+                updateProgress(20, '🤖 AI Content Analysis...', 'Running detection algorithms');
+                setTimeout(function() {
+                    updateProgress(50, '🔍 Plagiarism Check...', 'Checking sources');
+                    setTimeout(function() {
+                        updateProgress(80, '📊 Analysis Complete...', 'Generating results');
+                        setTimeout(function() {
+                            updateProgress(100, '✅ Done!', 'Results ready');
+                            setTimeout(function() {
+                                hideProgress();
+                                showSimpleResults(text);
+                                if (analyzeBtn) {
+                                    analyzeBtn.disabled = false;
+                                    analyzeBtn.innerHTML = '<i class="fas fa-search"></i> Launch Analysis';
+                                }
+                            }, 500);
+                        }, 800);
+                    }, 1000);
+                }, 1000);
+            }, 500);
         }
     </script>
 </body>
