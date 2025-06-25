@@ -325,7 +325,42 @@
             var results = document.getElementById('results');
             if (!results) return;
             
-            var data = generateEnhancedDemoData(text, currentTier);
+            // Generate data using the same logic as the main function
+            var textLength = (text || '').length;
+            var contentLower = (text || '').toLowerCase();
+            var hash = 0;
+            for (var i = 0; i < text.length; i++) {
+                var char = text.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            var normalizedHash = Math.abs(hash) / 2147483647;
+            
+            var baseScore = 45 + (normalizedHash * 40);
+            
+            // AI-like patterns
+            if (contentLower.includes('furthermore') || contentLower.includes('moreover') || contentLower.includes('additionally')) {
+                baseScore -= 20;
+            }
+            if (contentLower.includes('paradigm shift') || contentLower.includes('cutting-edge') || contentLower.includes('streamlines')) {
+                baseScore -= 15;
+            }
+            // Human-like expressions
+            if (contentLower.includes("can't believe") || contentLower.includes('honestly') || contentLower.includes('made my morning')) {
+                baseScore += 25;
+            }
+            
+            baseScore = Math.max(10, Math.min(95, baseScore));
+            var aiProbability = normalizedHash * 0.3 + (contentLower.includes('furthermore') ? 0.4 : 0);
+            var aiProbabilityPercent = Math.round(aiProbability * 100);
+            
+            var data = {
+                authenticity_score: baseScore / 100,
+                final_assessment: "I've analyzed your " + textLength + "-character content and assigned an authenticity score of " + Math.round(baseScore) + "%. " + (baseScore >= 70 ? "This content shows strong indicators of human authorship." : baseScore >= 50 ? "Mixed signals detected in the analysis." : "Multiple red flags suggest potential AI generation.") + " AI probability: " + aiProbabilityPercent + "%. " + (currentTier === 'trial' ? 'Premium features active.' : 'Upgrade to Premium for detailed highlighting.'),
+                ai_analysis: "AI pattern analysis indicates " + aiProbabilityPercent + "% likelihood of artificial generation.",
+                analysis_stages: currentTier === 'trial' ? 6 : 4
+            };
+            
             displayComprehensiveResults(data);
         }
 
