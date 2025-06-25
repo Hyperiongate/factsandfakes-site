@@ -349,7 +349,7 @@
             transform: none;
         }
 
-        /* FIXED: Progress bar positioned right after analyze button */
+        /* Progress bar positioned right after analyze button */
         .progress-container {
             display: none;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -997,7 +997,7 @@
                     <i class="fas fa-rocket"></i> <span id="analyzeButtonText">Launch Professional Analysis (FREE)</span>
                 </button>
 
-                <!-- FIXED: Progress bar positioned immediately after analyze button -->
+                <!-- Progress bar positioned immediately after analyze button -->
                 <div class="progress-container" id="progressContainer">
                     <div class="progress-text" id="progressText">Initializing AI Analysis Engine...</div>
                     <div class="progress-bar">
@@ -1071,7 +1071,7 @@
                     updateApiStatus('offline', '⚠ API Connection Issues');
                 }
             } catch (error) {
-                updateApiStatus('offline', '✗ Backend Offline - Demo Mode');
+                updateApiStatus('offline', '✗ Backend Offline - Demo Mode Active');
                 console.error('API connection failed:', error);
             }
         }
@@ -1387,25 +1387,72 @@
             const words = text.toLowerCase().match(/\b\w+\b/g) || [];
             const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 5);
             
-            const aiPatterns = ['furthermore', 'moreover', 'consequently', 'therefore', 'additionally'];
-            const patternMatches = aiPatterns.filter(pattern => text.toLowerCase().includes(pattern)).length;
+            // Enhanced AI pattern detection
+            const aiPatterns = ['furthermore', 'moreover', 'consequently', 'therefore', 'additionally', 'comprehensive', 'sophisticated', 'innovative', 'optimization', 'implementation'];
+            const academicWords = ['analysis', 'methodology', 'paradigm', 'framework', 'assessment', 'evaluation'];
+            const businessJargon = ['streamline', 'synergy', 'leverage', 'scalable', 'strategic', 'operational'];
             
-            const aiProbability = Math.min(0.9, patternMatches * 0.15 + (sentences.length > 10 ? 0.2 : 0));
+            const patternMatches = aiPatterns.filter(pattern => text.toLowerCase().includes(pattern)).length;
+            const academicMatches = academicWords.filter(word => text.toLowerCase().includes(word)).length;
+            const businessMatches = businessJargon.filter(word => text.toLowerCase().includes(word)).length;
+            
+            // More sophisticated AI probability calculation
+            let aiProbability = 0;
+            aiProbability += patternMatches * 0.12; // Transition words
+            aiProbability += academicMatches * 0.08; // Academic language
+            aiProbability += businessMatches * 0.06; // Business terms
+            
+            // Sentence structure analysis
+            const avgSentenceLength = words.length / sentences.length;
+            if (avgSentenceLength > 20) aiProbability += 0.15; // Very long sentences
+            if (avgSentenceLength > 15) aiProbability += 0.08; // Long sentences
+            
+            // Repetitive structure detection
+            const repetitiveStarts = sentences.filter(s => 
+                s.trim().toLowerCase().startsWith('furthermore') || 
+                s.trim().toLowerCase().startsWith('moreover') ||
+                s.trim().toLowerCase().startsWith('additionally')
+            ).length;
+            aiProbability += repetitiveStarts * 0.1;
+            
+            // Cap at 95%
+            aiProbability = Math.min(0.95, aiProbability);
+            
+            // Generate realistic plagiarism data
+            const mockMatches = [];
+            if (text.toLowerCase().includes('best of times') || text.toLowerCase().includes('to be or not to be')) {
+                mockMatches.push({
+                    title: "Classic Literature Database",
+                    similarity: 0.89,
+                    source: "Project Gutenberg"
+                });
+            }
+            if (text.length > 500 && Math.random() > 0.7) {
+                mockMatches.push({
+                    title: "Similar Content Found",
+                    similarity: 0.35 + Math.random() * 0.3,
+                    source: "Web Archive"
+                });
+            }
+            
+            const similarityScore = mockMatches.length > 0 ? 
+                Math.max(...mockMatches.map(m => m.similarity)) : 
+                Math.random() * 0.2;
             
             return {
                 ai_detection: {
                     ai_probability: aiProbability,
                     classification: aiProbability > 0.7 ? 'Likely AI-Generated' : 
                                   aiProbability > 0.4 ? 'Possibly AI-Generated' : 'Likely Human-Written',
-                    confidence: 0.75,
-                    explanation: 'Analysis based on linguistic patterns and writing style consistency.'
+                    confidence: 0.72 + Math.random() * 0.2,
+                    explanation: `Demo Mode Analysis: Detected ${patternMatches} AI transition patterns, ${academicMatches} academic terms, and ${businessMatches} business phrases. Average sentence length: ${Math.round(avgSentenceLength)} words. ${repetitiveStarts > 0 ? `Found ${repetitiveStarts} repetitive sentence structures. ` : ''}Analysis suggests ${aiProbability > 0.6 ? 'strong AI characteristics' : aiProbability > 0.3 ? 'moderate AI indicators' : 'primarily human characteristics'}.`
                 },
                 plagiarism_detection: {
-                    similarity_score: 0.1,
-                    assessment: 'Basic plagiarism check completed',
-                    matches: []
+                    similarity_score: similarityScore,
+                    assessment: mockMatches.length > 0 ? `Found ${mockMatches.length} potential matches` : 'No significant matches detected',
+                    matches: mockMatches
                 },
-                overall_assessment: 'Analysis completed successfully',
+                overall_assessment: `Demo Mode: ${aiProbability > 0.6 ? 'Content shows strong AI indicators' : aiProbability > 0.3 ? 'Mixed signals detected - further review recommended' : 'Content appears primarily human-authored'}`,
                 timestamp: new Date().toISOString(),
                 tier: currentTier,
                 originalText: text,
@@ -1489,7 +1536,7 @@
                                 <div class="finding-icon">⏱️</div>
                                 <div>
                                     <strong>Processing:</strong> ${isFree ? 'Standard Queue' : 'Priority Processing'}
-                                    ${isOffline ? '(Offline Mode)' : ''}
+                                    ${isOffline ? '(Demo Mode)' : ''}
                                 </div>
                             </div>
                         </div>
@@ -1681,7 +1728,7 @@
                     
                     <div class="metric">
                         <span>Analysis Tier:</span>
-                        <span class="metric-value">${(results.tier || 'free').toUpperCase()} ${results.offline_mode ? '(Offline)' : ''}</span>
+                        <span class="metric-value">${(results.tier || 'free').toUpperCase()} ${results.offline_mode ? '(Demo)' : ''}</span>
                     </div>
                     
                     ${!isFree ? `
@@ -1898,7 +1945,7 @@
 =====================================================================
 Generated by: AI Detection & Plagiarism Checker Pro
 Report Date: ${new Date(results.timestamp).toLocaleString()}
-Analysis Tier: ${tier} ${results.offline_mode ? '(Offline Mode)' : '(Real-time Processing)'}
+Analysis Tier: ${tier} ${results.offline_mode ? '(Demo Mode)' : '(Real-time Processing)'}
 
 EXECUTIVE SUMMARY
 ================
